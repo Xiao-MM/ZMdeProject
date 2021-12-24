@@ -52,12 +52,20 @@ public class Main {
 //        int[] nums = new int[]{-2,0,0,2,2};
 //        List<List<Integer>> result = StaticMethod.threeSum(nums);
 //        System.out.println(result);
-        List<Integer> row1 = new ArrayList<>(Collections.singletonList(2));
-        List<Integer> row2 = new ArrayList<>(Arrays.asList(3,4));
-        List<Integer> row3 = new ArrayList<>(Arrays.asList(6,5,7));
-        List<Integer> row4 = new ArrayList<>(Arrays.asList(4,1,8,3));
-        List<List<Integer>> triangle = new ArrayList<>(Arrays.asList(row1,row2,row3,row4));
-        int i = StaticMethod.minimumTotal(triangle);
-        System.out.println(i);
+//        List<Integer> row1 = new ArrayList<>(Collections.singletonList(2));
+//        List<Integer> row2 = new ArrayList<>(Arrays.asList(3,4));
+//        List<Integer> row3 = new ArrayList<>(Arrays.asList(6,5,7));
+//        List<Integer> row4 = new ArrayList<>(Arrays.asList(4,1,8,3));
+//        List<List<Integer>> triangle = new ArrayList<>(Arrays.asList(row1,row2,row3,row4));
+//        int i = StaticMethod.minimumTotal(triangle);
+//        System.out.println(i);
+//        System.out.println(StaticMethod.uniquePaths(3,7));
+//        int[] apples = new int[]{1,2,3,5,2};
+//        int[] days = new int[]{3,2,1,4,2};
+//        int[] apples = new int[]{3,0,0,0,0,2};
+//        int[] days = new int[]{3,0,0,0,0,2};
+        int[] apples = new int[]{2,1,10};
+        int[] days = new int[]{2,10,1};
+        System.out.println(StaticMethod.eatenApples(apples,days));
     }
 }

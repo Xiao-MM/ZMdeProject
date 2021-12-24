@@ -38,7 +38,7 @@ public class StaticMethod {
     }
 
     /**
-     * target - nums[i] =
+     * 1. 两数之和
      * @param nums 列表
      * @param target 目标数字
      * @return
@@ -203,7 +203,7 @@ public class StaticMethod {
     }
 
     /**
-     * 暴力解法, 严重超时o(n^3)
+     * 5. 最长回文子串 暴力解法, 严重超时o(n^3)
      * @param s
      * @return
      */
@@ -226,6 +226,7 @@ public class StaticMethod {
     }
 
     /**
+     * 5. 最长回文子串
      * 动态规划思想
      * 状态转移方程 p(i,j) = p(i+1,j-1)&&(s[i]==s[j])
      * @param s j-1 - (i+1) + 1 = j-i-1
@@ -257,7 +258,7 @@ public class StaticMethod {
     }
 
     /**
-     * 无重复字符的最长子串
+     * 3.无重复字符的最长子串
      * @param s
      * @return
      */
@@ -313,24 +314,160 @@ public class StaticMethod {
         return result;
     }
 
+//    /**
+//     * 120. 三角形最小路径和
+//     * 动态规划解法 dp[i,j] = min(dp[i+1,j],dp[i+1,j+1] + triangle[i,j])
+//     * @param triangle
+//     * @return
+//     */
+//    public static int minimumTotal(List<List<Integer>> triangle) {
+//        int[][] dp = new int[triangle.size()][triangle.size()];
+//        for (int i = triangle.size() - 1; i >= 0 ; i--) {
+//            for (int j = 0; j <= i; j++) {
+//                if (i == triangle.size() - 1){
+//                    dp[i][j] = triangle.get(i).get(j);
+//                }else {
+//                    dp[i][j] = Math.min(dp[i+1][j], dp[i+1][j+1]) + triangle.get(i).get(j);
+//                }
+//            }
+//        }
+//        return dp[0][0];
+//    }
+
     /**
      * 120. 三角形最小路径和
      * 动态规划解法 dp[i,j] = min(dp[i+1,j],dp[i+1,j+1] + triangle[i,j])
+     * 优化空间
      * @param triangle
      * @return
      */
     public static int minimumTotal(List<List<Integer>> triangle) {
-        int[][] dp = new int[triangle.size()][triangle.size()];
+        int[] dp = new int[triangle.size() + 1]; // 多申请一个元素位置避免数组下标越界
         for (int i = triangle.size() - 1; i >= 0 ; i--) {
-            for (int j = 0; j < triangle.get(i).size(); j++) {
-                if (i == triangle.size() - 1){
-                    dp[i][j] = triangle.get(i).get(j);
+            for (int j = 0; j <= i; j++) {
+               dp[j] = Math.min(dp[j],dp[j+1]) + triangle.get(i).get(j);// dp[3] = min(dp[3],dp[4]) + triangle[3][j] = min(0,0) +
+            }
+        }
+        return dp[0];
+    }
+
+//    /**
+//     * 62. 不同路径
+//     * @param m
+//     * @param n
+//     * @return
+//     */
+//    public static int uniquePaths(int m, int n) {
+//        int[][] dp = new int[m][n];
+//        // 初始化第一列
+//        for (int i = 0; i < m; i++) {
+//            dp[i][0] = 1;
+//        }
+//        // 初始化第一行
+//        for (int i = 0; i < n; i++) {
+//            dp[0][i] = 1;
+//        }
+//        for (int i = 1; i < m; i++) {
+//            for (int j = 1; j < n; j++) {
+//                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+//            }
+//        }
+//        return dp[m-1][n-1];
+//    }
+    /**
+     * 62. 不同路径
+     * 空间优化
+     * @param m
+     * @param n
+     * @return
+     */
+    public static int uniquePaths(int m, int n) {
+        int[] dp = new int[n];// 优化成一维数组，因为每次计算上一行都不需要再次使用
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;// 初始化1
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[j] += dp[j-1];
+            }
+        }
+        return dp[n-1];
+    }
+//        int eatAppleNum = 0; // 吃掉苹果的数量
+//        int canEetAppleNum = 0; // 可以吃的苹果的数量
+//        int minDays = 0; // 还有几天过期
+//        int invalidDay = 0; // 最近过期日
+//        // 给苹果绑定过期时间map(k,v) k=第几天，v=数量
+//        Map<Integer,Integer> map = new HashMap<>();// 记录第几天的苹果有几天的保质期
+//        for (int i = 0; i < apples.length; i++) {
+//            map.put(i, apples[i]);// 将第i天的苹果和其数量放入Map
+//            // 每过一天检查前几天的苹果是否过期
+//            for (int j = 0; j < i; j++) {
+//                if (days[i] >= i - j){
+//                    map.put(j,0);// 置第i天的苹果数量为0
+//                }
+//                int leave = days[i] - i + j;
+//                minDays = Math.min(leave,minDays);
+//                invalidDay = j;
+//                canEetAppleNum += map.get(j);
+//                //这时要吃掉最快过期的苹果
+//            }
+//            // 如果有可以吃的苹果
+//            if (canEetAppleNum > 0){
+//                canEetAppleNum --; // 吃掉一个苹果
+//                map.put(invalidDay, map.get(invalidDay)-1);// 置那天的苹果数量少一个
+//            }
+//        }
+    /**
+     * 1705. 吃苹果的最大数目
+     * 贪心 + 小顶堆
+     * @param apples
+     * @param days
+     * @return
+     */
+    public static int eatenApples(int[] apples, int[] days) {
+        int length = apples.length;
+        int eatAppleNum = 0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o[0]));// 定义小根堆,元素比较策略根据数组第一个元素
+        // 小顶堆存放[过期时间，该时间存放的苹果]
+        // 数组长度期间的吃法,过期日期 = days[day] + day
+        int day;
+        for (day = 0; day < length; day++) {
+            // 如果当前日期有苹果产生，将其连同过期日期和数量加入小顶堆
+            if (apples[day] > 0){
+                pq.offer(new int[]{days[day] + day, apples[day]});
+            }
+            // 如果队列有苹果，并且当前苹果过期了则移除该元素，否则该天苹果数量-1，如果减到0则移除
+            while (pq.size() > 0){
+                // 贪心策略，每次都吃最快过期的苹果
+                int[] top = pq.peek();
+                // 过期了移除
+                if (top[0] <= day){
+                    pq.remove();
                 }else {
-                    dp[i][j] = Math.min(dp[i+1][j], dp[i+1][j+1]) + triangle.get(i).get(j);
+                    top[1]--;// 苹果数量-1
+                    eatAppleNum ++;
+                    if (top[1] == 0){ // 苹果吃完了移除该天的苹果
+                        pq.remove();
+                    }
+                    break;
                 }
             }
         }
-        return dp[0][0];
+        // 数组长度结束期间的吃法，当堆不空时，选堆顶元素，可以吃的数量 = min(过期日期-当前天数，苹果数)
+        while (pq.size() > 0){
+            int[] top = pq.peek();
+            // 过期了移除
+            if (top[0] <= day){
+                pq.remove();
+            }
+            top = pq.peek(); //更新top
+            if (top == null) break;
+            int min = Math.min(top[0] - day, top[1]);// 计算还可以吃的苹果数
+            day += min;// 日期推迟到苹果吃完
+            eatAppleNum += min;
+            pq.remove();
+        }
+        return eatAppleNum;
     }
-
 }
