@@ -470,4 +470,54 @@ public class StaticMethod {
         }
         return eatAppleNum;
     }
+//        int length = prices.length;
+//        int[] p = new int[length+1];
+//        for (int i = 0; i < length; i++) {
+//            p[i] = prices[i];
+//        }
+//    /**
+//     * 121. 买卖股票的最佳时机
+//     * 单调栈实现 妈的整的贼麻烦，思想是好的，效率真吉尔差
+//     * 执行用时：40 ms, 在所有 Java 提交中击败了7.44%的用户
+//     * 内存消耗：51.1 MB, 在所有 Java 提交中击败了85.54%的用户
+//     * @param prices
+//     * @return
+//     */
+//    public static int maxProfit(int[] prices) {
+//        prices = Arrays.copyOf(prices, prices.length + 1);//原数组扩容一个元素
+////        prices[prices.length-1] = 0;// 哨兵
+//        int profit = 0;
+//        ArrayDeque<Integer> stack = new ArrayDeque<>();
+////        Stack<Integer> stack = new Stack<>();//维护单调栈
+//        for (int i = 0; i < prices.length; i++) {
+//            if (!stack.isEmpty() && prices[i] <= prices[i - 1]) {
+//                while (!stack.isEmpty() && stack.peek() > prices[i]) {
+//                    Integer top = stack.pop();// 出栈
+//                    if (stack.isEmpty()) continue;
+////                    profit = Math.max(profit, top - stack.firstElement());// 出栈元素-栈底元素 确认最大收益
+//                    profit = Math.max(profit, top - stack.peekLast());// 出栈元素-栈底元素 确认最大收益
+//                }
+//            }
+//            stack.push(prices[i]);// 当后者大于前者入栈
+//        }
+//        return profit;
+//    }
+
+    /**
+     *  121. 买卖股票的最佳时机
+     * @param prices
+     * @return
+     */
+    public static int maxProfit(int[] prices) {
+        int minPrice = Integer.MAX_VALUE;
+        int maxProfit = 0;
+        for (int i = 0; i < prices.length; i++) {
+            if (prices[i] < minPrice){
+                minPrice = prices[i];
+            }else if (prices[i] - minPrice > maxProfit){
+                maxProfit = prices[i] - minPrice;
+            }
+        }
+        return maxProfit;
+    }
 }

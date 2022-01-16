@@ -3,6 +3,7 @@
 import entity.Combination;
 import entity.CombinedSum;
 import entity.Permutations;
+import entity.Subsets;
 
 import java.util.*;
 
@@ -64,8 +65,15 @@ public class Main {
 //        int[] days = new int[]{3,2,1,4,2};
 //        int[] apples = new int[]{3,0,0,0,0,2};
 //        int[] days = new int[]{3,0,0,0,0,2};
-        int[] apples = new int[]{2,1,10};
-        int[] days = new int[]{2,10,1};
-        System.out.println(StaticMethod.eatenApples(apples,days));
+//        int[] apples = new int[]{2,1,10};
+//        int[] days = new int[]{2,10,1};
+//        System.out.println(StaticMethod.eatenApples(apples,days));
+//        int[] prices = new int[]{7,1,5,3,6,4};
+//        int[] prices = new int[]{7,6,4,3,1};
+//        System.out.println(StaticMethod.maxProfit(prices));
+        int[] nums = new int[]{1,2,3};
+        Subsets subsets = new Subsets();
+        List<List<Integer>> result = subsets.subsets(nums);
+        System.out.println(result);
     }
 }
