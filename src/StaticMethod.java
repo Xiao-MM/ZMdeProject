@@ -227,34 +227,56 @@ public class StaticMethod {
 
     /**
      * 5. 最长回文子串
-     * 动态规划思想
+     * 动态规划思想 p(i,j) 表示下标从i到j的字符串时是否为回文串
      * 状态转移方程 p(i,j) = p(i+1,j-1)&&(s[i]==s[j])
      * @param s j-1 - (i+1) + 1 = j-i-1
      * @return
      */
     public static String longestPalindrome(String s) {
-        char[] chars = s.toCharArray();
-        if (s.length() == 0 || s.length() == 1) return s;
-        if (s.length() == 2 && chars[0] == chars[1]) return s;
-        // 状态字数组
-        boolean[][] status = new boolean[s.length()][s.length()];
-        for (int i = 0; i < s.length(); i++) {
-            status[i][i] = true;
+        // 长度小于2直接就是回文串
+        if (s == null || s.length() < 2){
+            return s;
         }
+        char[] chars = s.toCharArray();
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        // 边界值，单个字符串是回文串
+        for (int i = 0; i < s.length(); i++) {
+            dp[i][i] = true;
+        }
+        // 待截取子串起始位置
         int begin = 0;
+        // 待截取子串的最大长度,需初始化为1
         int maxLen = 1;
-        for (int j = 1; j < s.length() - 1;j++) {
-            for (int i = j+1; j < j-i-1; j++) {
-                if (status[i+1][j-1] && chars[i]==chars[j]){
-                    status[i][j] = true;
-                    begin = i;
-                    maxLen = j - i + 1;
+        // 根据字符串长度枚举判断子串是否为回文串 分别是从 2 -> s.length的子串
+        for (int len = 2; len <= chars.length; len++) {
+            // 枚举左边界
+            for (int l = 0; l < chars.length; l++) {
+                // 根据左边界和串长确定右边界
+                int r = len + l - 1;
+                // 右边界越界直接跳出循环
+                if (r > chars.length - 1){
+                    break;
+                }
+                // 如果l和r处的字符不相等则该范围串非回文串
+                if (chars[l] != chars[r]){
+                    dp[l][r] = false;
                 }else {
-                    status[i][j] = false;
+                    // 如果串长为2和3且char[l]==char[r]该串为回文串
+                    if (len <= 3){// len <= 3
+                        dp[l][r] = true;
+                    }else {
+                        // len > 3 时由 dp[l+1][r-1]值决定
+                        dp[l][r] = dp[l+1][r-1];
+                    }
+                }
+                // 如果l->r为回文串更新最大串长
+                if (dp[l][r] && len > maxLen){
+                    maxLen = len;
+                    begin = l;
                 }
             }
         }
-        return s.substring(begin,maxLen);
+        return s.substring(begin, begin+maxLen);
     }
 
     /**

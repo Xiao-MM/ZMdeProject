@@ -25,7 +25,7 @@ public class Main {
 //        System.out.println(StaticMethod.fastMulti(2,10));
 //        System.out.println(StaticMethod.fib_matrix(5));
         //System.out.println(StaticMethod.isPalindrome("aa"));
-//        System.out.println(StaticMethod.longestPalindrome("aabaa"));
+        System.out.println(StaticMethod.longestPalindrome("ac"));
 
 //        StaticMethod staticMethod = new StaticMethod();
 //        List<List<Integer>> combine = staticMethod.combine(10, 3);
@@ -71,9 +71,9 @@ public class Main {
 //        int[] prices = new int[]{7,1,5,3,6,4};
 //        int[] prices = new int[]{7,6,4,3,1};
 //        System.out.println(StaticMethod.maxProfit(prices));
-        int[] nums = new int[]{1,2,3};
-        Subsets subsets = new Subsets();
-        List<List<Integer>> result = subsets.subsets(nums);
-        System.out.println(result);
+//        int[] nums = new int[]{1,2,3};
+//        Subsets subsets = new Subsets();
+//        List<List<Integer>> result = subsets.subsets(nums);
+//        System.out.println(result);
     }
 }
