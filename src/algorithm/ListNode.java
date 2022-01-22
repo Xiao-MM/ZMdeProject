@@ -1,4 +1,4 @@
-package entity;
+package algorithm;
 
 /**
  * 链表结点

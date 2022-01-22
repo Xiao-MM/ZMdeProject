@@ -1,4 +1,4 @@
-package entity;
+package algorithm;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package design_pattern;
+package design_pattern.factory;
 
 public class LowMaskFactoryMethod implements FactoryMethod {
     @Override

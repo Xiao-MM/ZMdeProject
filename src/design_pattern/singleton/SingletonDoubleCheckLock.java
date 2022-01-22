@@ -1,4 +1,4 @@
-package design_pattern;
+package design_pattern.singleton;
 
 /**
  * 双重检测锁

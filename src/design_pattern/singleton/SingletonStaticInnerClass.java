@@ -1,4 +1,4 @@
-package design_pattern;
+package design_pattern.singleton;
 
 /**
  * 静态内部类实现方式
