@@ -153,6 +153,33 @@ public class StaticMethod {
     }
 
     /**
+     * 50. Pow(x, n)
+     * @param x
+     * @param n
+     * @return
+     */
+    public static double myPow(double x, int n) {
+        if (x == 0.0){
+            return 0;
+        }
+        long b = n;// -2^32 转 2^32会发生越界
+        // 将负数幂转成正数幂
+        if (n < 0){
+            x = 1/x; // 将
+            b = -b;
+        }
+        double result = 1;
+        while (b > 0){
+            if ((b & 1) == 1){
+                result *= x;
+            }
+            x *= x;
+            b >>= 1;
+        }
+        return result;
+    }
+
+    /**
      * 矩阵快速幂（二阶）
      * @param data
      * @param n
@@ -199,6 +226,29 @@ public class StaticMethod {
             if (chars[l] != chars[r]){
                 return false;
             }
+        }
+        return true;
+    }
+
+    /**
+     * 9. 回文数
+     * 1. 2221/1=2221>10,div=10
+     * 2. 2221/10=222>10,div=10*10=100
+     * 3. 2221/100=22>10,div=100*10=1000
+     * 4. 2221/1000=2<10,break div = 1000
+     * @param x
+     * @return
+     */
+    public static boolean isPalindrome(int x) {
+        if (x < 0) return false;
+        int div = 1;// 初始化除数
+        while (x/div >= 10) div *= 10;// 获取最大除数
+        while (x > 0){
+            int left = x/div;// 获取最高位的值 2221->2
+            int right = x%10;// 获取最低位的值 2221->1
+            if (left != right) return false;// 2 != 1
+            x = (x % div)/10;// 1221 -> 22
+            div /= 100;// 1000->10
         }
         return true;
     }
@@ -543,4 +593,49 @@ public class StaticMethod {
         }
         return maxProfit;
     }
+
+    /**
+     * 240. 搜索二维矩阵 II
+     * 剑指 Offer 04. 二维数组中的查找
+     * 时间 o(m+n) 空间 o(1)
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public static boolean findNumberIn2DArray(int[][] matrix, int target) {
+        int i = matrix.length - 1, j = 0;
+        while (i >= 0 && j < matrix[0].length){
+            if (matrix[i][j] > target) i--;
+            else if (matrix[i][j] < target) j++;
+            else return true;
+        }
+        return false;
+    }
+
+    /**
+     * 240. 搜索二维矩阵 II
+     * o(m*log n)
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public static boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length, n = matrix[0].length;
+        for (int i = 0; i < m; i++) {
+            int l = 0, r = n - 1;
+            int mid;
+            while (l <= r){ // 注意二分的条件是 l <= r
+                mid = (l + r) >> 1;
+                if (matrix[i][mid] > target){
+                    r = mid - 1;
+                }else if (matrix[i][mid] < target){
+                    l = mid + 1;
+                }else {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
