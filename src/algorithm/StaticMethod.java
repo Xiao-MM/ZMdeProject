@@ -732,5 +732,46 @@ public class StaticMethod {
         return result.toString();
     }
 
+    /**
+     * 8. 字符串转换整数 (atoi)
+     * @param s
+     * @return
+     */
+    public static int myAtoi(String s) {
+        if (s == null || s.length() == 0) return 0;
+        List<Character> baseNumber = Arrays.asList('0','1','2','3','4','5','6','7','8','9');
+        char[] chars = s.trim().toCharArray();
+        boolean isFirstSearch = false;
+        long result = 0L;
+        int sign = 1;// 初始符号位，默认为+
+        for (char c : chars) {
+            // 1. 取出前导空格，没有空格则下一步
+//            if (c == ' '){
+//                continue;
+//            }
+            // 2. 取第一个符号，如果+，-则+，-，否则按+处理
+            if (!isFirstSearch){// 只做一个扫描
+                isFirstSearch = true;
+                // 整数不变继续扫描下一个元素
+                if (c == '-'){// 只要没有出现'-'就按整数处理
+                    sign = - sign;
+                    continue;// 确认完符号继续扫描下一个元素
+                }
+                if (c == '+') continue;// 确认完符号继续扫描下一个元素
+
+            }
+            // 3. 依次向后取数字，
+            if (!baseNumber.contains(c)){
+                // 如果取的不是数字则返回已经转化过的数字
+                return (int) result;
+            }
+            // 4. 将取出来的数字依次累乘10相加直到遇到下一个字符非数字，判断前面的数字是否越界，如未越界则返回
+            // 5. 如果发生越界则需要返回Integer.MAX_VALUE或Integer.MIN_VALUE，注意越界需要提前判断
+            result = result * 10 + sign * Integer.parseInt(String.valueOf(c));
+            if (result > Integer.MAX_VALUE) return Integer.MAX_VALUE;
+            if (result < Integer.MIN_VALUE) return Integer.MIN_VALUE;
+        }
+        return (int) result;
+    }
 
 }

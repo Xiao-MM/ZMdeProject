@@ -84,6 +84,10 @@ public class Main {
 //        System.out.println(StaticMethod.searchMatrix(matrix, 5));
 //        System.out.println(Arrays.toString(StaticMethod.dicesProbability(3)));
 
-        System.out.println(StaticMethod.convert("PAYPALISHIRING", 3));
+//        System.out.println(StaticMethod.convert("PAYPALISHIRING", 3));
+//        System.out.println(Integer.valueOf("q"));
+        System.out.println(StaticMethod.myAtoi("   -2147483646 "));
+//        System.out.println((int)'1');
+//        System.out.println(Integer.valueOf(String.valueOf('2')));
     }
 }
