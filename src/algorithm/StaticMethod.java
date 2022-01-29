@@ -664,4 +664,73 @@ public class StaticMethod {
         return dp;// 返回最新一层数据
     }
 
+//    /**
+//     * 6. Z 字形变换
+//     * 该写法代码显得过于零散
+//     * @param s 给定字符串 s
+//     * @param numRows 根据给定的行数 numRows
+//     * @return 输出需要从左往右逐行读取，产生出一个新的字符串
+//     */
+//    public static String convert(String s, int numRows) {
+//        if (numRows < 2){
+//            return s;
+//        }
+//        List<StringBuilder> temps = new ArrayList<>();
+//        for (int i = 0; i < numRows; i++) {
+//            temps.add(new StringBuilder());
+//        }
+//        StringBuilder result = new StringBuilder();
+//        boolean flag = true;// 当为true，正向往数组写数据，false反向向数组写数据
+//        int count = 0;
+//        char[] chars = s.toCharArray();
+//        for (char aChar : chars) {
+//            temps.get(count).append(aChar);
+//            if (flag) {
+//                count++;
+//            } else {
+//                count--;
+//            }
+//            if (count == numRows - 1) {
+//                flag = false;
+//            }
+//            if (count == 0) {
+//                flag = true;
+//            }
+//        }
+//        for (StringBuilder temp : temps) {
+//            result.append(temp);
+//        }
+//        return result.toString();
+//    }
+    /**
+     * 6. Z 字形变换
+     * @param s 给定字符串 s
+     * @param numRows 根据给定的行数 numRows
+     * @return 输出需要从左往右逐行读取，产生出一个新的字符串
+     */
+    public static String convert(String s, int numRows) {
+        if (numRows < 2){
+            return s;
+        }
+        List<StringBuilder> temps = new ArrayList<>();// 注意这里不能使用数组，StringBuilder[i]会将所有的数组元素视为同一个对象
+        for (int i = 0; i < numRows; i++) {
+            temps.add(new StringBuilder());// 初始化每个数组对象
+        }
+        StringBuilder result = new StringBuilder();
+        int count = 0;
+        int flag = 1;// 用数字表示状态字可以用来参与运算
+        for (char c : s.toCharArray()) {
+            temps.get(count).append(c);// 写入第count行
+            count += flag;
+            if (count == 0 || count == numRows - 1){// 满足该条件就要掉头反向写数据了
+                flag = - flag;
+            }
+        }
+        for (StringBuilder temp : temps) {
+            result.append(temp);
+        }
+        return result.toString();
+    }
+
+
 }
