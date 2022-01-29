@@ -18,24 +18,27 @@ public class StaticMethod {
     }
 
     /**
-     * 翻转整数
+     * 7. 整数反转
      * digit = x%10
-     * num = (x/10)*10 + digit
+     * result = result*10 + digit;
      * @param x 带翻转数
      * @return
      */
     public static int reverse(int x){
-        int digit = 0;
-        int rev = 0;
+        int digit = 0;// 取模得到的尾数
+        int result = 0;// 需要累乘的结果
         while (x != 0){
-            if (rev < Integer.MIN_VALUE/10 || rev > Integer.MAX_VALUE/10){
+            //因为x本身会被int限制，当x为正数并且位数和Integer.MAX_VALUE的位数相等时首位最大只能为2，
+            // 所以逆转后不会出现res = Integer.MAX_VALUE / 10 && tmp > 2的情况，
+            // 自然也不需要判断res==214748364 && tmp>7了，反之负数情况也一样
+            if (result < Integer.MIN_VALUE/10 || result > Integer.MAX_VALUE/10){
                 return 0;
             }
             digit = x%10;
             x/=10;
-            rev = rev*10 + digit;
+            result = result*10 + digit;
         }
-        return rev;
+        return result;
     }
 
     /**

@@ -8,9 +8,7 @@ public class Main {
     public static void main(String[] args) {
 //        int x = 123000;
 //        int n = algorithm.StaticMethod.getNumLength(x);
-//        System.out.println(x + "的位数是：" + n);
-//        int reverse = algorithm.StaticMethod.reverse(x);
-//        System.out.println(x + "反转后：" + reverse);
+        System.out.println(StaticMethod.reverse(2147483647));
 //        int[] nums = new int[]{2,3,5,6};
 //        int target = 9;
 //        System.out.println(Arrays.toString(twoSum(nums, target)));
@@ -84,6 +82,6 @@ public class Main {
 //        };
 //        System.out.println(StaticMethod.findNumberIn2DArray(matrix, 0));
 //        System.out.println(StaticMethod.searchMatrix(matrix, 5));
-        System.out.println(Arrays.toString(StaticMethod.dicesProbability(3)));
+//        System.out.println(Arrays.toString(StaticMethod.dicesProbability(3)));
     }
 }
