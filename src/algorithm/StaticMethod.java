@@ -638,4 +638,27 @@ public class StaticMethod {
         return false;
     }
 
+    /**
+     * 剑指 Offer 60. n个骰子的点数
+     * f(n,x) = ∑(1->6) f(n-1,x-i)*(1/6)
+     * dp[n,x] = dp[n,x] + dp[n-1,x-i]*(1/6)
+     * 时间 o(n^2),空间 o(n)
+     * @param n 骰子的个数
+     * @return
+     */
+    public static double[] dicesProbability(int n) {
+        double[] dp = new double[6];// 表示当前筛子个数下所有数量和的概率，数组下标 (0, n - 1) 表示（n, 2n）
+        Arrays.fill(dp, 1.0/6.0);
+        for (int i = 2; i <= n; i++) { //从2一次地推到n
+            double[] temp = new double[5 * i + 1];// 所有的骰子的和种类数，n个筛子有6n - n + 1 种筛子和
+            for (int j = 0; j < dp.length; j++) {// 依次遍历dp，用 筛子个数 i 的每个种类和 j 去递推 筛子i+1的种类和为 j+k 的概率值dp[j+k]
+                for (int k = 0; k < 6; k++) {// 新筛子的数只可能是1-6，循环6次即可
+                    temp[j + k] += dp[j]/6.0; // 对dp[j]/6求和
+                }
+            }
+            dp = temp;// 用新的结果替换上一层的结果
+        }
+        return dp;// 返回最新一层数据
+    }
+
 }

@@ -2,6 +2,8 @@
 
 import algorithm.StaticMethod;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
 //        int x = 123000;
@@ -82,5 +84,6 @@ public class Main {
 //        };
 //        System.out.println(StaticMethod.findNumberIn2DArray(matrix, 0));
 //        System.out.println(StaticMethod.searchMatrix(matrix, 5));
+        System.out.println(Arrays.toString(StaticMethod.dicesProbability(3)));
     }
 }
