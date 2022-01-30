@@ -86,8 +86,15 @@ public class Main {
 
 //        System.out.println(StaticMethod.convert("PAYPALISHIRING", 3));
 //        System.out.println(Integer.valueOf("q"));
-        System.out.println(StaticMethod.myAtoi("   -2147483646 "));
+//        System.out.println(StaticMethod.myAtoi("   -2147483646 "));
 //        System.out.println((int)'1');
 //        System.out.println(Integer.valueOf(String.valueOf('2')));
+
+        int[][] isWater = new int[][]{
+                new int[]{0, 0, 1},
+                new int[]{1, 0, 0},
+                new int[]{0, 0, 0}
+        };
+        System.out.println(Arrays.deepToString(StaticMethod.highestPeak(isWater)));
     }
 }

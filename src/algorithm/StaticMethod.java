@@ -774,4 +774,112 @@ public class StaticMethod {
         return (int) result;
     }
 
+//    /**
+//     * 1765. 地图中的最高点
+//     * 多源广度优先遍历数组
+//     * @param isWater 如果 isWater[i][j] == 0 ，格子 (i, j) 是一个 陆地 格子。如果 isWater[i][j] == 1 ，格子 (i, j) 是一个 水域 格子。
+//     * @return
+//     */
+//    public static int[][] highestPeak(int[][] isWater) {
+//        // 方向数组，分别表示向左，向右，向上，向下移动
+//         int[][] directions = new int[][]{{-1, 0},{1, 0},{0, -1},{0, 1}};
+//        int m = isWater.length, n = isWater[0].length;
+//        // 结果集
+//        int[][] result = new int[m][n];
+//        // 初始结果为 -1
+//        for (int i = 0; i < m; i++) {
+//            Arrays.fill(result[i], -1);
+//        }
+//        // 初始化队列，队列存储矩阵的位置坐标
+//        Queue<int[]> queue = new ArrayDeque<>();
+//        for (int i = 0; i < m; i++) {
+//            for (int j = 0; j < n; j++) {
+//                if (isWater[i][j] == 1){
+//                    result[i][j] = 0;// 初始化海洋
+//                    queue.offer(new int[]{i, j});// 位置信息入队
+//                }
+//            }
+//        }
+//        // 开始广度遍历（层次）
+//        while (!queue.isEmpty()){
+//            int[] p = queue.poll();// 出队
+//            // 对出队的每个元素向周围扩散一圈
+//            for (int[] dir : directions) {
+//                int x = p[0] + dir[0], y = p[1] + dir[1];
+//                // 范围判断，未被访问
+//                if (x >= 0 && x < m && y >= 0 && y < n && result[x][y] == -1){
+//                    result[x][y] = result[p[0]][p[1]] + 1;
+//                    queue.offer(new int[]{x, y});// 新元素入队
+//                }
+//            }
+//        }
+//        return result;
+//    }
+
+    /**
+     * 1765. 地图中的最高点
+     * 牛逼
+     * 题目可以转化为到0（海域）的最近距离矩阵
+     * @param isWater
+     * @return
+     */
+    public int[][] highestPeak(int[][] isWater) {
+        int m = isWater.length;
+        int n = isWater[0].length;
+
+        int[][] dp = new int[m][n];
+        for(int[] arr : dp){
+            Arrays.fill(arr, 2001); // 因为最远距离 = m + n <= 2000
+        }
+
+        // base case
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(isWater[i][j] == 1){
+                    dp[i][j] = 0; // 水域为0
+                }
+            }
+        }
+
+        // 从左上到右下
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(dp[i][j] !=0){
+                    if(i > 0){
+                        dp[i][j] = Math.min(dp[i-1][j]+1, dp[i][j]); // 上方
+                    }
+                    if(j > 0){
+                        dp[i][j] = Math.min(dp[i][j-1]+1, dp[i][j]); // 左方
+                    }
+                }
+            }
+        }
+
+        // 从右下到左上
+        for(int i=m-1; i>=0; i--){
+            for(int j=n-1; j>=0; j--){
+                if(dp[i][j] !=0){
+                    if(i < m-1){
+                        dp[i][j] = Math.min(dp[i+1][j]+1, dp[i][j]); // 右方
+                    }
+                    if(j < n-1){
+                        dp[i][j] = Math.min(dp[i][j+1]+1, dp[i][j]); // 下方
+                    }
+                }
+            }
+        }
+
+        return dp;
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
