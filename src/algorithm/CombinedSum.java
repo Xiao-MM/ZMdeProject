@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 组合总数
+ * 39. 组合总和
  */
 public class CombinedSum {
 
