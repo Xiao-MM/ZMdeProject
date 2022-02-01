@@ -358,7 +358,7 @@ public class StaticMethod {
     }
 
     /**
-     * 三数之和 双指针
+     * 15. 三数之和
      * @param nums
      * @return
      */
@@ -369,7 +369,8 @@ public class StaticMethod {
         }
         Arrays.sort(nums);
         for (int i = 0; i < nums.length - 2; i++) {// 固定i在 [i,nums.length-1]中匹配剩下两个数
-            if(nums[i] > 0) break; // 如果当前数字大于0，则三数之和一定大于0，所以结束循环
+//            if(nums[i] > 0) break; // 如果当前数字大于0，则三数之和一定大于0，所以结束循环
+            if (nums[i] > 0) return result;
             int l = i + 1, r = nums.length - 1;
             if (i > 0 && nums[i] == nums[i-1]) continue; // 去重
             while (l < r){
@@ -892,7 +893,36 @@ public class StaticMethod {
         return count;
     }
 
-
+    /**
+     * 16. 最接近的三数之和
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int threeSumClosest(int[] nums, int target) {
+        if (nums.length < 3){
+            return 0;
+        }
+        Arrays.sort(nums);
+        int minSum = nums[0] + nums[1] + nums[2];
+        for (int i = 0; i < nums.length - 2; i++) {
+            int l = i + 1, r = nums.length - 1;
+            while (l < r){
+                int sum = nums[i] + nums[l] + nums[r];
+                if (Math.abs(target - sum) < Math.abs(target - minSum)) {
+                    minSum = sum;// 取距离最近的三数和
+                }
+                if (sum < target){
+                    l++;
+                }else if (sum > target){
+                    r--;
+                }else {
+                    return minSum;
+                }
+            }
+        }
+        return minSum;
+    }
 
 
 
