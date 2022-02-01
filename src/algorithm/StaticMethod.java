@@ -216,24 +216,6 @@ public class StaticMethod {
     }
 
     /**
-     * 判断串是否是回文串
-     * @return
-     */
-    public static boolean isPalindrome(String s){
-        char[] chars = new char[s.length()];
-        for (int i = 0; i < chars.length; i++) {
-            chars[i] = s.charAt(i);
-        }
-//        char[] chars = s.toCharArray();
-        for (int l = 0,r = s.length() - 1; l < r; l++,r--) {
-            if (chars[l] != chars[r]){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * 9. 回文数
      * 1. 2221/1=2221>10,div=10
      * 2. 2221/10=222>10,div=10*10=100
@@ -924,8 +906,56 @@ public class StaticMethod {
         return minSum;
     }
 
+    /**
+     * 22. 括号生成 动态规划
+     * @param n 生成括号的对数
+     * @return 所有可能的并且 有效的 括号组合。
+     */
+    public static List<String> generateParenthesis(int n) {
+        List<String> dp0 = Collections.singletonList("");
+        List<String> dp1 = Collections.singletonList("()");
+        // 状态集，所有的括号组合情况
+        List<List<String>> dp = new ArrayList<>(Arrays.asList(dp0, dp1));
+        if (n <= 0){
+            return dp0;
+        }
+        if (n == 1){
+            return dp1;
+        }
+        // 从2开始枚举
+        for (int i = 2; i <= n; i++) {
+             // dp[n] = "("+dp[p]+")"+dp[q], p + q = n-1
+            List<String> t = new ArrayList<>();
+            for (int j = 0; j < i; j++) {
+                for (String p : dp.get(j)) {
+                    for (String q : dp.get(i - j - 1)) {
+                        String s = "(" + p + ")" + q;
+                        t.add(s);
+                    }
+                }
+            }
+            dp.add(t);
+        }
+        return dp.get(n);
+    }
 
-
+    /**
+     * 判断串是否是回文串
+     * @return
+     */
+    public static boolean isPalindrome(String s){
+        char[] chars = new char[s.length()];
+        for (int i = 0; i < chars.length; i++) {
+            chars[i] = s.charAt(i);
+        }
+//        char[] chars = s.toCharArray();
+        for (int l = 0,r = s.length() - 1; l < r; l++,r--) {
+            if (chars[l] != chars[r]){
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 
