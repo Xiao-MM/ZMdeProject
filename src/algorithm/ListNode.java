@@ -64,15 +64,45 @@ public class ListNode {
           System.out.println();
      }
 
+    /**
+     * 19. 删除链表的倒数第 N 个结点
+     * @param head
+     * @param n
+     * @return
+     */
+    public static ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(-1, head);// 自定义头结点
+        if (head == null) return null;
+        ListNode pre = dummy, p = dummy;
+        int count = 0;
+        while (count <= n && p != null){
+            p = p.next;
+            count ++;
+            // 如果倒数n > 链表长度直接返回
+            if (p == null && count < n){
+                return head;
+            }
+        }
+        while (p != null){
+            p = p.next;
+            pre = pre.next;
+        }
+        pre.next = pre.next.next;
+        return dummy.next;
+    }
+
      public static void main(String[] args) {
-          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
-          ListNode l2 = new ListNode(1,new ListNode(5,new ListNode(7)));
-          System.out.println("l1 :");
-          printNodes(l1);
-          System.out.println("l2 :");
-          printNodes(l2);
-          ListNode listNode = addTwoNumbers(l1, l2);
-          System.out.println("sum :");
-          printNodes(listNode);
+//          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
+//          ListNode l2 = new ListNode(1,new ListNode(5,new ListNode(7)));
+//          System.out.println("l1 :");
+//          printNodes(l1);
+//          System.out.println("l2 :");
+//          printNodes(l2);
+//          ListNode listNode = addTwoNumbers(l1, l2);
+//          System.out.println("sum :");
+//          printNodes(listNode);
+//         ListNode listNode = new ListNode(1,new ListNode(2, new ListNode(3,new ListNode(4, new ListNode(5)))));
+         ListNode listNode = new ListNode(1);
+         printNodes(removeNthFromEnd(listNode, 3));
      }
  }
