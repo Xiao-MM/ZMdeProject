@@ -12,7 +12,7 @@ public class Main {
 //        CombinedSum2 combinedSum2 = new CombinedSum2();
 //        System.out.println(combinedSum2.combinationSum2(new int[]{10,1,2,7,6,1,5}, 8));
 //        System.out.println(StaticMethod.threeSumClosest(new int[]{1,1,-1,-1,3},-1));
-        System.out.println(StaticMethod.generateParenthesis(4));
+//        System.out.println(StaticMethod.generateParenthesis(4));
 //        List<String> s1 = Arrays.asList("()()()()","(()())()","(()(()))","()()(())","(((())))","(())()()","()((()))","()(())()","()(()())","(()()())","((()()))","((()))()","((())())");
 //        List<String> s2 = Arrays.asList("(((())))","((()()))","((())())","((()))()","(()(()))","(()()())","(()())()","(())(())","(())()()","()((()))","()(()())","()(())()","()()(())","()()()()");
 //        for (String s : s2) {
@@ -20,7 +20,7 @@ public class Main {
 //                System.out.println(s);
 //            }
 //        }
-
+        System.out.println(StaticMethod.search(new int[]{4, 5, 6, 7, 0, 1, 2}, 3));
 
     }
 }

@@ -957,6 +957,45 @@ public class StaticMethod {
         return true;
     }
 
+    /**
+     * 33. 搜索旋转排序数组
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int search(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        int left = 0, right = nums.length-1;
+        int mid;
+        while (left <= right){
+            mid = left + (right - left) / 2;
+            // 数组左半部分有序且target属于左半部分，直接在左半部分寻找
+            if (target == nums[mid]){
+                return mid;
+            }
+            // 现根据mid确定两边哪边有序
+            // 左边有序
+            if (nums[left] <= nums[mid]){
+                // 属于左边有序区间就在左边找
+                if (target < nums[mid] && nums[left] <= target){
+                    right = mid - 1;
+                }else {
+                    left = mid + 1;
+                }
+            // 右半部分有序
+            }else {
+                // 属于右边有序区间就在右边找
+                if (target > nums[mid] && target <= nums[right]){
+                    left = mid + 1;
+                }else {
+                    right = mid - 1;
+                }
+            }
 
+        }
+        return -1;
+    }
 
 }
