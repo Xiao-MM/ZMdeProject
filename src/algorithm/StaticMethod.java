@@ -998,4 +998,54 @@ public class StaticMethod {
         return -1;
     }
 
+    /**
+     * 34. 在排序数组中查找元素的第一个和最后一个位置
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int[] searchRange(int[] nums, int target) {
+        int[] result = new int[]{-1, -1};
+        if (nums == null || nums.length == 0){
+            return result;
+        }
+        int left = 0,right = nums.length - 1;
+        int mid;
+        // 查找左边界
+        while (left <= right){
+            mid = left + (right - left)/2;
+            if (nums[mid] == target){
+                if (mid > 0 && nums[mid - 1] == nums[mid]){
+                    right = mid - 1;
+                }else {
+                    result[0] = mid;
+                    break;
+                }
+            }else if (nums[mid] > target){
+                right = mid - 1;
+            }else {
+                left = mid + 1;
+            }
+        }
+        left = 0;
+        right = nums.length - 1;
+        // 查找右边界
+        while (left <= right){
+            mid = left + (right - left)/2;
+            if (nums[mid] == target){
+                if (mid < nums.length-1 && nums[mid + 1] == nums[mid]){
+                    left = mid + 1;
+                }else {
+                    result[1] = mid;
+                    break;
+                }
+            }else if (nums[mid] > target){
+                right = mid - 1;
+            }else {
+                left = mid + 1;
+            }
+        }
+        return result;
+    }
+
 }
