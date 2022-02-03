@@ -1098,4 +1098,31 @@ public class StaticMethod {
         return findMinFibonacciNumbers(k - a) + 1;
     }
 
+    /**
+     * 48. 旋转图像
+     * @param matrix
+     */
+    public static void rotate(int[][] matrix) {
+        int length = matrix.length;
+        // 对角线翻转
+        for (int i = 1; i < length; i++) {
+            for (int j = 0; j < i; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+        // 左右翻转
+        int l = 0, r = length - 1;
+        while (l < r){
+            int temp;
+            for (int i = 0; i < length; i++) {
+                temp = matrix[i][l];
+                matrix[i][l] = matrix[i][r];
+                matrix[i][r] = temp;
+            }
+            l++;
+            r--;
+        }
+    }
 }

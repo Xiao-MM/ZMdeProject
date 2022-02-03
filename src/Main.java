@@ -23,6 +23,18 @@ public class Main {
 //        System.out.println(StaticMethod.search(new int[]{4, 5, 6, 7, 0, 1, 2}, 3));
 //        System.out.println(Arrays.toString(StaticMethod.searchRange(new int[]{5, 7, 7, 8, 8, 8, 10}, 8)));
 //        System.out.println(StaticMethod.findMin(new int[]{3, 4, 5, 6, 7,0}));
-        System.out.println(StaticMethod.findMinFibonacciNumbers(19));
+//        System.out.println(StaticMethod.findMinFibonacciNumbers(19));
+        int[][] matrix = new int[][]{
+                new int[]{1,2,3},
+                new int[]{4,5,6},
+                new int[]{7,8,9}
+        };
+        for (int[] ints : matrix) {
+            System.out.println(Arrays.toString(ints));
+        }
+        StaticMethod.rotate(matrix);
+        for (int[] ints : matrix) {
+            System.out.println(Arrays.toString(ints));
+        }
     }
 }
