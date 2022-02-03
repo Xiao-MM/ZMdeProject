@@ -1148,4 +1148,37 @@ public class StaticMethod {
         }
         return step;
     }
+
+    /**
+     * 55. 跳跃游戏
+     * @param nums
+     * @return
+     */
+    public static boolean canJump(int[] nums) {
+        // 如果就一个数就已经起跳成功了
+        if (nums.length == 1){
+            return true;
+        }
+        int maxPos = 0;
+        int end = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            // 每次循环更新最大跳跃位置
+            maxPos = Math.max(maxPos, i + nums[i]);
+            // i == end 时开始下一次起跳
+            if (i == end){
+                // 更新下一条的end位置
+                end = maxPos;
+                // 如果要起跳的位置超过或等于最终位置则断定可以到达
+                if (maxPos >= nums.length - 1){
+                    return true;
+                }
+            }
+            // end 更新失败意味着后面的都无法继续进行下去了
+            if (i > end){
+                return false;
+            }
+        }
+        // 循环走完都到不了就真的到不了
+        return false;
+    }
 }
