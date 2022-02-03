@@ -1048,4 +1048,32 @@ public class StaticMethod {
         return result;
     }
 
+    /**
+     * 153. 寻找旋转排序数组中的最小值
+     * @param nums
+     * @return
+     */
+    public static int findMin(int[] nums) {
+        if (nums == null || nums.length == 0){
+            return -1;
+        }
+        int numRight = nums[nums.length - 1];
+        int left = 0, right = nums.length - 1;
+        int mid;
+        while (left <= right){
+            mid = left + (right - left) / 2;
+            // 说明最小值在mid左边
+            if (nums[mid] < numRight){
+                right = mid - 1;
+            // 说明最小值在mid右边
+            }else if (nums[mid] > numRight){
+                left = mid + 1;
+            }else {
+                return nums[mid];
+            }
+        }
+        return nums[left];
+    }
+
+
 }

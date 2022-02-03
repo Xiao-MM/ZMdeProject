@@ -2,9 +2,8 @@ package test;
 
 import entity.User;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Test {
@@ -18,11 +17,22 @@ public class Test {
 //        addNum(a);
 //        System.out.println("改变后的值" + a);
 
-        Map<String,String> map = new HashMap<>();
-        map.put("1","zs");
-        Map<String, String> unmodifiableMap = Collections.unmodifiableMap(map);
-        unmodifiableMap.put("1","ls");
-
+//        Map<String,String> map = new HashMap<>();
+//        map.put("1","zs");
+//        Map<String, String> unmodifiableMap = Collections.unmodifiableMap(map);
+//        unmodifiableMap.put("1","ls");
+//        Integer[] arr = {1, 2, 3};
+//        List list = Arrays.asList(arr);
+//        System.out.println(list);
+//        int a = 1,b = 3;
+//        System.out.println(a + (b-a) >> 1);
+//        System.out.println(a + (b-a) / 2);
+//        System.out.println(a + ((b-a) >> 1));
+//        List<String> list = new ArrayList<>();
+//        List<String> synList = Collections.synchronizedList(list);
+//        List<Object> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
+//        HashMap map = new HashMap();
+        System.out.println("K1".hashCode());
     }
 
     static void resetName(User user){
