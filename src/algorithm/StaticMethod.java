@@ -1075,5 +1075,27 @@ public class StaticMethod {
         return nums[left];
     }
 
+    /**
+     * 1414. 和为 K 的最少斐波那契数字数目
+     * k 一定能减到0
+     * 这个快因为不用再在结果集里循环找结果，找第一个大的稍微慢点，但是找下一个小的就会快很多， while (b <= k)次数并不多，
+     * 且空间是o(1)
+     * 递归方式
+     * @param k
+     * @return
+     */
+    public static int findMinFibonacciNumbers(int k) {
+        // 递归出口，k=0结束
+        if (k == 0) return 0;
+        // 求小于
+        int a = 1,b = 1;
+        while (b <= k){
+            int c = a + b;
+            a = b;
+            b = c;
+        }
+        // a 为小于等于 k 的最大值，每次计数+1
+        return findMinFibonacciNumbers(k - a) + 1;
+    }
 
 }
