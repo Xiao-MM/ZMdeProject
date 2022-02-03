@@ -1125,4 +1125,27 @@ public class StaticMethod {
             r--;
         }
     }
+
+    /**
+     * 45. 跳跃游戏 II
+     * @param nums
+     * @return
+     */
+    public static int jump(int[] nums) {
+        int step = 0;// 步数
+        int maxPos = 0;// 可以跳跃的最大距离
+        int end = 0;// 一次跳跃可以到达的最大距离
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxPos = Math.max(maxPos, i + nums[i]);
+            if (i == end){
+                end = maxPos;
+                step ++;
+                // 如果下一条已经可以到达终点直接返回即可
+                if (maxPos >= nums.length - 1){
+                    return step;
+                }
+            }
+        }
+        return step;
+    }
 }
