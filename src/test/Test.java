@@ -3,6 +3,7 @@ package test;
 import entity.User;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -31,8 +32,11 @@ public class Test {
 //        List<String> list = new ArrayList<>();
 //        List<String> synList = Collections.synchronizedList(list);
 //        List<Object> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
-//        HashMap map = new HashMap();
-        System.out.println("K1".hashCode());
+        HashMap map = new HashMap();
+//        System.out.println("K1".hashCode());
+        map.put(null,"zs");
+        System.out.println(map.get(null));
+
     }
 
     static void resetName(User user){
