@@ -1181,4 +1181,47 @@ public class StaticMethod {
         // 循环走完都到不了就真的到不了
         return false;
     }
+
+    /**
+     * 81. 搜索旋转排序数组 II
+     * 类比于 I 数组中包含着重复元素
+     * 如果所有元素都重复且无法匹配target则时间复杂度增至o(n)
+     * @param nums 旋转数组
+     * @param target 目标值
+     * @return
+     */
+    public static boolean search2(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        int mid;
+        while (left <= right){
+            mid = left + (right - left) / 2;
+            // 找到了直接返回
+            if (nums[mid] == target){
+                return true;
+            }
+            if (nums[left] == nums[mid]){
+                // 该情况下出现了数组元素重复，让left+1规避重复元素
+                left++;
+                // 左边有序
+            }else if (nums[left] < nums[mid]){
+                if (target >= nums[left] && target < nums[mid]){
+                    // nums[left]<= target < nums[mid]在左边找
+                    right = mid - 1;
+                }else {
+                    // 否则在右边找
+                    left = mid + 1;
+                }
+                // 右边有序
+            }else {
+                if (target <= nums[right] && target > nums[mid]){
+                    // nums[mid] < target <= nums[right]在右边找
+                    left = mid + 1;
+                }else {
+                    // 否则在左边找
+                    right = mid - 1;
+                }
+            }
+        }
+        return false;
+    }
 }
