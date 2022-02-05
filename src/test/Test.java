@@ -2,6 +2,9 @@ package test;
 
 import entity.User;
 
+import java.lang.ref.PhantomReference;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -32,11 +35,10 @@ public class Test {
 //        List<String> list = new ArrayList<>();
 //        List<String> synList = Collections.synchronizedList(list);
 //        List<Object> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
-        HashMap map = new HashMap();
+//        HashMap map = new HashMap();
 //        System.out.println("K1".hashCode());
-        map.put(null,"zs");
-        System.out.println(map.get(null));
-
+//        map.put(null,"zs");
+//        System.out.println(map.get(null));
 
     }
 
