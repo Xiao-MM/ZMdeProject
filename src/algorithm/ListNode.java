@@ -90,6 +90,101 @@ public class ListNode {
         pre.next = pre.next.next;
         return dummy.next;
     }
+//      思路有问题，边界条件处理不了
+//    /**
+//     * 86. 分隔链表
+//     * @param head
+//     * @param x
+//     * @return
+//     */
+//    public static ListNode partition(ListNode head, int x) {
+//        ListNode dummy = new ListNode(-1, head);
+//        if (head == null || head.next == null){
+//            return head;
+//        }
+//        ListNode pre,p,q;
+//        pre = q = dummy;
+//        p = dummy.next;
+//        if (pre.next.val < x){
+//            pre = pre.next;
+//            p = p.next;
+//            q = q.next;
+//        }
+//        while (p != null){
+//            // p的值<x且前面有>x得结点存在需要将其前移
+//            if (p.val < x && pre.next.val > x){
+//                q.next = p.next;
+//                p.next = pre.next;
+//                pre.next = p;
+//                pre = pre.next;
+//                q = q.next;
+//                if (q == null){
+//                    p = null;
+//                }else {
+//                    p = q.next;
+//                }
+//            }else {
+//                p = p.next;
+//                q = q.next;
+//            }
+//        }
+//        return dummy.next;
+//    }
+
+    /**
+     //     * 86. 分隔链表
+     //     * @param head
+     //     * @param x
+     //     * @return
+     //     */
+    public static ListNode partition(ListNode head, int x) {
+        ListNode smallHead = new ListNode(-1);
+        ListNode small = smallHead;
+        ListNode bigHead = new ListNode(-1);
+        ListNode big = bigHead;
+        while (head != null){
+            if (head.val < x){
+                small.next = head;
+                small = small.next;
+            }else {
+                big.next = head;
+                big = big.next;
+            }
+            head = head.next;
+        }
+        big.next = null;
+        small.next = bigHead.next;
+        return smallHead.next;
+    }
+
+    /**
+     * 82. 删除排序链表中的重复元素 II
+     * @param head
+     * @return
+     */
+    public static ListNode deleteDuplicates(ListNode head) {
+        // head为空或者只有一个结点可以直接返回
+        if (head == null || head.next == null) {
+            return head;
+        }
+        // 哑结点，避免头被删掉
+        ListNode dummy = new ListNode(-1, head);
+        ListNode p = dummy;
+        int x;
+        while (p.next != null && p.next.next != null){
+            // 检测到重复元素就记录下当前元素
+            if (p.next.val == p.next.next.val){
+                x = p.next.val;
+                // 一个个删掉重复元素
+                while (p.next != null && p.next.val == x){
+                    p.next = p.next.next;
+                }
+            }else {
+                p = p.next;
+            }
+        }
+        return dummy.next;
+    }
 
      public static void main(String[] args) {
 //          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
@@ -102,7 +197,15 @@ public class ListNode {
 //          System.out.println("sum :");
 //          printNodes(listNode);
 //         ListNode listNode = new ListNode(1,new ListNode(2, new ListNode(3,new ListNode(4, new ListNode(5)))));
-         ListNode listNode = new ListNode(1);
-         printNodes(removeNthFromEnd(listNode, 3));
+//         ListNode listNode = new ListNode(2,new ListNode(1));
+//         printNodes(removeNthFromEnd(listNode, 3));
+         ListNode listNode = new ListNode(1,
+                 new ListNode(1,
+                         new ListNode(1,
+                                 new ListNode(3,
+                                         new ListNode(4,
+                                                 new ListNode(4, new ListNode(5)))))));
+         printNodes(listNode);
+         printNodes(deleteDuplicates(listNode));
      }
  }
