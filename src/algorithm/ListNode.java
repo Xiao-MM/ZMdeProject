@@ -186,6 +186,38 @@ public class ListNode {
         return dummy.next;
     }
 
+    /**
+     * 92. 反转链表 II
+     * 头插法
+     * @param head
+     * @param left
+     * @param right
+     * @return
+     */
+    public static ListNode reverseBetween(ListNode head, int left, int right) {
+        // 单个元素无须翻转
+        if (left == right){
+            return head;
+        }
+        ListNode dummy = new ListNode(-1, head);
+        ListNode pre = dummy, p = dummy.next;
+        // pre 位于 left 前一个位置，p 始终指向left一开始位于的那个位置
+        for (int i = 0; i < left - 1; i++) {
+            pre = pre.next;
+            p = p.next;
+        }
+
+        // 将 (right - left - 1) 个元素一个个以头插法的形式插入pre的后面，p 指向移动元素的下一个元素
+        for (int i = 0; i < right - left; i++) {
+            ListNode removed = p.next;
+            p.next = p.next.next;
+            removed.next = pre.next;
+            pre.next = removed;
+        }
+
+        return dummy.next;
+    }
+
      public static void main(String[] args) {
 //          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
 //          ListNode l2 = new ListNode(1,new ListNode(5,new ListNode(7)));
@@ -197,15 +229,16 @@ public class ListNode {
 //          System.out.println("sum :");
 //          printNodes(listNode);
 //         ListNode listNode = new ListNode(1,new ListNode(2, new ListNode(3,new ListNode(4, new ListNode(5)))));
-//         ListNode listNode = new ListNode(2,new ListNode(1));
+//         ListNode listNode = new ListNode(3,new ListNode(5));
 //         printNodes(removeNthFromEnd(listNode, 3));
          ListNode listNode = new ListNode(1,
-                 new ListNode(1,
-                         new ListNode(1,
-                                 new ListNode(3,
-                                         new ListNode(4,
-                                                 new ListNode(4, new ListNode(5)))))));
+                 new ListNode(2,
+                         new ListNode(3,
+                                 new ListNode(4,
+                                         new ListNode(5,
+                                                 new ListNode(6,
+                                                         new ListNode(7)))))));
          printNodes(listNode);
-         printNodes(deleteDuplicates(listNode));
+         printNodes(reverseBetween(listNode,2,5));
      }
  }
