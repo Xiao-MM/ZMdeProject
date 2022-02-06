@@ -1244,4 +1244,34 @@ public class StaticMethod {
         }
         return dp[n];
     }
+
+    /**
+     * 80. 删除有序数组中的重复项 II
+     * @param nums
+     * @return
+     */
+    public static int removeDuplicates(int[] nums) {
+        return removeDuplicatesKeepK(nums,2);
+    }
+
+    /**
+     * 删除排序数组的重复元素，保留K个
+     * @param nums 排序数组
+     * @param k 保留K个
+     * @return
+     */
+    public static int removeDuplicatesKeepK(int[] nums, int k){
+        // 待放元素位置
+        int i = 0;
+        // 遍历数组，每次判断当前元素是否加入放置位置
+        for (int num : nums) {
+            // i < k 初始K个位置可以直接放
+            // 如果num和待放置的元素的倒数第二个位置元素相等则无法加入
+            if (i < k || nums[i-k] != num)
+                // 放置元素，下标后移
+                nums[i++] = num;
+        }
+        // i 即新数组长度
+        return i;
+    }
 }

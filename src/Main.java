@@ -26,6 +26,7 @@ public class Main {
 //                {0, 3, 0},
 //                {9, 0, 20}
 //        }));
-        System.out.println(StaticMethod.numTrees(4));
+//        System.out.println(StaticMethod.numTrees(4));
+        System.out.println(StaticMethod.removeDuplicates(new int[]{0, 0, 1, 1, 1, 1, 2, 3, 3}));
     }
 }
