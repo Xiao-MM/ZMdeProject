@@ -1274,4 +1274,48 @@ public class StaticMethod {
         // i 即新数组长度
         return i;
     }
+
+    /**
+     * 1405. 最长快乐字符串
+     * 贪心 + 大顶堆
+     * @param a
+     * @param b
+     * @param c
+     * @return
+     */
+    public static String longestDiverseString(int a, int b, int c) {
+        // int[0] 存放a,b,c对应的0，1，2，注意 0+'a' = 'a', 1 + 'a' = 'b', 2 + 'a' = 'c'
+        PriorityQueue<int[]> q = new PriorityQueue<>((o1, o2) -> o2[1]-o1[1]);// o2[1]-o1[1]表示大顶堆
+        if (a > 0) q.add(new int[]{0, a});
+        if (b > 0) q.add(new int[]{1, b});
+        if (c > 0) q.add(new int[]{2, c});
+
+        StringBuilder sb = new StringBuilder();
+
+        // 贪心策略，每次选个最大的用来构建
+        while (!q.isEmpty()){
+            int[] cur = q.poll();
+            int length = sb.length();
+            // 如果已拼接字符串后两位和出队元素属于同一种则出下一个堆元素进行比较
+            if (length >= 2 && cur[0] == sb.charAt(length - 1) - 'a' && cur[0] == sb.charAt(length - 2) - 'a'){
+                // 如果cur已经是最后一个且不满足最后拼接条件了循环就结束了
+                if (q.isEmpty()) break;
+                int[] next = q.poll();
+                sb.append((char) (next[0] + 'a'));
+                if (--next[1] > 0){
+                    // 还有剩的再放回去
+                    q.add(next);
+                }
+                q.add(cur);// 把cur再放回去
+            }else {
+
+                if (--cur[1] > 0){
+                    // 还有剩的再放回去
+                    q.add(cur);
+                }
+            }
+        }
+        return sb.toString();
+    }
+
 }

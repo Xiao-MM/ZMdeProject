@@ -27,6 +27,7 @@ public class Main {
 //                {9, 0, 20}
 //        }));
 //        System.out.println(StaticMethod.numTrees(4));
-        System.out.println(StaticMethod.removeDuplicates(new int[]{0, 0, 1, 1, 1, 1, 2, 3, 3}));
+//        System.out.println(StaticMethod.removeDuplicates(new int[]{0, 0, 1, 1, 1, 1, 2, 3, 3}));
+        System.out.println(StaticMethod.longestDiverseString(2, 2, 7));
     }
 }
