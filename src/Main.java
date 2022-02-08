@@ -28,6 +28,10 @@ public class Main {
 //        }));
 //        System.out.println(StaticMethod.numTrees(4));
 //        System.out.println(StaticMethod.removeDuplicates(new int[]{0, 0, 1, 1, 1, 1, 2, 3, 3}));
-        System.out.println(StaticMethod.longestDiverseString(2, 2, 7));
+//        System.out.println(StaticMethod.longestDiverseString(2, 2, 7));
+        int[] nums = new int[]{2,1,4,3};
+        System.out.println(Arrays.toString(nums));
+        StaticMethod.nextPermutation(nums);
+        System.out.println(Arrays.toString(nums));
     }
 }

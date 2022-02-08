@@ -1318,4 +1318,39 @@ public class StaticMethod {
         return sb.toString();
     }
 
+    /**
+     * 31. 下一个排列
+     * @param nums
+     */
+    public static void nextPermutation(int[] nums) {
+        if (nums.length == 1) return;
+        int i = nums.length - 1;
+        // 倒数找第一组(i-1,i),(i-1,i)满足nums[i-1] < nums[i]
+        while (i > 0 && nums[i] <= nums[i-1]) i--;
+        // i - 1 >= 0时意味着存在 nums[i] > nums[i-1] 的数对
+        if (i > 0){
+            int j = nums.length-1;
+            // 倒数找第一个大于 nums[i-1] 的元素与他做交换
+            while (j >= 0 && nums[j] <= nums[i-1]) j--;
+            swap(nums, j, i-1);
+        }
+        // [i, end] 此时一定逆序，将其翻转
+        reverse(nums, i);
+    }
+
+    public static void swap(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    public static void reverse(int[] nums, int start){
+        int l = start, r = nums.length - 1;
+        while (l < r){
+            swap(nums, l , r);
+            l++;
+            r--;
+        }
+    }
+
 }
