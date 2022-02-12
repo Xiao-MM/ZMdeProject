@@ -27,10 +27,10 @@ public class EqualExample {
         return z == that.z;
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(x, y, z);
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
+    }
 
     /**
      * 下面的代码中，新建了两个等价的对象，并将它们添加到 HashSet 中。

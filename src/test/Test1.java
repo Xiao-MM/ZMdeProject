@@ -1,5 +1,7 @@
 package test;
 
+import java.util.HashMap;
+
 public class Test1 {
     public static void main(String[] args) {
 //        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
@@ -23,8 +25,19 @@ public class Test1 {
 //        char a = 'a';
 //        String s = "aaacaaa";
 //        System.out.println(s.charAt(s.length()-1) - 'a');
-        System.out.println((char) (0 + 'a'));
-        System.out.println((char) (1 + 'a'));
-        System.out.println((char) (2 + 'a'));
+//        System.out.println((char) (0 + 'a'));
+//        System.out.println((char) (1 + 'a'));
+//        System.out.println((char) (2 + 'a'));
+
+        String s1=new String("kvill");
+
+        String s2=s1.intern();
+
+        System.out.println( s1==s1.intern() );
+
+        System.out.println( s1+" "+s2 );
+
+        System.out.println( s2==s1.intern() );
+
     }
 }
