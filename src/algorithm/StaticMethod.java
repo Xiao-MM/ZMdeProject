@@ -1353,4 +1353,54 @@ public class StaticMethod {
         }
     }
 
+    /**
+     * 540. 有序数组中的单一元素
+     * 不用 r = mid -1, l = mid 是因为这样走会丢失掉单一元素位于mid的情况，r的最终位置就是目标值
+     * @param nums
+     * @return
+     */
+    public static int singleNonDuplicate(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        int mid;
+        while (l < r){
+            mid = l + (r - l) / 2;
+            // 中点位于偶数位，偶数位与它所在后一位比较，如果相同，左半部分元素未发生失序，在右半部分找
+            if (mid % 2 == 0){
+                // 右半部分完好在左边找
+                if (mid < nums.length - 1 && nums[mid] == nums[mid+1]){
+                    l = mid + 1;
+                }else {
+                    r = mid;
+                }
+                // 中点位于奇数位，奇数位位与它所在前一位比较，如果相同，左半部分元素未发生失序，在右半部分找
+            }else {
+                //
+                if (mid > 0 && nums[mid] == nums[mid-1]){
+                    l = mid + 1;
+                }else {
+                    r = mid;
+                }
+            }
+        }
+        return nums[r];
+    }
+//    /**
+//     * 540. 有序数组中的单一元素
+//     * @param nums
+//     * @return
+//     */
+//    public static int singleNonDuplicate(int[] nums) {
+//        int l = 0, r = nums.length - 1;
+//        int mid;
+//        while (l < r){
+//            mid = l + (r - l) / 2;
+//            // 右半部分完好在左边找
+//            if (nums[mid] == nums[mid^1])
+//                l = mid + 1;
+//            else
+//                r = mid;
+//        }
+//        return nums[r];
+//    }
+
 }
