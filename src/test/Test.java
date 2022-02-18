@@ -73,9 +73,9 @@ public class Test {
 ////        System.out.println(a + (b-a) >> 1);
 ////        System.out.println(a + (b-a) / 2);
 ////        System.out.println(a + ((b-a) >> 1));
-////        List<String> list = new ArrayList<>();
-////        List<String> synList = Collections.synchronizedList(list);
-////        List<Object> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
+        List<String> list = new ArrayList<>();
+        List<String> synList = Collections.synchronizedList(list);
+        List<Object> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
 ////        HashMap map = new HashMap();
 ////        System.out.println("K1".hashCode());
 ////        map.put(null,"zs");
