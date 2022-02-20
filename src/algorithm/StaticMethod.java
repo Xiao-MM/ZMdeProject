@@ -1427,4 +1427,51 @@ public class StaticMethod {
         return false;
     }
 
+    /**
+     * 378. 有序矩阵中第 K 小的元素
+     * @param matrix
+     * @param k 总的第k小
+     * @return
+     */
+    public static int kthSmallest(int[][] matrix, int k) {
+        int left = matrix[0][0], right = matrix[matrix.length-1][matrix.length-1];
+        // mid 是用来猜的数，猜的mid不一定真的是矩阵元素
+        int mid;
+        // 当到达边界条件时，left = right 即为最终答案，并非是mid准确无误的成为了第k大的元素
+        while (left < right){
+            mid = left + (right - left) / 2;
+            if (check(matrix, mid, k)){
+                // right 用来收缩边界，当比mid小的元素多于k时表明mid猜大了，将right收缩一下继续猜
+                right = mid;
+            }else {
+                // left 用来确认最终答案 当比mid小的元素少于k时表明mid猜小了，mid + 1 不停地进行试探
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    /**
+     * 检验小于等于mid的元素数量是否比k大
+     * @param matrix
+     * @param mid
+     * @param k
+     * @return
+     */
+    private static boolean check(int[][] matrix, int mid, int k){
+        // 初始化比mid值小的元素数量和
+        int sum = 0;
+        int i = matrix.length - 1, j = 0;
+        while (i >= 0 && j < matrix[0].length){
+            if (matrix[i][j] <= mid){
+                sum += i + 1;
+                j++;
+            }else {
+                i--;
+            }
+        }
+        return sum >= k;
+    }
+
+
 }
