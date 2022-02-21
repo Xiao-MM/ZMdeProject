@@ -16,13 +16,15 @@ public class Main {
 //                {10,11,13},
 //                {12,13,15}
 //        },8));
-        System.out.println(StaticMethod.uniquePathsWithObstacles(new int[][]{
+//        System.out.println(StaticMethod.uniquePathsWithObstacles(new int[][]{
 //                {0, 0, 0},
 //                {0, 1, 0},
 //                {0, 0, 0}
 //                {0,1},{0,0}
-                {1,0}
-        }));
-
+//                {1,0}
+//        }));
+        System.out.println(StaticMethod.numDecodings("11106"));
+//        char a = '0';
+//        System.out.println(Integer.valueOf(a));
     }
 }

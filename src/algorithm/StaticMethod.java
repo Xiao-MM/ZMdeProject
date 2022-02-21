@@ -1512,4 +1512,55 @@ public class StaticMethod {
         return dp[m-1][n-1];
     }
 
+//    /**
+//     * 91. 解码方法
+//     * 动态规划思想
+//     * dp[i] = dp[i-1] + (if (true) dp[i-2])
+//     * @param s
+//     * @return
+//     */
+//    public static int numDecodings(String s) {
+//        int n = s.length();
+//        char[] chars = s.toCharArray();
+//        int[] dp = new int[n + 1];// dp[0] 0-n
+//        // dp[0]可以假当是空串，dp[i]为以字符i为止的可以编码的数量，相当于哨兵
+//        dp[0] = 1;
+//        // 由第一个字符到第n个字符依次推演，不能将第一个字符当作dp起始条件做推演，这样结果是不对的
+//        for (int i = 1; i <= n; i++) {
+//            if (chars[i-1] != '0'){
+//                dp[i] += dp[i-1];
+//            }
+//            if (i > 1 && chars[i-2] != '0' && (chars[i-2] - '0') * 10 + (chars[i-1] - '0') <= 26){
+//                dp[i] += dp[i-2];
+//            }
+//        }
+//        return dp[n];
+//    }
+    /**
+     * 91. 解码方法
+     * 动态规划思想 空间优化
+     * c = a + if true : b
+     * @param s
+     * @return
+     */
+    public static int numDecodings(String s) {
+        int n = s.length();
+        char[] chars = s.toCharArray();
+        // dp[i-2], dp[i-1], dp[i] 由于初始下标-1不存在，可以直接初始化0，b = 1 相当于初始dp[0] = 1，
+        // c 初始化0是为了避免边界条件，万一循环不走将无值返回编译报错
+        int a = 0, b = 1, c = 0;
+        // 由第一个字符到第n个字符依次推演，不能将第一个字符当作dp起始条件做推演，这样结果是不对的
+        for (int i = 1; i <= n; i++) {
+            c = 0;
+            if (chars[i-1] != '0'){
+                c += b;
+            }
+            if (i > 1 && chars[i-2] != '0' && (chars[i-2] - '0') * 10 + (chars[i-1] - '0') <= 26){
+                c += a;
+            }
+            a = b;
+            b = c;
+        }
+        return c;
+    }
 }
