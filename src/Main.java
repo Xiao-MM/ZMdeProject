@@ -26,11 +26,12 @@ public class Main {
 //        System.out.println(StaticMethod.numDecodings("11106"));
 //        char a = '0';
 //        System.out.println(Integer.valueOf(a));
-        System.out.println(StaticMethod.minPathSum(new int[][]{
-//                {1, 3, 1},
-//                {1, 5, 1},
-//                {4, 2, 1}
-                {1,2,3},{4,5,6}
-        }));
+//        System.out.println(StaticMethod.minPathSum(new int[][]{
+////                {1, 3, 1},
+////                {1, 5, 1},
+////                {4, 2, 1}
+//                {1,2,3},{4,5,6}
+//        }));
+        System.out.println(StaticMethod.rob(new int[]{2,3,2,3,4}));
     }
 }
