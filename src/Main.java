@@ -36,11 +36,13 @@ public class Main {
 //        System.out.println();
 //        System.out.println("" == null);
 
-        WordSearch wordSearch = new WordSearch();
-        System.out.println(wordSearch.exist(new char[][]{
-                {'A','B','C','E'},
-                {'S','F','C','S'},
-                {'A','D','E','E'}
-        }, "ABCCED"));
+//        WordSearch wordSearch = new WordSearch();
+//        System.out.println(wordSearch.exist(new char[][]{
+//                {'A','B','C','E'},
+//                {'S','F','C','S'},
+//                {'A','D','E','E'}
+//        }, "ABCCED"));
+//        System.out.println(Integer.MIN_VALUE>>1);
+        System.out.println(StaticMethod.divide(5,8));
     }
 }

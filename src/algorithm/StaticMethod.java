@@ -1655,5 +1655,34 @@ public class StaticMethod {
         return b;
     }
 
+    /**
+     * 29. 两数相除
+     * @param dividend
+     * @param divisor
+     * @return
+     */
+    public static int divide(int dividend, int divisor) {
+        // 边界条件 -2^32 / -1 = 2^32 越界
+        if (dividend == Integer.MIN_VALUE && divisor == -1) return Integer.MAX_VALUE;
+        // limit 防止翻倍后发生越界
+        int limit = Integer.MIN_VALUE >> 1;
+        boolean sign;
+        // 先确认结果的符号，然后映射成负数处理
+        sign = (dividend > 0 && divisor > 0) || (dividend < 0 && divisor < 0);
+        if (dividend > 0) dividend = -dividend;
+        if (divisor > 0) divisor = -divisor;
+        int result = 0;
+        while (dividend <= divisor){
+            int t = divisor, count = 1;
+            // divisor 每次呈指数倍翻倍逼近 dividend，翻倍的数据记在t中，翻倍的次数记在count中
+            while (t >= limit && count >= limit && t > dividend - t){
+                t += t;
+                count += count;
+            }
+            dividend -= t;// dividend减去最大幅度逼近的除数开启下一波匹配
+            result += count;// 将翻倍的次数累加，所有次数加在一起就是商
+        }
+        return sign ? result : -result;// 根据符号决定商的符号
+    }
 
 }
