@@ -1,9 +1,6 @@
 
 
-import algorithm.CombinedSum2;
-import algorithm.MaximumGold;
-import algorithm.StaticMethod;
-import algorithm.Subsets2;
+import algorithm.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +29,18 @@ public class Main {
 ////                {4, 2, 1}
 //                {1,2,3},{4,5,6}
 //        }));
-        System.out.println(StaticMethod.rob(new int[]{2,3,2,3,4}));
+//        System.out.println(StaticMethod.rob(new int[]{2,3,2,3,4}));
+//        String a = "";
+//        System.out.println(a);
+//        System.out.println("".hashCode());
+//        System.out.println();
+//        System.out.println("" == null);
+
+        WordSearch wordSearch = new WordSearch();
+        System.out.println(wordSearch.exist(new char[][]{
+                {'A','B','C','E'},
+                {'S','F','C','S'},
+                {'A','D','E','E'}
+        }, "ABCCED"));
     }
 }

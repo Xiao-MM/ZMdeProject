@@ -1654,4 +1654,6 @@ public class StaticMethod {
         }
         return b;
     }
+
+
 }
