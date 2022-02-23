@@ -1810,4 +1810,30 @@ public class StaticMethod {
         return result;
     }
 
+    /**
+     * 128. 最长连续序列
+     * @param nums
+     * @return
+     */
+    public static int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        int maxCount = 0;
+        for (Integer num : set) {
+            // 确保不重复选取某些数字，当 num - 1 存在时直接跳过
+            if (!set.contains(num - 1)){
+                int count = 1;
+                int n = num + 1;
+                while (set.contains(n)){
+                    count++;
+                    n++;
+                }
+                maxCount = Math.max(maxCount, count);
+            }
+        }
+        return maxCount;
+    }
+
 }

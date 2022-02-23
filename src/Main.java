@@ -51,7 +51,7 @@ public class Main {
 //        int[] nums = {1,2,0};
 //        StaticMethod.sortColors(nums);
 //        System.out.println(Arrays.toString(nums));
-        System.out.println(StaticMethod.grayCode(2));
-
+//        System.out.println(StaticMethod.grayCode(2));
+        System.out.println(StaticMethod.longestConsecutive(new int[]{1,2,5,4,3,199}));
     }
 }
