@@ -43,6 +43,10 @@ public class Main {
 //                {'A','D','E','E'}
 //        }, "ABCCED"));
 //        System.out.println(Integer.MIN_VALUE>>1);
-        System.out.println(StaticMethod.divide(5,8));
+//        System.out.println(StaticMethod.divide(5,8));
+        System.out.println(StaticMethod.spiralOrder(new int[][]{
+                {1, 2, 3},
+                {4, 5, 6}
+        }));
     }
 }

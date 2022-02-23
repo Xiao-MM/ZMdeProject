@@ -1685,4 +1685,27 @@ public class StaticMethod {
         return sign ? result : -result;// 根据符号决定商的符号
     }
 
+    /**
+     * 54. 螺旋矩阵
+     * @param matrix
+     * @return
+     */
+    public static List<Integer> spiralOrder(int[][] matrix) {
+        int top = 0, left = 0, bottom = matrix.length - 1, right = matrix[0].length - 1;
+        List<Integer> result = new ArrayList<>();
+        while (true){
+            // 沿着上界从左向右走
+            for (int i = left; i <= right; i++) result.add(matrix[top][i]);
+            if (++top > bottom) break;// 走完上界减一 上界减完越界退出
+            // 沿着右界从上向下走
+            for (int i = top; i <= bottom; i++) result.add(matrix[i][right]);
+            if (--right < left) break;// 走完右界减一 越界退出
+            for (int i = right; i >= left; i--) result.add(matrix[bottom][i]);
+            if (--bottom < top) break;
+            for (int i = bottom; i >= top; i--) result.add(matrix[i][left]);
+            if (++left > right) break;
+        }
+        return result;
+    }
+
 }
