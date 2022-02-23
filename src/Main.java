@@ -44,9 +44,14 @@ public class Main {
 //        }, "ABCCED"));
 //        System.out.println(Integer.MIN_VALUE>>1);
 //        System.out.println(StaticMethod.divide(5,8));
-        System.out.println(StaticMethod.spiralOrder(new int[][]{
-                {1, 2, 3},
-                {4, 5, 6}
-        }));
+//        System.out.println(StaticMethod.spiralOrder(new int[][]{
+//                {1, 2, 3},
+//                {4, 5, 6}
+//        }));
+//        int[] nums = {1,2,0};
+//        StaticMethod.sortColors(nums);
+//        System.out.println(Arrays.toString(nums));
+        System.out.println(StaticMethod.grayCode(2));
+
     }
 }

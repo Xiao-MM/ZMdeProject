@@ -1708,4 +1708,106 @@ public class StaticMethod {
         return result;
     }
 
+//    /**
+//     * 75. 颜色分类
+//     * 单指针法
+//     * @param nums
+//     */
+//    public static void sortColors(int[] nums) {
+//        // 指向已经归纳好的一种类型的下一个元素的位置
+//        int ptr = 0;
+//        // 先归纳出0的元素
+//        for (int i = 0; i < nums.length; i++) {
+//            if (nums[i] == 0){
+//                int temp = nums[i];
+//                nums[i] = nums[ptr];
+//                nums[ptr] = temp;
+//                ptr++;
+//            }
+//
+//        }
+//        for (int i = ptr; i < nums.length; i++) {
+//            if (nums[i] == 1){
+//                int temp = nums[i];
+//                nums[i] = nums[ptr];
+//                nums[ptr] = temp;
+//                ptr++;
+//            }
+//        }
+//    }
+//    /**
+//     * 75. 颜色分类
+//     * 双指针法
+//     * @param nums
+//     */
+//    public static void sortColors(int[] nums) {
+//        // p0 归纳 0，p1 归纳 1
+//        int p0 = 0, p1 = 0;
+//        for (int i = 0; i < nums.length; i++) {
+//            if (nums[i] == 0){
+//                int temp = nums[p0];
+//                nums[p0] = nums[i];
+//                nums[i] = temp;
+//                // 这个过程会将1换出去 需要再次和p1交换换回来
+//                if (p0 < p1){
+//                    temp = nums[p1];
+//                    nums[p1] = nums[i];
+//                    nums[i] = temp;
+//                }
+//                p0++;
+//                p1++;
+//            }
+//            if (nums[i] == 1){
+//                int temp = nums[p1];
+//                nums[p1] = nums[i];
+//                nums[i] = temp;
+//                p1++;
+//            }
+//        }
+//
+//    }
+    /**
+     * 75. 颜色分类
+     * 双指针法 排0，2
+     * @param nums
+     */
+    public static void sortColors(int[] nums) {
+        // p0 归纳 0，p1 归纳 1
+        int p0 = 0, p2 = nums.length - 1;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0){
+                int temp = nums[p0];
+                nums[p0] = nums[i];
+                nums[i] = temp;
+                p0++;
+            }
+            // i 到达 p2 就停止
+            if (i <= p2 && nums[i] == 2){
+                int temp = nums[p2];
+                nums[p2] = nums[i];
+                nums[i] = temp;
+                p2--;
+            }
+        }
+    }
+
+    /**
+     * 89. 格雷编码
+     * n 位格雷编码 为n-1位取反+2^n
+     * @param n
+     * @return
+     */
+    public static List<Integer> grayCode(int n) {
+        List<Integer> result = new ArrayList<>();
+        result.add(0);
+        int head = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = result.size() - 1; j >= 0 ; j--) {
+                result.add(result.get(j) + head);
+            }
+            head <<= 1;
+        }
+        return result;
+    }
+
 }
