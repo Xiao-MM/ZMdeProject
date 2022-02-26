@@ -1878,4 +1878,43 @@ public class Algorithms {
         }
         return matrix;
     }
+
+//    /**
+//     * 136. 只出现一次的数字
+//     * 0 异或 任何数都是其本身
+//     * @param nums
+//     * @return
+//     */
+//    public static int singleNumber(int[] nums) {
+//        int result = nums[0];
+//        for (int i = 1; i < nums.length; i++) {
+//            result ^= nums[i];
+//        }
+//        return result;
+//    }
+
+    /**
+     * 137. 只出现一次的数字 II
+     * @param nums
+     * @return
+     */
+    public static int singleNumber(int[] nums) {
+        // 长度为32的常量空间
+        int[] counts = new int[32];
+        // 依次累计求每个位的和
+        for (int num : nums) {
+            for (int j = 0; j < 32; j++) {
+                // 每次获取num的最低位累加至对应桶
+                counts[j] += num & 1;
+                num >>>= 1;
+            }
+        }
+        int result = 0, m = 3;
+        for (int i = 0; i < 32; i++) {
+            result <<= 1;
+            // 从高位向低位依次还原，得到一位还原一位
+            result |= counts[31 - i] % m;
+        }
+        return result;
+    }
 }
