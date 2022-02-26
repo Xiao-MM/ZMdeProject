@@ -102,6 +102,67 @@ public class TreeNode {
         return dfs(left.left, right.right) && dfs(left.right, right.left);
     }
 
+    /**
+     * 112. 路径总和
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    public static boolean hasPathSum(TreeNode root, int targetSum) {
+        // 如果直接走到空节点直接证明路径不存在
+        if (root == null){
+            return false;
+        }
+        // 如果走到叶子节点且targetSum刚好减到和叶子节点值相同时证明路径存在
+        if (root.left == null && root.right == null){
+            return targetSum == root.val;
+        }
+        // 递归判断左右子树
+        return hasPathSum(root.left, targetSum - root.val)
+                || hasPathSum(root.right, targetSum - root.val);
+    }
+
+    List<List<Integer>> result;
+
+    LinkedList<Integer> path;
+
+    /**
+     * 113. 路径总和 II
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        this.result = new ArrayList<>();
+        this.path = new LinkedList<>();
+        pathSumDFS(root, targetSum);
+        return result;
+    }
+
+    private void pathSumDFS(TreeNode root, int targetSum){
+        // 节点为空直接返回
+        if (root == null) return;
+        // 将当前节点加入路径
+        path.addLast(root.val);
+        // 找到符合要求的路径添加
+        if (root.left == null && root.right == null && targetSum == root.val){
+            result.add(new ArrayList<>(path));// 注意这里不能return，return后面的撤销命令不会执行
+        }
+        // 在左子树中找
+        pathSumDFS(root.left, targetSum - root.val);
+        // 在右子树中找
+        pathSumDFS(root.right, targetSum - root.val);
+        // 回退时移除路径的节点数据
+        path.removeLast();
+    }
+
+    public static void printTree(TreeNode root){
+        if (root != null){
+            System.out.print(root.val + " ");
+            printTree(root.left);
+            printTree(root.right);
+        }
+    }
 
     public static void main(String[] args) {
 //        TreeNode root = new TreeNode(3,
@@ -114,20 +175,15 @@ public class TreeNode {
                         new TreeNode(7),null),
                 new TreeNode(9,
                         null,
-                        new TreeNode(7)));
+                        new TreeNode(2, new TreeNode(5),null)));
 
 //        System.out.println(zigzagLevelOrder(root));
 //        System.out.println(maxDepth(root));
-        System.out.println(isSymmetric(root));
+//        System.out.println(hasPathSum(root, 19));
+        System.out.println(root.pathSum(root, 19));
     }
 
-    public static void printTree(TreeNode root){
-        if (root != null){
-            System.out.print(root.val + " ");
-            printTree(root.left);
-            printTree(root.right);
-        }
-    }
+
 
 }
 

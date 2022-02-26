@@ -2,7 +2,7 @@ package algorithm;
 
 import java.util.*;
 
-public class StaticMethod {
+public class Algorithms {
     /**
      * 获取整数的位数
      * @param x
@@ -1836,4 +1836,46 @@ public class StaticMethod {
         return maxCount;
     }
 
+//    /**
+//     * 97. 交错字符串
+//     * s1的前i个串和s2的前j个串是否可以构成s3的前i+j个串
+//     * dp[i,j] = dp[i-1][j] && s1[i] == s3[i]
+//     * @param s1
+//     * @param s2
+//     * @param s3
+//     * @return
+//     */
+//    public boolean isInterleave(String s1, String s2, String s3) {
+//        boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+//        dp[0][0] = true;
+//        for (int i = 0; i < s1.length(); i++) {
+//            for (int j = 0; j < s2.length(); j++) {
+//                int p = i + j - 1;
+//                if (i > 0)
+//                    dp[i][j] =
+//            }
+//        }
+//    }
+
+    /**
+     * 59. 螺旋矩阵 II
+     * @param n
+     * @return
+     */
+    public static int[][] generateMatrix(int n) {
+        int[][] matrix = new int[n][n];
+        int left = 0, top = 0, right = n - 1, bottom = n - 1;
+        int count = 0;
+        while (true){
+            for (int i = left; i <= right; i++) matrix[top][i] = ++count;
+            if (++top > bottom) break;
+            for (int i = top; i <= bottom; i++) matrix[i][right] = ++count;
+            if (--right < left) break;
+            for (int i = right; i >= left; i--) matrix[bottom][i] = ++count;
+            if (--bottom < top) break;
+            for (int i = bottom; i >= top; i--) matrix[i][left] = ++count;
+            if (++left > right) break;
+        }
+        return matrix;
+    }
 }
