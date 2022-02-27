@@ -74,18 +74,6 @@ public class TreeNode {
     }
 
     /**
-     * 104. 二叉树的最大深度
-     * @param root
-     * @return
-     */
-    public static int maxDepth(TreeNode root) {
-        if (root == null)
-            return 0;
-        else
-            return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
-    }
-
-    /**
      * 101. 对称二叉树
      * @param root
      * @return
@@ -156,6 +144,84 @@ public class TreeNode {
         path.removeLast();
     }
 
+    /**
+     * 107. 二叉树的层序遍历 II
+     * @param root
+     * @return
+     */
+    public static List<List<Integer>> levelOrderBottom(TreeNode root) {
+        LinkedList<List<Integer>> result = new LinkedList<>();
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        if (root == null) return result;
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            List<Integer> path = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                path.add(node.val);
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
+            }
+            result.addFirst(path);
+        }
+        return result;
+    }
+
+//    /**
+//     * 110. 平衡二叉树 效率低
+//     * @param root
+//     * @return
+//     */
+//    public static boolean isBalanced(TreeNode root) {
+//       if (root == null) return true;
+//       return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1
+//               && isBalanced(root.left) && isBalanced(root.right);
+//    }
+
+    /**
+     * 110. 平衡二叉树
+     * @param root
+     * @return
+     */
+    public static boolean isBalanced(TreeNode root) {
+        return recur(root) != -1;
+    }
+
+    private static int recur(TreeNode root){
+        // 当节点为空节点返回树高0
+        if (root == null) return 0;
+        int left = recur(root.left);
+        // 左子树非平衡，剪枝
+        if (left == -1) return -1;
+        int right = recur(root.right);
+        // 右子树非平衡，剪枝
+        if (right == -1) return -1;
+        // 判断左右子树高度差是否满足平衡条件
+        return Math.abs(left - right) <= 1 ? Math.max(left, right) + 1 : -1;
+    }
+
+
+    /**
+     * 104. 二叉树的最大深度
+     * @param root
+     * @return
+     */
+    public static int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+
+
+    /**
+     * 114. 二叉树展开为链表
+     * @param root
+     */
+    public static void flatten(TreeNode root) {
+
+    }
+
     public static void printTree(TreeNode root){
         if (root != null){
             System.out.print(root.val + " ");
@@ -170,17 +236,14 @@ public class TreeNode {
 //                new TreeNode(20,
 //                        new TreeNode(15),
 //                        new TreeNode(7)));
-        TreeNode root = new TreeNode(3,
-                new TreeNode(9,
-                        new TreeNode(7),null),
-                new TreeNode(9,
-                        null,
-                        new TreeNode(2, new TreeNode(5),null)));
+        TreeNode root = new TreeNode(3, new TreeNode(1), new TreeNode(9, null, new TreeNode(2)));
 
 //        System.out.println(zigzagLevelOrder(root));
 //        System.out.println(maxDepth(root));
 //        System.out.println(hasPathSum(root, 19));
-        System.out.println(root.pathSum(root, 19));
+//        System.out.println(root.pathSum(root, 19));
+//        System.out.println(levelOrderBottom(root));
+        System.out.println(isBalanced(root));
     }
 
 

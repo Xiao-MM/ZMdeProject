@@ -401,10 +401,13 @@ public class Algorithms {
      * @return
      */
     public static int minimumTotal(List<List<Integer>> triangle) {
-        int[] dp = new int[triangle.size() + 1]; // 多申请一个元素位置避免数组下标越界
-        for (int i = triangle.size() - 1; i >= 0 ; i--) {
+        int n = triangle.size();
+        // 最底层n个元素，定义n + 1可以防止初始 dp[j + 1] 越界，滚动数组一开始只是最底层用n，一次循环结束后上一层用n-1，以此循环向上
+        int[] dp = new int[n + 1];
+        for (int i = n - 1; i >= 0; i--) {
+            // 每层有下标 0->i个元素
             for (int j = 0; j <= i; j++) {
-               dp[j] = Math.min(dp[j],dp[j+1]) + triangle.get(i).get(j);// dp[3] = min(dp[3],dp[4]) + triangle[3][j] = min(0,0) +
+                dp[j] = Math.min(dp[j], dp[j + 1]) + triangle.get(i).get(j);
             }
         }
         return dp[0];
