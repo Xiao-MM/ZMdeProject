@@ -584,6 +584,23 @@ public class Algorithms {
     }
 
     /**
+     * 122. 买卖股票的最佳时机 II
+     * @param prices
+     * @return
+     */
+    public static int maxProfit2(int[] prices) {
+        // profit 为收益， tmp 为 相隔两天之间的收益
+        int profit = 0;
+        // 购买策略为只要任意两天呈上涨趋势就买入和卖出，否则就不买，（跳过）
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]){
+                profit += prices[i] - prices[i - 1];
+            }
+        }
+        return profit;
+    }
+
+    /**
      * 240. 搜索二维矩阵 II
      * 剑指 Offer 04. 二维数组中的查找
      * 时间 o(m+n) 空间 o(1)

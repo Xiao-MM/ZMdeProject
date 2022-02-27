@@ -3,6 +3,7 @@ package algorithm;
 
 import java.util.*;
 
+@SuppressWarnings("all")
 public class TreeNode {
     int val;
     TreeNode left;
@@ -172,6 +173,61 @@ public class TreeNode {
         return result;
     }
 
+    /**
+     * 199. 二叉树的右视图
+     * BFS
+     * @param root
+     * @return
+     */
+    public static List<Integer> rightSideViewBFS(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (i == size - 1) result.add(node.val);
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
+            }
+        }
+        return result;
+    }
+
+    // ---------------------------------------199. 二叉树的右视图---------------------------------------- //
+
+    List<Integer> result199 = new ArrayList<>();
+    /**
+     * 199. 二叉树的右视图
+     * DFS
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView(TreeNode root) {
+        rightSideDFS(root, 0);
+        return result199;
+    }
+
+    /**
+     * 根右左的顺序遍历
+     * @param root
+     * @param depth
+     */
+    private void rightSideDFS(TreeNode root, int depth){
+        if (root == null) return;
+        // 当高度满足时即是所需数据
+        if (result199.size() == depth)
+            result199.add(root.val);
+        depth++;
+        rightSideDFS(root.right, depth);
+        rightSideDFS(root.left, depth);
+    }
+
+    // ------------------------------------------------------------------------------- //
+
+
 //    /**
 //     * 110. 平衡二叉树 效率低
 //     * @param root
@@ -300,14 +356,10 @@ public class TreeNode {
     // ------------------------------------------------------------------------------- //
 
     public static void main(String[] args) {
-//        TreeNode root = new TreeNode(3,
-//                new TreeNode(9),
-//                new TreeNode(20,
-//                        new TreeNode(15),
-//                        new TreeNode(7)));
-//        TreeNode root = new TreeNode(3,
-//                new TreeNode(1), new TreeNode(9,
-//                                    null, new TreeNode(2)));
+        TreeNode root = new TreeNode(3,
+                new TreeNode(1), new TreeNode(9,
+                    new TreeNode(2), null ));
+        System.out.println(root.rightSideView(root));
 
 //        System.out.println(zigzagLevelOrder(root));
 //        System.out.println(maxDepth(root));
@@ -317,17 +369,19 @@ public class TreeNode {
 //        System.out.println(maxDepth(root));
 //        flatten(root);
 //        System.out.println(maxDepth(root));
-        ListNode listNode = new ListNode(1,
-                new ListNode(2,
-                        new ListNode(3,
-                                new ListNode(4,
-                                        new ListNode(5,
-                                                new ListNode(6,
-                                                        new ListNode(7)))))));
+//        ListNode listNode = new ListNode(1,
+//                new ListNode(2,
+//                        new ListNode(3,
+//                                new ListNode(4,
+//                                        new ListNode(5,
+//                                                new ListNode(6,
+//                                                        new ListNode(7)))))));
+//
+//        TreeNode node = new TreeNode();
+//        TreeNode root = node.sortedListToBST(listNode);
+//        printTree(root);
 
-        TreeNode node = new TreeNode();
-        TreeNode root = node.sortedListToBST(listNode);
-        printTree(root);
+
     }
 
 
