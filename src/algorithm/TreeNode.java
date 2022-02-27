@@ -110,6 +110,8 @@ public class TreeNode {
                 || hasPathSum(root.right, targetSum - root.val);
     }
 
+    // ---------------------------------------113. 路径总和 II---------------------------------------- //
+
     List<List<Integer>> result;
 
     LinkedList<Integer> path;
@@ -143,6 +145,8 @@ public class TreeNode {
         // 回退时移除路径的节点数据
         path.removeLast();
     }
+
+    // ------------------------------------------------------------------------------- //
 
     /**
      * 107. 二叉树的层序遍历 II
@@ -219,7 +223,19 @@ public class TreeNode {
      * @param root
      */
     public static void flatten(TreeNode root) {
-
+        while (root != null){
+            if (root.left != null) {
+                TreeNode pre = root.left;
+                while (pre.right != null)
+                    pre = pre.right;
+                // 将root的右子树接到pre右下方
+                pre.right = root.right;
+                // 将root的左子树接到右子树上
+                root.right = root.left;
+                root.left = null;
+            }
+            root = root.right;
+        }
     }
 
     public static void printTree(TreeNode root){
@@ -230,20 +246,88 @@ public class TreeNode {
         }
     }
 
+    // ---------------------------------------109. 有序链表转换二叉搜索树---------------------------------------- //
+    ListNode globalNode;
+
+    /**
+     * 109. 有序链表转换二叉搜索树
+     * @param head
+     * @return
+     */
+    public TreeNode sortedListToBST(ListNode head) {
+        globalNode = head;
+        int length = getLength(head);
+        return buildTree(0, length - 1);
+    }
+
+    /**
+     * 获取链表长度
+     * @param head
+     * @return
+     */
+    private int getLength(ListNode head){
+        int length = 0;
+        while (head != null){
+            length++;
+            head = head.next;
+        }
+        return length;
+    }
+
+    /**
+     * 链表采用二分构建根节点
+     * @param left 左边界
+     * @param right 右边界
+     * @return
+     */
+    private TreeNode buildTree(int left, int right){
+        // 如果左边界 > 右边界 构建空节点
+        if (left > right) return null;
+        // 根据left right 二分划分区间
+        int mid = (left + right) >> 1;
+        // 创建根节点，先占个坑，当下一条执行完再填充数据
+        TreeNode node = new TreeNode();
+        // 递归建立左子树
+        node.left = buildTree(left, mid - 1);
+        // 中序遍历填充节点值
+        node.val = globalNode.val;
+        // 链表顺序访问
+        globalNode = globalNode.next;
+        // 递归建立右子树
+        node.right = buildTree(mid + 1, right);
+        return node;
+    }
+    // ------------------------------------------------------------------------------- //
+
     public static void main(String[] args) {
 //        TreeNode root = new TreeNode(3,
 //                new TreeNode(9),
 //                new TreeNode(20,
 //                        new TreeNode(15),
 //                        new TreeNode(7)));
-        TreeNode root = new TreeNode(3, new TreeNode(1), new TreeNode(9, null, new TreeNode(2)));
+//        TreeNode root = new TreeNode(3,
+//                new TreeNode(1), new TreeNode(9,
+//                                    null, new TreeNode(2)));
 
 //        System.out.println(zigzagLevelOrder(root));
 //        System.out.println(maxDepth(root));
 //        System.out.println(hasPathSum(root, 19));
 //        System.out.println(root.pathSum(root, 19));
 //        System.out.println(levelOrderBottom(root));
-        System.out.println(isBalanced(root));
+//        System.out.println(maxDepth(root));
+//        flatten(root);
+//        System.out.println(maxDepth(root));
+        ListNode listNode = new ListNode(1,
+                new ListNode(2,
+                        new ListNode(3,
+                                new ListNode(4,
+                                        new ListNode(5,
+                                                new ListNode(6,
+                                                        new ListNode(7)))))));
+
+        TreeNode node = new TreeNode();
+        TreeNode root = node.sortedListToBST(listNode);
+        printTree(root);
     }
 
 
