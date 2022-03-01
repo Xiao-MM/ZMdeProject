@@ -1937,4 +1937,97 @@ public class Algorithms {
         }
         return result;
     }
+
+    /**
+     * 209. 长度最小的子数组
+     * @param target
+     * @param nums
+     * @return
+     */
+    public static int minSubArrayLen(int target, int[] nums) {
+        // high++ 入队， low++ 出队
+        int low = 0, high = 0, sum = 0, min = Integer.MAX_VALUE;
+        while (high < nums.length){
+            sum += nums[high++];
+            while (sum >= target){
+                min = Math.min(high - low, min);
+                sum -= nums[low++];
+            }
+        }
+        return min == Integer.MAX_VALUE ? 0 : min;
+    }
+
+    /**
+     * 172. 阶乘后的零
+     * 5 * 2 = 10, 2 的数量远大于 5 的数量
+     * 有多少个5出现结尾就有多少个0出现
+     * 每5个数相乘结果便会出现一个5，每25个数之间会出来2个5，每125个数之间会出来3个5......
+     * @param n
+     * @return
+     */
+    public static int trailingZeroes(int n) {
+        int count = 0;
+        while (n > 0){
+            // 除去一轮计算下一轮
+            n /= 5;
+            // 相隔5的5的数量
+            count += n;
+        }
+        return count;
+    }
+
+    /**
+     * 167. 两数之和 II - 输入有序数组
+     * @param numbers
+     * @param target
+     * @return
+     */
+    public int[] twoSum2(int[] numbers, int target) {
+        int i = 0, j = numbers.length - 1;
+        while (i < j){
+            int sum = numbers[i] + numbers[j];
+            if (sum < target){
+                i++;
+            }else if (sum > target){
+                j--;
+            }else {
+                return new int[]{i + 1, j + 1};
+            }
+        }
+        return new int[]{-1, -1};
+    }
+
+    /**
+     * 56. 合并区间
+     * @param intervals
+     * @return
+     */
+    public static int[][] merge(int[][] intervals) {
+        if (intervals.length == 1) return intervals;
+        LinkedList<int[]> result = new LinkedList<>();
+        Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
+        result.addLast(intervals[0]);
+        for (int i = 1; i < intervals.length; i++) {
+            int[] last = result.getLast();
+            // 第一个元素相等时将第二个元素最大的数组插入末尾
+            if (last[0] == intervals[i][0]) {
+                result.removeLast();
+                result.addLast(new int[]{last[0], Math.max(intervals[i][1], last[1])});
+            } else if (last[0] < intervals[i][0]) {
+                if (last[1] >= intervals[i][0] ) {
+                    // [0,3] [1,9] || [0,3] [3,9]
+                    if (last[1] < intervals[i][1]){
+                        result.removeLast();
+                        // [0, 9]
+                        result.addLast(new int[]{last[0], intervals[i][1]});
+                    }
+                    // [0,9] [2,5] -> 跳过
+                } else {
+                    // [0,3] [4,9] -> 直接加
+                    result.addLast(intervals[i]);
+                }
+            }
+        }
+        return result.toArray(new int[result.size()][]);
+    }
 }

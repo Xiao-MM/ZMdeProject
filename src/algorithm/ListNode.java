@@ -218,6 +218,49 @@ public class ListNode {
         return dummy.next;
     }
 
+    /**
+     * 61. 旋转链表
+     * @param head
+     * @param k
+     * @return
+     */
+    public static ListNode rotateRight(ListNode head, int k) {
+        if (head == null) return null;
+        int length = getLength(head);
+        if (length == 1) return head;
+        // 当 k > length 时等价于对其余数次旋转
+        k = k % length;
+        if (k == 0) return head;
+        int count = 0;
+        ListNode p = head, pre = head;
+        while (count < k){
+            count++;
+            p = p.next;
+        }
+        while (p.next != null){
+            p = p.next;
+            pre = pre.next;
+        }
+        ListNode q = pre.next;
+        pre.next = null;
+        p.next = head;
+        return q;
+    }
+
+    /**
+     * 获取链表长度
+     * @param head
+     * @return
+     */
+    private static int getLength(ListNode head){
+        int length = 0;
+        while (head != null){
+            length++;
+            head = head.next;
+        }
+        return length;
+    }
+
      public static void main(String[] args) {
 //          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
 //          ListNode l2 = new ListNode(1,new ListNode(5,new ListNode(7)));
@@ -231,14 +274,17 @@ public class ListNode {
 //         ListNode listNode = new ListNode(1,new ListNode(2, new ListNode(3,new ListNode(4, new ListNode(5)))));
 //         ListNode listNode = new ListNode(3,new ListNode(5));
 //         printNodes(removeNthFromEnd(listNode, 3));
-         ListNode listNode = new ListNode(1,
-                 new ListNode(2,
-                         new ListNode(3,
-                                 new ListNode(4,
-                                         new ListNode(5,
-                                                 new ListNode(6,
-                                                         new ListNode(7)))))));
-         printNodes(listNode);
-         printNodes(reverseBetween(listNode,2,5));
+//         ListNode listNode = new ListNode(1,
+//                 new ListNode(2,
+//                         new ListNode(3,
+//                                 new ListNode(4,
+//                                         new ListNode(5,
+//                                                 new ListNode(6,
+//                                                         new ListNode(7)))))));
+         ListNode listNode = new ListNode(1, new ListNode(2));
+//         printNodes(listNode);
+//         printNodes(reverseBetween(listNode,2,5));
+         ListNode head = rotateRight(listNode, 2);
+         printNodes(head);
      }
  }

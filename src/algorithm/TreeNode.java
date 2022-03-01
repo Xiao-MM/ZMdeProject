@@ -355,11 +355,59 @@ public class TreeNode {
     }
     // ------------------------------------------------------------------------------- //
 
+    /**
+     * 全局变量记录前驱节点的值
+     */
+    long pre = Long.MIN_VALUE;
+
+    /**
+     * 98. 验证二叉搜索树
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        // 空节点是二叉搜索树
+        if (root == null) return true;
+        // 如果左子树不是二叉搜索树返回false
+        if (!isValidBST(root.left)) return false;
+        // 前驱节点大于当前节点返回false
+        if (root.val <= pre) return false;
+        // 更新前驱
+        pre = root.val;
+        // 去判断右子树是不是二叉搜索树
+        return isValidBST(root.right);
+    }
+
+    static class KthSmallest{
+        int k, ans;
+        /**
+         * 230. 二叉搜索树中第K小的元素
+         * @param root
+         * @param k
+         * @return
+         */
+        public int kthSmallest(TreeNode root, int k) {
+            this.k = k;
+            dfs(root);
+            return ans;
+        }
+
+        void dfs(TreeNode root){
+            if (root == null) return;
+            dfs(root.left);
+            if (--k == 0) ans = root.val;
+            dfs(root.right);
+        }
+    }
+
+
+
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(3,
                 new TreeNode(1), new TreeNode(9,
-                    new TreeNode(2), null ));
-        System.out.println(root.rightSideView(root));
+                    new TreeNode(4), null ));
+//        System.out.println(root.isValidBST(root));
 
 //        System.out.println(zigzagLevelOrder(root));
 //        System.out.println(maxDepth(root));
@@ -380,8 +428,8 @@ public class TreeNode {
 //        TreeNode node = new TreeNode();
 //        TreeNode root = node.sortedListToBST(listNode);
 //        printTree(root);
-
-
+        KthSmallest kthSmallest = new KthSmallest();
+        System.out.println(kthSmallest.kthSmallest(root, 3));
     }
 
 

@@ -1,52 +1,74 @@
 package algorithm;
 
-import java.util.*;
-
-/**
- * 多叉树
- */
 public class Node {
     public int val;
-    public List<Node> children;
-    public Node(){}
-    public Node(int val,List<Node> children){
-        this.val = val;
-        this.children = children;
+    public Node left;
+    public Node right;
+    public Node next;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, Node _left, Node _right, Node _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
     }
 
     /**
-     * 多叉树的后序遍历算法
+     * 116. 填充每个节点的下一个右侧节点指针
      * @param root
      * @return
      */
-    public static List<Integer> postOrder(Node root){
-        List<Integer> result = new ArrayList<>();
-        if (root == null) return result;
-        Stack<Node> stack = new Stack<>();
-        stack.push(root);
-        while (!stack.isEmpty()){
-            Node node = stack.pop();
-            result.add(node.val);
-            if (node.children != null) {
-                for (Node child : node.children) {
-                    stack.push(child);
+    public static Node connect(Node root) {
+        if (root == null) return null;
+        // 依次沿着左子树向右串联
+        Node pre = root;
+        while (pre.left != null){
+            Node tmp = pre;
+            while (tmp != null){
+                // 串联左右子树
+                tmp.left.next = tmp.right;
+                if (tmp.next != null){
+                    // 串联右子树和邻居的左子树
+                    tmp.right.next = tmp.next.left;
                 }
+                // 水平查找下一个要串联的节点
+                tmp = tmp.next;
             }
+            // 下一行左边起始再开始
+            pre = pre.left;
         }
-        Collections.reverse(result);
-        return result;
+        return root;
     }
 
-    public static void main(String[] args) {
-        Node node7 = new Node(7,null);
-        Node node6 = new Node(6,new ArrayList<>(Collections.singletonList(node7)));
-        Node node5 = new Node(5,null);
-        Node node3 = new Node(3,new ArrayList<>(Arrays.asList(node5, node6)));
-        Node node2 = new Node(2,null);
-        Node node4 = new Node(4,null);
-        Node node1 = new Node(1,new ArrayList<>(Arrays.asList(node3, node2,node4)));
-        List<Integer> result = postOrder(node1);
-        System.out.println(result);
+
+    /**
+     * 116. 填充每个节点的下一个右侧节点指针
+     * @param root
+     * @return
+     */
+    public Node connectDFS(Node root) {
+        dfs(root);
+        return root;
+    }
+
+    private void dfs(Node root){
+        if (root == null) return;
+        Node left = root.left;
+        Node right = root.right;
+        // 依次纵向串联中间的相邻节点
+        while (left != null){
+            left.next = right;
+            left = left.right;
+            right = right.left;
+        }
+        dfs(root.left);
+        dfs(root.right);
     }
 
 }
