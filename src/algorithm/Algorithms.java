@@ -2030,4 +2030,88 @@ public class Algorithms {
         }
         return result.toArray(new int[result.size()][]);
     }
+
+//    /**
+//     * 43. 字符串相乘
+//     * @param num1
+//     * @param num2
+//     * @return
+//     */
+//    public static String multiply(String num1, String num2) {
+//        if (num1.equals("0") || num2.equals("0")) return "0";
+//        StringBuilder result = new StringBuilder();
+//        for (int i = num2.length() - 1; i >= 0; i--) {
+//            int carry = 0, digit;
+//            StringBuilder temp = new StringBuilder();
+//            // 补0
+//            for (int j = 0; j < num2.length() - i - 1; j++) {
+//                temp.append(0);
+//            }
+//            for (int j = num1.length() - 1; j >= 0 || carry > 0; j--) {
+//                int x = j < 0 ? 0 : num1.charAt(j) - '0';// 单独处理j < 0 的情况
+//                int product = x * (num2.charAt(i) - '0') + carry;
+//                carry = product / 10;
+//                digit = product % 10;
+//                temp.append(digit);
+//            }
+//            StringBuilder reverse = temp.reverse();
+//            String s = addStrings(reverse.toString(), result.toString());
+//            result = new StringBuilder(s);
+//
+//        }
+//        return result.toString();
+//    }
+
+    /**
+     * 415. 字符串相加
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public static String addStrings(String num1, String num2) {
+        StringBuilder sb = new StringBuilder();
+        int carry = 0;
+        for (int i = num1.length() - 1, j = num2.length() - 1;
+             i >= 0 || j >= 0 || carry > 0;
+             i--, j--) {
+            int x = i < 0 ? 0 : num1.charAt(i) - '0';// 取 i
+            int y = j < 0 ? 0 : num2.charAt(j) - '0';// 取 j
+            int sum = x + y + carry;
+            carry = sum / 10;
+            sb.append(sum % 10);
+        }
+        return sb.reverse().toString();
+    }
+
+    /**
+     * 43. 字符串相乘
+     * 竖式优化
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public static String multiply(String num1, String num2) {
+        if (num1.equals("0") || num2.equals("0")) return "0";
+        StringBuilder result = new StringBuilder();
+        int m = num1.length();
+        int n = num2.length();
+        int[] container = new int[m + n];// m 位数 * n 位数 最多 m * n 位数
+        for (int i = n - 1; i >= 0; i--) {
+            int x = num2.charAt(i) - '0';
+            for (int j = m - 1; j >= 0; j--) {
+                int y = num1.charAt(j) - '0';
+                // num1[i] x num2[j] 的结果为 tmp(位数为两位，"0x","xy"的形式)，其第一位位于 res[i+j]，第二位位于 res[i+j+1]
+                int sum = x * y + container[i + j + 1];
+                container[i + j + 1] = sum % 10;
+                container[i + j] += sum / 10;
+            }
+        }
+        for (int i = 0; i < container.length; i++) {
+            if (i == 0 && container[0] == 0) continue;
+            result.append(container[i]);
+        }
+
+        return result.toString();
+    }
+
 }
