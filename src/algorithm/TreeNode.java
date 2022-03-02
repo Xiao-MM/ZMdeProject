@@ -16,6 +16,49 @@ public class TreeNode {
         this.right = right;
     }
 
+    static class Node {
+        public int val;
+        public List<Node> children;
+
+        public Node() {}
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, List<Node> _children) {
+            val = _val;
+            children = _children;
+        }
+
+        /**
+         * 429. N 叉树的层序遍历
+         * @param root
+         * @return
+         */
+        public List<List<Integer>> levelOrder(Node root) {
+            List<List<Integer>> result = new ArrayList<>();
+            if (root == null) return result;
+            Queue<Node> q = new LinkedList<>();
+            q.offer(root);
+            while (!q.isEmpty()){
+                int size = q.size();
+                List<Integer> path = new ArrayList<>();
+                for (int i = 0; i < size; i++) {
+                    Node node = q.poll();
+                    path.add(node.val);
+                    if (node.children != null && node.children.size() > 0){
+                        for (Node child : node.children) {
+                            q.offer(child);
+                        }
+                    }
+                }
+                result.add(path);
+            }
+            return result;
+        }
+    };
+
     /**
      * 102. 二叉树的层序遍历
      * @param root
@@ -74,22 +117,25 @@ public class TreeNode {
         return result;
     }
 
-    /**
-     * 101. 对称二叉树
-     * @param root
-     * @return
-     */
-    public static boolean isSymmetric(TreeNode root) {
-        if (root == null) return true;
-        return dfs(root.left, root.right);
+    static class Symmetric{
+        /**
+         * 101. 对称二叉树
+         * @param root
+         * @return
+         */
+        public static boolean isSymmetric(TreeNode root) {
+            if (root == null) return true;
+            return dfs(root.left, root.right);
+        }
+
+        private static boolean dfs(TreeNode left, TreeNode right) {
+            if (left == null && right == null) return true;
+            if (left == null || right == null) return false;
+            if (left.val != right.val) return false;
+            return dfs(left.left, right.right) && dfs(left.right, right.left);
+        }
     }
 
-    private static boolean dfs(TreeNode left, TreeNode right) {
-        if (left == null && right == null) return true;
-        if (left == null || right == null) return false;
-        if (left.val != right.val) return false;
-        return dfs(left.left, right.right) && dfs(left.right, right.left);
-    }
 
     /**
      * 112. 路径总和
@@ -111,43 +157,44 @@ public class TreeNode {
                 || hasPathSum(root.right, targetSum - root.val);
     }
 
-    // ---------------------------------------113. 路径总和 II---------------------------------------- //
 
-    List<List<Integer>> result;
+    static class pathSum{
 
-    LinkedList<Integer> path;
+        List<List<Integer>> result;
 
-    /**
-     * 113. 路径总和 II
-     * @param root
-     * @param targetSum
-     * @return
-     */
-    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
-        this.result = new ArrayList<>();
-        this.path = new LinkedList<>();
-        pathSumDFS(root, targetSum);
-        return result;
-    }
+        LinkedList<Integer> path;
 
-    private void pathSumDFS(TreeNode root, int targetSum){
-        // 节点为空直接返回
-        if (root == null) return;
-        // 将当前节点加入路径
-        path.addLast(root.val);
-        // 找到符合要求的路径添加
-        if (root.left == null && root.right == null && targetSum == root.val){
-            result.add(new ArrayList<>(path));// 注意这里不能return，return后面的撤销命令不会执行
+        /**
+         * 113. 路径总和 II
+         * @param root
+         * @param targetSum
+         * @return
+         */
+        public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+            this.result = new ArrayList<>();
+            this.path = new LinkedList<>();
+            pathSumDFS(root, targetSum);
+            return result;
         }
-        // 在左子树中找
-        pathSumDFS(root.left, targetSum - root.val);
-        // 在右子树中找
-        pathSumDFS(root.right, targetSum - root.val);
-        // 回退时移除路径的节点数据
-        path.removeLast();
+
+        private void pathSumDFS(TreeNode root, int targetSum){
+            // 节点为空直接返回
+            if (root == null) return;
+            // 将当前节点加入路径
+            path.addLast(root.val);
+            // 找到符合要求的路径添加
+            if (root.left == null && root.right == null && targetSum == root.val){
+                result.add(new ArrayList<>(path));// 注意这里不能return，return后面的撤销命令不会执行
+            }
+            // 在左子树中找
+            pathSumDFS(root.left, targetSum - root.val);
+            // 在右子树中找
+            pathSumDFS(root.right, targetSum - root.val);
+            // 回退时移除路径的节点数据
+            path.removeLast();
+        }
     }
 
-    // ------------------------------------------------------------------------------- //
 
     /**
      * 107. 二叉树的层序遍历 II
@@ -196,36 +243,37 @@ public class TreeNode {
         return result;
     }
 
-    // ---------------------------------------199. 二叉树的右视图---------------------------------------- //
 
-    List<Integer> result199 = new ArrayList<>();
-    /**
-     * 199. 二叉树的右视图
-     * DFS
-     * @param root
-     * @return
-     */
-    public List<Integer> rightSideView(TreeNode root) {
-        rightSideDFS(root, 0);
-        return result199;
+    static class RightSideView{
+        List<Integer> result = new ArrayList<>();
+        /**
+         * 199. 二叉树的右视图
+         * DFS
+         * @param root
+         * @return
+         */
+        public List<Integer> rightSideView(TreeNode root) {
+            rightSideDFS(root, 0);
+            return result;
+        }
+
+        /**
+         * 根右左的顺序遍历
+         * @param root
+         * @param depth
+         */
+        private void rightSideDFS(TreeNode root, int depth){
+            if (root == null) return;
+            // 当高度满足时即是所需数据
+            if (result.size() == depth)
+                result.add(root.val);
+            depth++;
+            rightSideDFS(root.right, depth);
+            rightSideDFS(root.left, depth);
+        }
+
     }
 
-    /**
-     * 根右左的顺序遍历
-     * @param root
-     * @param depth
-     */
-    private void rightSideDFS(TreeNode root, int depth){
-        if (root == null) return;
-        // 当高度满足时即是所需数据
-        if (result199.size() == depth)
-            result199.add(root.val);
-        depth++;
-        rightSideDFS(root.right, depth);
-        rightSideDFS(root.left, depth);
-    }
-
-    // ------------------------------------------------------------------------------- //
 
 
 //    /**
@@ -302,81 +350,85 @@ public class TreeNode {
         }
     }
 
-    // ---------------------------------------109. 有序链表转换二叉搜索树---------------------------------------- //
-    ListNode globalNode;
+    static class SortedListToBST{
+        ListNode globalNode;
 
-    /**
-     * 109. 有序链表转换二叉搜索树
-     * @param head
-     * @return
-     */
-    public TreeNode sortedListToBST(ListNode head) {
-        globalNode = head;
-        int length = getLength(head);
-        return buildTree(0, length - 1);
-    }
-
-    /**
-     * 获取链表长度
-     * @param head
-     * @return
-     */
-    private int getLength(ListNode head){
-        int length = 0;
-        while (head != null){
-            length++;
-            head = head.next;
+        /**
+         * 109. 有序链表转换二叉搜索树
+         * @param head
+         * @return
+         */
+        public TreeNode sortedListToBST(ListNode head) {
+            globalNode = head;
+            int length = getLength(head);
+            return buildTree(0, length - 1);
         }
-        return length;
+
+        /**
+         * 获取链表长度
+         * @param head
+         * @return
+         */
+        private int getLength(ListNode head){
+            int length = 0;
+            while (head != null){
+                length++;
+                head = head.next;
+            }
+            return length;
+        }
+
+        /**
+         * 链表采用二分构建根节点
+         * @param left 左边界
+         * @param right 右边界
+         * @return
+         */
+        private TreeNode buildTree(int left, int right){
+            // 如果左边界 > 右边界 构建空节点
+            if (left > right) return null;
+            // 根据left right 二分划分区间
+            int mid = (left + right) >> 1;
+            // 创建根节点，先占个坑，当下一条执行完再填充数据
+            TreeNode node = new TreeNode();
+            // 递归建立左子树
+            node.left = buildTree(left, mid - 1);
+            // 中序遍历填充节点值
+            node.val = globalNode.val;
+            // 链表顺序访问
+            globalNode = globalNode.next;
+            // 递归建立右子树
+            node.right = buildTree(mid + 1, right);
+            return node;
+        }
     }
 
-    /**
-     * 链表采用二分构建根节点
-     * @param left 左边界
-     * @param right 右边界
-     * @return
-     */
-    private TreeNode buildTree(int left, int right){
-        // 如果左边界 > 右边界 构建空节点
-        if (left > right) return null;
-        // 根据left right 二分划分区间
-        int mid = (left + right) >> 1;
-        // 创建根节点，先占个坑，当下一条执行完再填充数据
-        TreeNode node = new TreeNode();
-        // 递归建立左子树
-        node.left = buildTree(left, mid - 1);
-        // 中序遍历填充节点值
-        node.val = globalNode.val;
-        // 链表顺序访问
-        globalNode = globalNode.next;
-        // 递归建立右子树
-        node.right = buildTree(mid + 1, right);
-        return node;
-    }
-    // ------------------------------------------------------------------------------- //
 
-    /**
-     * 全局变量记录前驱节点的值
-     */
-    long pre = Long.MIN_VALUE;
+    static class ValidBST{
+        /**
+         * 全局变量记录前驱节点的值
+         */
+        long pre = Long.MIN_VALUE;
 
-    /**
-     * 98. 验证二叉搜索树
-     * @param root
-     * @return
-     */
-    public boolean isValidBST(TreeNode root) {
-        // 空节点是二叉搜索树
-        if (root == null) return true;
-        // 如果左子树不是二叉搜索树返回false
-        if (!isValidBST(root.left)) return false;
-        // 前驱节点大于当前节点返回false
-        if (root.val <= pre) return false;
-        // 更新前驱
-        pre = root.val;
-        // 去判断右子树是不是二叉搜索树
-        return isValidBST(root.right);
+        /**
+         * 98. 验证二叉搜索树
+         * @param root
+         * @return
+         */
+        public boolean isValidBST(TreeNode root) {
+            // 空节点是二叉搜索树
+            if (root == null) return true;
+            // 如果左子树不是二叉搜索树返回false
+            if (!isValidBST(root.left)) return false;
+            // 前驱节点大于当前节点返回false
+            if (root.val <= pre) return false;
+            // 更新前驱
+            pre = root.val;
+            // 去判断右子树是不是二叉搜索树
+            return isValidBST(root.right);
+        }
     }
+
 
     static class KthSmallest{
         int k, ans;
@@ -400,13 +452,38 @@ public class TreeNode {
         }
     }
 
+    /**
+     * 94. 二叉树的中序遍历
+     * 迭代算法
+     * @param root
+     * @return
+     */
+    public static List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+        Deque<TreeNode> stack = new LinkedList<>();
+        while (root != null || !stack.isEmpty()){
+            // 把所有左边的节点入栈
+            while (root != null){
+                stack.push(root);
+                root = root.left;
+            }
+            // 当左子树为空的时候弹出
+            TreeNode pop = stack.pop();
+            result.add(pop.val);
+            // 然后把右子树作为root
+            root = pop.right;
+        }
+        return result;
+    }
+
 
 
 
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(3,
-                new TreeNode(1), new TreeNode(9,
-                    new TreeNode(4), null ));
+//        TreeNode root = new TreeNode(3,
+//                new TreeNode(1), new TreeNode(9,
+//                    new TreeNode(4), null ));
 //        System.out.println(root.isValidBST(root));
 
 //        System.out.println(zigzagLevelOrder(root));
@@ -428,8 +505,13 @@ public class TreeNode {
 //        TreeNode node = new TreeNode();
 //        TreeNode root = node.sortedListToBST(listNode);
 //        printTree(root);
-        KthSmallest kthSmallest = new KthSmallest();
-        System.out.println(kthSmallest.kthSmallest(root, 3));
+//        KthSmallest kthSmallest = new KthSmallest();
+//        System.out.println(kthSmallest.kthSmallest(root, 3));
+//        System.out.println(inorderTraversal(root));
+        Node root = new Node(1,
+                Arrays.asList(new Node(2,
+                        Arrays.asList(new Node(5),new Node(6))),new Node(3), new Node(4)));
+        System.out.println(root.levelOrder(root));
     }
 
 
