@@ -20,6 +20,10 @@ public class Main {
 //            System.out.println(Arrays.toString(ints));
 //        }
 //        System.out.println(Algorithms.addStrings("1579", "232"));
-        System.out.println(Algorithms.multiply1("123", "456"));
+//        System.out.println(Algorithms.multiply("123", "456"));
+//        System.out.println(Algorithms.maxProduct(new int[]{2, 3, -2, 4, -2}));
+        int[] nums = new int[]{1,2,3,4,5,6,7};
+        Algorithms.rotate2(nums, 3);
+        System.out.println(Arrays.toString(nums));
     }
 }

@@ -1,5 +1,7 @@
 package algorithm;
 
+import org.omg.CORBA.MARSHAL;
+
 import java.util.*;
 
 public class Algorithms {
@@ -2110,8 +2112,82 @@ public class Algorithms {
             if (i == 0 && container[0] == 0) continue;
             result.append(container[i]);
         }
-
         return result.toString();
+    }
+
+    /**
+     * 152. 乘积最大子数组
+     * 动态规划
+     * @param nums
+     * @return
+     */
+    public static int maxProduct(int[] nums) {
+        // max 最终结果， maxi 到达第i个元素所能得到的最大乘积，mini 到达第i个元素所能得到的最小乘积
+        int max = Integer.MIN_VALUE, maxi = 1, mini = 1;
+        for (int num : nums) {
+            // 如果num小于0 maxi 和 mini 互换以更新新的最大和最小值
+            if (num < 0) {
+                int temp = maxi;
+                maxi = mini;
+                mini = temp;
+            }
+            // 更新最大值
+            maxi = Math.max(num, maxi * num);
+            // 更新最小值
+            mini = Math.min(num, mini * num);
+            // 更新结果
+            max = Math.max(max, maxi);
+        }
+        return max;
+    }
+
+    /**
+     * 189. 轮转数组
+     * @param nums
+     * @param k
+     */
+    public static void rotate(int[] nums, int k) {
+        int length = nums.length;
+        k %= length;
+        if (k == 0) return;
+        reverse(nums, 0, length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, length - 1);
+
+
+    }
+
+    /**
+     * 189. 轮转数组
+     * @param nums
+     * @param k
+     */
+    public static void rotate2(int[] nums, int k) {
+        int length = nums.length;
+        k %= length;
+        if (k == 0) return;
+        // 后半部分数组长度
+        int behindLen = length - k;
+        int[] temp = new int[behindLen];
+        System.arraycopy(nums, 0, temp, 0, behindLen);
+        System.arraycopy(nums, behindLen, nums, 0, k);
+        System.arraycopy(temp, 0, nums, k, behindLen);
+    }
+
+    /**
+     * 旋转数组
+     * @param nums
+     * @param left
+     * @param right
+     */
+    public static void reverse(int[] nums, int left, int right){
+        while (left < right){
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left ++;
+            right--;
+        }
     }
 
 }

@@ -261,6 +261,81 @@ public class ListNode {
         return length;
     }
 
+    /**
+     * 147. 对链表进行插入排序
+     * @param head
+     * @return
+     */
+    public static ListNode insertionSortList(ListNode head) {
+        if (head == null) return null;
+        ListNode dummy = new ListNode();
+        dummy.next = head;
+        // lastNode 记录排好序的最后一个节点，p 指向待排序的元素
+        ListNode lastNode = head, p = head.next;
+        while (p != null){
+            // p.val 大于最后节点元素值 lastNode 后移
+            if (p.val >= lastNode.val){
+                lastNode = lastNode.next;
+            }else {
+                // pre 待插入位置的前驱节点，初始从dummy开始出发
+                ListNode pre = dummy;
+                // 找到待插入位置的前驱节点
+                while (pre.next.val <= p.val) pre = pre.next;
+                lastNode.next = p.next;
+                p.next = pre.next;
+                pre.next = p;
+            }
+            // p 下移下一个待排元素
+            p = lastNode.next;
+        }
+        return dummy.next;
+    }
+
+    /**
+     * 141. 环形链表
+     * @param head
+     * @return
+     */
+    public static boolean hasCycle(ListNode head) {
+        if (head == null) return false;
+        ListNode slow = head, fast = head.next;
+        while (slow != null && fast != null && fast.next != null){
+            if (slow == fast) return true;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return false;
+    }
+
+    /**
+     * 142. 环形链表 II
+     * 2*(x+y) = x+y+n(y+z)
+     * x = (n-1)*(y+z) + z
+     * @param head
+     * @return
+     */
+    public static ListNode detectCycle(ListNode head) {
+        if (head == null) return null;
+        ListNode slow = head, fast = head, p = null;
+        while (slow != null && fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            // 记录下重叠的位置
+            if (fast == slow){
+                p = fast;
+                break;
+            }
+        }
+        // 走完了都没有找到重合位置无环
+        if (p == null) return null;
+        // head开始起步向下走，p开始从重叠位置起步走，二者重合的节点即为环入口
+        while (head != p){
+            p = p.next;
+            head = head.next;
+        }
+        return p;
+    }
+
      public static void main(String[] args) {
 //          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
 //          ListNode l2 = new ListNode(1,new ListNode(5,new ListNode(7)));
@@ -274,17 +349,21 @@ public class ListNode {
 //         ListNode listNode = new ListNode(1,new ListNode(2, new ListNode(3,new ListNode(4, new ListNode(5)))));
 //         ListNode listNode = new ListNode(3,new ListNode(5));
 //         printNodes(removeNthFromEnd(listNode, 3));
-//         ListNode listNode = new ListNode(1,
-//                 new ListNode(2,
-//                         new ListNode(3,
-//                                 new ListNode(4,
-//                                         new ListNode(5,
-//                                                 new ListNode(6,
-//                                                         new ListNode(7)))))));
-         ListNode listNode = new ListNode(1, new ListNode(2));
+         ListNode listNode = new ListNode(8,
+                 new ListNode(1,
+                         new ListNode(4,
+                                 new ListNode(5,
+                                         new ListNode(3,
+                                                 new ListNode(2,
+                                                         new ListNode(3)))))));
+//         listNode.next.next.next.next.next.next = listNode.next;
+//         ListNode listNode = new ListNode(1, new ListNode(2));
 //         printNodes(listNode);
 //         printNodes(reverseBetween(listNode,2,5));
-         ListNode head = rotateRight(listNode, 2);
-         printNodes(head);
+//         ListNode head = rotateRight(listNode, 2);
+//         ListNode listNode1 = insertionSortList(listNode);
+//         printNodes(listNode1);
+//         System.out.println(hasCycle(listNode));
+         System.out.println(detectCycle(listNode));
      }
  }
