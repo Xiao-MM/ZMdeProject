@@ -336,6 +336,31 @@ public class ListNode {
         return p;
     }
 
+    /**
+     * 24. 两两交换链表中的节点
+     * @param head
+     * @return
+     */
+    public static ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode dummy = new ListNode(0, head);
+        // p,q 交换 pre记录已做交换列表的最后一个元素
+        ListNode p = head, q = head.next, pre = dummy;
+        while (p != null && q != null){
+            // 交换p,q
+            p.next = q.next;
+            q.next = p;
+            // 交换后链接在已经交换列表的尾部
+            pre.next = q;
+            // 更新尾部
+            pre = p;
+            // p,q 继续向后走
+            p = p.next;
+            if (p != null) q = p.next;
+        }
+        return dummy.next;
+    }
+
      public static void main(String[] args) {
 //          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
 //          ListNode l2 = new ListNode(1,new ListNode(5,new ListNode(7)));
@@ -350,12 +375,12 @@ public class ListNode {
 //         ListNode listNode = new ListNode(3,new ListNode(5));
 //         printNodes(removeNthFromEnd(listNode, 3));
          ListNode listNode = new ListNode(8,
-                 new ListNode(1,
-                         new ListNode(4,
-                                 new ListNode(5,
-                                         new ListNode(3,
-                                                 new ListNode(2,
-                                                         new ListNode(3)))))));
+                                 new ListNode(1,
+                                         new ListNode(4,
+                                                 new ListNode(5,
+                                                         new ListNode(3,
+                                                                 new ListNode(2,
+                                                                         new ListNode(3)))))));
 //         listNode.next.next.next.next.next.next = listNode.next;
 //         ListNode listNode = new ListNode(1, new ListNode(2));
 //         printNodes(listNode);
@@ -364,6 +389,6 @@ public class ListNode {
 //         ListNode listNode1 = insertionSortList(listNode);
 //         printNodes(listNode1);
 //         System.out.println(hasCycle(listNode));
-         System.out.println(detectCycle(listNode));
+         printNodes(swapPairs(listNode));
      }
  }

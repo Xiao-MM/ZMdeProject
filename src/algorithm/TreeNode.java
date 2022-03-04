@@ -477,13 +477,31 @@ public class TreeNode {
         return result;
     }
 
+    /**
+     * 145. 二叉树的后序遍历
+     * @param root
+     * @return
+     */
+    public static List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        dfs(root, result);
+        return result;
+    }
+
+    private static void dfs(TreeNode root, List<Integer> result){
+        if (root == null) return;
+        dfs(root.left, result);
+        dfs(root.right, result);
+        result.add(root.val);
+    }
+
 
 
 
     public static void main(String[] args) {
-//        TreeNode root = new TreeNode(3,
-//                new TreeNode(1), new TreeNode(9,
-//                    new TreeNode(4), null ));
+        TreeNode root = new TreeNode(3,
+                new TreeNode(1), new TreeNode(9,
+                                            new TreeNode(4), null ));
 //        System.out.println(root.isValidBST(root));
 
 //        System.out.println(zigzagLevelOrder(root));
@@ -508,10 +526,11 @@ public class TreeNode {
 //        KthSmallest kthSmallest = new KthSmallest();
 //        System.out.println(kthSmallest.kthSmallest(root, 3));
 //        System.out.println(inorderTraversal(root));
-        Node root = new Node(1,
-                Arrays.asList(new Node(2,
-                        Arrays.asList(new Node(5),new Node(6))),new Node(3), new Node(4)));
-        System.out.println(root.levelOrder(root));
+//        Node root = new Node(1,
+//                Arrays.asList(new Node(2,
+//                        Arrays.asList(new Node(5),new Node(6))),new Node(3), new Node(4)));
+//        System.out.println(root.levelOrder(root));
+        System.out.println(postorderTraversal(root));
     }
 
 

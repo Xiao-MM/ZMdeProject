@@ -2190,4 +2190,134 @@ public class Algorithms {
         }
     }
 
+    /**
+     * 166. 分数到小数
+     * @param numerator
+     * @param denominator
+     * @return
+     */
+    public static String fractionToDecimal(int numerator, int denominator) {
+        // -2^32 / -1 溢出
+        long a = numerator, b = denominator;
+        if (a % b == 0) return String.valueOf(a / b);
+        StringBuilder sb = new StringBuilder();
+        // 追加 -
+        if (a * b < 0) sb.append("-");
+        a = Math.abs(a);
+        b = Math.abs(b);
+        // 先获取其整数部分
+        sb.append(a / b).append(".");
+        // 拿到余数
+        a %= b;
+        Map<Long, Integer> map = new HashMap<>();
+        while (a != 0){
+            // 将余数所在位置加入map
+            map.put(a, sb.length());
+            a *= 10;
+            // 追加除数
+            sb.append(a / b);
+            // 再次获取余数
+            a %= b;
+            // 如果出现了余数则不必再进行计算了
+            if (map.containsKey(a)){
+                Integer pos = map.get(a);
+                return String.format("%s(%s)", sb.substring(0, pos), sb.substring(pos));
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 162. 寻找峰值
+     * @param nums
+     * @return
+     */
+    public static int findPeakElement(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        int mid;
+        // 长度为1时 while (l < r) 直接不走了
+        while (l < r){
+            mid = l + r >> 1;
+            // mid 元素 > mid + 1 元素，在左边存在峰值，
+            if (nums[mid] > nums[mid + 1])
+                // mid 可能为峰值，比如 num[mid - 1] < num[mid]，mid就是峰值
+                r = mid;
+            else
+                // nums[mid] < nums[mid + 1] 的情况下mid就不一定是峰值了，可以担保向右一定会出现峰值
+                l = mid + 1;
+        }
+        // 跳出循环时的r就是最终答案
+        return r;
+    }
+
+    /**
+     * 11. 盛最多水的容器
+     * @param height
+     * @return
+     */
+    public static int maxArea(int[] height) {
+        int l = 0, r = height.length - 1;
+        int max = 0, water;
+        while (l < r){
+            water = Math.min(height[l], height[r]) * (r - l);
+            max = Math.max(max, water);
+            if (height[l] <= height[r])
+                l++;
+            else
+                r--;
+        }
+        return max;
+    }
+
+    /**
+     * 12. 整数转罗马数字
+     * @param num
+     * @return
+     */
+    public static String intToRoman(int num) {
+        Map<Integer, String> map = new HashMap<>();
+        map.put(1, "I");
+        map.put(4, "IV");
+        map.put(5, "V");
+        map.put(9, "IX");
+        map.put(10, "X");
+        map.put(40, "XL");
+        map.put(50, "L");
+        map.put(90, "XC");
+        map.put(100, "C");
+        map.put(400, "CD");
+        map.put(500, "D");
+        map.put(900, "CM");
+        map.put(1000, "M");
+        int[] keys = new int[]{1,4,5,9,10,40,50,90,100,400,500,900,1000};
+        StringBuilder sb = new StringBuilder();
+        for (int i = keys.length - 1; i >= 0; i--) {
+            if (num < keys[i]) continue;
+            int remainder = num / keys[i];
+            for (int j = 0; j < remainder; j++) {
+                sb.append(map.get(keys[i]));
+            }
+            num %= keys[i];
+        }
+        return sb.toString();
+    }
+
+//    String[] thousands = {"", "M", "MM", "MMM"};
+//    String[] hundreds  = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+//    String[] tens      = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+//    String[] ones      = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+//
+//     /**
+//     * 12. 整数转罗马数字
+//     * @param num
+//     * @return
+//     */
+//    public String intToRoman(int num) {
+//        return thousands[num / 1000] +
+//                hundreds[num % 1000 / 100] +
+//                tens[num % 100 / 10] +
+//                ones[num % 10];
+//    }
+
+
 }

@@ -22,8 +22,12 @@ public class Main {
 //        System.out.println(Algorithms.addStrings("1579", "232"));
 //        System.out.println(Algorithms.multiply("123", "456"));
 //        System.out.println(Algorithms.maxProduct(new int[]{2, 3, -2, 4, -2}));
-        int[] nums = new int[]{1,2,3,4,5,6,7};
-        Algorithms.rotate2(nums, 3);
-        System.out.println(Arrays.toString(nums));
+//        int[] nums = new int[]{1,2,3,4,5,6,7};
+//        Algorithms.rotate2(nums, 3);
+//        System.out.println(Arrays.toString(nums));
+//        System.out.println(Algorithms.fractionToDecimal(-5, 3));
+//        System.out.println(Algorithms.findPeakElement(new int[]{2, 1, 3, 7, 1}));
+//        System.out.println(Algorithms.maxArea(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7}));
+        System.out.println(Algorithms.intToRoman(1994));
     }
 }
