@@ -6,28 +6,6 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-//        System.out.println(Algorithms.longestConsecutive(new int[]{1,2,5,4,3,199}));
-//        System.out.println(Arrays.deepToString(Algorithms.generateMatrix(3)));
-//        System.out.println(Algorithms.singleNumber(new int[]{4, 4, 99, 4, 1, 2, 1, 2, 1, 2}));
-//        System.out.println(Algorithms.maxProfit2(new int[]{7,1,5,3,6,4}));
-
-//        System.out.println(Algorithms.minSubArrayLen(7, new int[]{2, 3, 1, 2, 4, 3}));
-
-//        System.out.println(Algorithms.trailingZeroes(125));
-//        for (int[] ints : Algorithms.merge(new int[][]{
-//                {1,9},{2,5},{19,20},{10,11},{12,20},{0,3},{0,1},{0,2}
-//        })) {
-//            System.out.println(Arrays.toString(ints));
-//        }
-//        System.out.println(Algorithms.addStrings("1579", "232"));
-//        System.out.println(Algorithms.multiply("123", "456"));
-//        System.out.println(Algorithms.maxProduct(new int[]{2, 3, -2, 4, -2}));
-//        int[] nums = new int[]{1,2,3,4,5,6,7};
-//        Algorithms.rotate2(nums, 3);
-//        System.out.println(Arrays.toString(nums));
-//        System.out.println(Algorithms.fractionToDecimal(-5, 3));
-//        System.out.println(Algorithms.findPeakElement(new int[]{2, 1, 3, 7, 1}));
-//        System.out.println(Algorithms.maxArea(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7}));
-        System.out.println(Algorithms.intToRoman(1994));
+        System.out.println(Algorithms.simplifyPath("/home"));
     }
 }

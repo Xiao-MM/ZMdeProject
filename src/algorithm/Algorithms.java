@@ -2319,5 +2319,38 @@ public class Algorithms {
 //                ones[num % 10];
 //    }
 
+    /**
+     * 71. 简化路径
+     * @param path
+     * @return
+     */
+    public static String simplifyPath(String path) {
+        Deque<String> stack = new ArrayDeque<>();
+        int length = path.length();
+        // i 不默认递增，根据逻辑递增
+        for (int i = 1; i < length;) {
+            // 找到一个不为 / 的字符，i 指向该位置
+            if (path.charAt(i) == '/' && ++i >= 0) continue;
+            // j 从 i + 1 向后找
+            int j = i + 1;
+            // j 指向 下一个 /
+            while (j < length && path.charAt(j) != '/') j++;
+            // 截取 / part /
+            String part = path.substring(i, j);
+            // part 为 .. 出栈
+            if (part.equals("..")){
+                if (!stack.isEmpty()) stack.pollLast();
+                // part 为 . 跳过，除此以外的字符送入栈内
+            }else if (!part.equals(".")){
+                stack.addLast(part);
+            }
+            // i 沿着 j 继续进行
+            i = j;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) sb.append("/").append(stack.pollFirst());
+        return sb.length() == 0 ? "/" : sb.toString();
+    }
+
 
 }
