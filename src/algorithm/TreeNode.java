@@ -477,31 +477,69 @@ public class TreeNode {
         return result;
     }
 
-    /**
-     * 145. 二叉树的后序遍历
-     * @param root
-     * @return
-     */
-    public static List<Integer> postorderTraversal(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-        dfs(root, result);
-        return result;
+    static class PostorderTraversal{
+        /**
+         * 145. 二叉树的后序遍历
+         * @param root
+         * @return
+         */
+        public static List<Integer> postorderTraversal(TreeNode root) {
+            List<Integer> result = new ArrayList<>();
+            dfs(root, result);
+            return result;
+        }
+
+        private static void dfs(TreeNode root, List<Integer> result){
+            if (root == null) return;
+            dfs(root.left, result);
+            dfs(root.right, result);
+            result.add(root.val);
+        }
+
     }
 
-    private static void dfs(TreeNode root, List<Integer> result){
-        if (root == null) return;
-        dfs(root.left, result);
-        dfs(root.right, result);
-        result.add(root.val);
-    }
+    static class RecoverTree{
 
+        TreeNode preNode = new TreeNode(Integer.MIN_VALUE);
+        TreeNode firstNode = null;
+        TreeNode secondNode = null;
+
+        /**
+         * 99. 恢复二叉搜索树
+         * @param root
+         */
+        public void recoverTree(TreeNode root) {
+            inOrder(root);
+            int temp = firstNode.val;
+            firstNode.val = secondNode.val;
+            secondNode.val = temp;
+        }
+
+        /**
+         * 中序遍历查找待交换的节点
+         * @param root
+         */
+        private void inOrder(TreeNode root){
+            if (root == null) return;
+            inOrder(root.left);
+            if (preNode.val > root.val){
+                // 注意这里不是if else 的关系
+                if (firstNode == null) firstNode = preNode;
+                // 如果上一行执行了这一行也跟着执行，只不过随着递归继续进行下去secondNode可能会被新的值取代掉
+                if (firstNode != null) secondNode = root;
+            }
+            preNode = root;
+            inOrder(root.right);
+        }
+
+    }
 
 
 
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(3,
-                new TreeNode(1), new TreeNode(9,
-                                            new TreeNode(4), null ));
+//        TreeNode root = new TreeNode(3,
+//                new TreeNode(1), new TreeNode(9,
+//                                            new TreeNode(4), null ));
 //        System.out.println(root.isValidBST(root));
 
 //        System.out.println(zigzagLevelOrder(root));
@@ -530,7 +568,13 @@ public class TreeNode {
 //                Arrays.asList(new Node(2,
 //                        Arrays.asList(new Node(5),new Node(6))),new Node(3), new Node(4)));
 //        System.out.println(root.levelOrder(root));
-        System.out.println(postorderTraversal(root));
+//        System.out.println(postorderTraversal(root));
+        RecoverTree recoverTree = new RecoverTree();
+        TreeNode root = new TreeNode(3, new TreeNode(1), new TreeNode(4, new TreeNode(2), null));
+        printTree(root);
+        recoverTree.recoverTree(root);
+        System.out.println();
+        printTree(root);
     }
 
 

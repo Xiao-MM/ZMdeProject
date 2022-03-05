@@ -2352,5 +2352,34 @@ public class Algorithms {
         return sb.length() == 0 ? "/" : sb.toString();
     }
 
+    /**
+     * 97. 交错字符串
+     * @param s1
+     * @param s2
+     * @param s3
+     * @return
+     */
+    public static boolean isInterleave(String s1, String s2, String s3) {
+        int len1 = s1.length(), len2 = s2.length(), len3 = s3.length();
+        if (len1 + len2 != len3) return false;
+        // s1的前i个和s2的前j个是否可以构成s3的前i+j个
+        boolean[][] dp = new boolean[len1 + 1][len2 + 1];
+        dp[0][0] = true;
+        // 初始化第一列
+        for (int i = 1; i <= len1; i++){
+            if (dp[i - 1][0] && s1.charAt(i - 1) == s3.charAt(i - 1)) dp[i][0] = true;
+        }
+        // 初始化第一行
+        for (int i = 1; i <= len2; i++){
+            if (dp[0][i - 1] && s2.charAt(i - 1) == s3.charAt(i - 1)) dp[0][i] = true;
+        }
+        // 更新所有状态数组
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++)
+                // 注意 s1,s2,s3的字符下标是从0 -> length()-1, 状态矩阵的下标是0 -> length， 实际扫描到字母是从1开始计数的
+                dp[i][j] = (dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1)) || (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1));
+        }
+        return dp[len1][len2];
+    }
 
 }
