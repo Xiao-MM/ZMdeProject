@@ -3,6 +3,7 @@ package algorithm;
 import org.omg.CORBA.MARSHAL;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Algorithms {
     /**
@@ -1920,7 +1921,7 @@ public class Algorithms {
      * @param nums
      * @return
      */
-    public static int singleNumber(int[] nums) {
+    public static int singleNumber2(int[] nums) {
         // 长度为32的常量空间
         int[] counts = new int[32];
         // 依次累计求每个位的和
@@ -2380,6 +2381,212 @@ public class Algorithms {
                 dp[i][j] = (dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1)) || (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1));
         }
         return dp[len1][len2];
+    }
+
+//    /**
+//     * 49. 字母异位词分组
+//     * @param strs
+//     * @return
+//     */
+//    public static List<List<String>> groupAnagrams(String[] strs) {
+//        return new ArrayList<>(Arrays.stream(strs).collect(Collectors.groupingBy(s -> {
+//            char[] chars = s.toCharArray();
+//            Arrays.sort(chars);
+//            return new String(chars);
+//        })).values());
+//    }
+
+
+    /**
+     * 49. 字母异位词分组
+     * @param strs
+     * @return
+     */
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            String key = encode(str);
+            List<String> list = map.getOrDefault(key, new ArrayList<>());
+            list.add(str);
+            map.put(key, list);
+        }
+        return new ArrayList<>(map.values());
+    }
+
+    /**
+     * 计数编码
+     * @param s
+     * @return
+     */
+    private static String encode(String s){
+        char[] chars = new char[26];
+        // 统计每个字母出现的次数，并将其作为字母异位词的判别依据
+        for (int i = 0; i < s.length(); i++) chars[s.charAt(i) - 'a']++;
+        return String.valueOf(chars);
+    }
+
+    static class WordBreak {
+        /**
+         * 139. 单词拆分
+         * 递归回溯+记忆化数组
+         * @param s
+         * @param wordDict
+         * @return
+         */
+        public static boolean wordBreak(String s, List<String> wordDict) {
+            // 记忆数组，记录某个位置起始的递归调用是否成功或者失败，若下次有别的调用走到这里可以直接拿结果用
+            Boolean[] isHappened = new Boolean[s.length()];
+            return dfs(s, 0, isHappened, wordDict);
+        }
+
+        private static boolean dfs(String s, int begin, Boolean[] isHappened, List<String> wordDict){
+            // 前面成功判定返回
+            if (begin == s.length()) return true;
+            // 算过了
+            if (isHappened[begin] != null) return isHappened[begin];
+            for (int i = begin + 1; i <= s.length(); i++) {
+                String partStr = s.substring(begin, i);
+                // 左边匹配且剩余部分也匹配返回
+                // dfs(s, i, wordDict) 只有 wordDict.contains(partStr) 满足才会继续进行下去，当剩下部分不足以匹配 begin == s.length()就不会执行
+                if (wordDict.contains(partStr) && dfs(s, i, isHappened, wordDict)){
+                    isHappened[begin] = true;// begin开始的串判定已经计算过了，而且判定成功
+                    return true;
+                }
+            }
+            // 循环走完都没有成功判定结果返回false
+            // begin开始的串判定已经计算过了，而且判定失败
+            isHappened[begin] = false;
+            return false;
+        }
+    }
+
+//    /**
+//     * 139. 单词拆分
+//     * 动态规划
+//     * @param s
+//     * @param wordDict
+//     * @return
+//     */
+//    public static boolean wordBreak(String s, List<String> wordDict) {
+//        // 状态数组，dp[i] 表示s的前i个字符构成的子串是否可以完成拆分
+//        boolean[] dp = new boolean[s.length() + 1];
+//        // 默认空串是可以达成要求的，这里它的存在单纯为了解决边界情况
+//        dp[0] = true;
+//        // 状态转移为dp[i] = dp[j] && check(j, i)，j属于[0，i-1]
+//        // 前j个元素s[0,j-1]可以由单词组成的情况下，即dp[j] == true时 s[j,i-1] 也能由单词组成，此时dp[i] = true
+//        // 注意dp范围[0, n]，s[0, n-1]
+//        for (int i = 1; i <= s.length(); i++) {
+//            for (int j = 0; j < i; j++) {
+//                if (dp[j] && wordDict.contains(s.substring(j, i))){
+//                    dp[i] = true;
+//                    break;
+//                }
+//
+//            }
+//        }
+//        return dp[s.length()];
+//    }
+
+    /**
+     * 139. 单词拆分
+     * 动态规划优化
+     * @param s
+     * @param wordDict
+     * @return
+     */
+    public static boolean wordBreak(String s, List<String> wordDict) {
+        int maxWordLength = 0;
+        int minWordLength = Integer.MAX_VALUE;
+        for(String word : wordDict){
+            maxWordLength = Math.max(maxWordLength, word.length());
+            minWordLength = Math.min(minWordLength, word.length());
+        }
+        boolean[] dp = new boolean[s.length()];
+        dp[0] = wordDict.contains(s.substring(0,1));
+        for(int i=Math.max(1, minWordLength-1);i<s.length();i++){
+            for(int j=minWordLength-1;j<=i && j<=maxWordLength;j++){
+                if(dp[i-j] && wordDict.contains(s.substring(i-j+1, i+1))){
+                    dp[i] = true;
+                    break;
+                }
+                if(i<maxWordLength && wordDict.contains(s.substring(0, i+1))){
+                    dp[i] = true;
+                }
+            }
+        }
+        return dp[s.length()-1];
+    }
+
+    /**
+     * 260. 只出现一次的数字 III
+     * @param nums
+     * @return
+     */
+    public static int[] singleNumber(int[] nums) {
+        int[] result = new int[2];
+        // sum 为最终答案异或值，其余两个相等的元素异或之后和为0
+        int sum = 0;
+        for (int num : nums) sum ^= num;
+        int k = -1;
+        for (int i = 31; i >= 0; i--) {
+            // 找到sum中两目标值不同的位 k
+            // 第k位为1表示result[0]和result[1]的第K位必定不相同
+            if((sum >> i & 1) == 1) k = i;
+        }
+        for (int num : nums) {
+            // 通过逐个比对num的第k位将其划分到不同的桶子里
+            if ((num >> k & 1) == 1) result[1] ^= num;
+            else result[0] ^= num;
+        }
+        return result;
+    }
+
+
+//    /**
+//     * 371. 两整数之和
+//     * @param a
+//     * @param b
+//     * @return
+//     */
+//    public static int getSum(int a, int b) {
+//        int u, v, t = 0, sum = 0;
+//        for (int i = 0; i < 32; i++) {
+//            // 依次取末位，从后往前加
+//            u = (a >> i) & 1;
+//            v = (b >> i) & 1;
+//            if (u == 1 && v == 1){
+//                // 当前位的值取决于进位t，发生进位 t 为 1
+//                sum |= (t << i);
+//                t = 1;
+//            }else if (u == 1 || v == 1){
+//                // 当 t = 1 时，当前位值为0，进位 t 仍为 1
+//                // 当 t = 0 时，当前位值为1，进位 t 仍为 0
+//                sum |= ((t ^ 1) << i);
+//            }else {
+//                // 当两个值都为0时，值取决于进位 t，进位 t 为 0
+//                sum |= (t << i);
+//                t = 0;
+//            }
+//        }
+//        return sum;
+//    }
+
+    /**
+     * 371. 两整数之和
+     * 递归
+     * 先计算原始的 aa 的和原始 bb 在不考虑进位的情况下的结果，结果为 a ^ b，然后在此基础上，考虑将进位累加进来，累加操作可以递归使用 getSum 来处理。
+     * 问题转化为如何求得 aa 和 bb 的进位值。
+     * 不难发现，当且仅当 aa 和 bb 的当前位均为 11，该位才存在进位，同时进位回应用到当前位的下一位（左边的一边，高一位），因此最终的进位结果为 (a & b) << 1。
+     * 因此，递归调用 getSum(a ^ b, (a & b) << 1) 我们可以得到最终答案。
+     * 最后还要考虑，该拆分过程何时结束。
+     * 由于在进位结果 (a & b) << 1 中存在左移操作，因此最多执行 3232 次的递归操作之后，该值会变为 00，而 00 与任何值 xx 相加结果均为 xx。
+     * @param a
+     * @param b
+     * @return
+     */
+    public static int getSum(int a, int b) {
+        // a ^ b 为 a ，b 不带进位相加，a & b 为 a,b 可以产生的进位，左移是为了将进位加到下一位上
+        return b == 0 ? a : getSum(a ^ b, (a & b) << 1);
     }
 
 }

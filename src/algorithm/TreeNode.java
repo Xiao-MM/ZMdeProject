@@ -495,7 +495,6 @@ public class TreeNode {
             dfs(root.right, result);
             result.add(root.val);
         }
-
     }
 
     static class RecoverTree{
@@ -531,9 +530,29 @@ public class TreeNode {
             preNode = root;
             inOrder(root.right);
         }
-
     }
 
+    static class SumNumbers{
+        /**
+         * 129. 求根节点到叶节点数字之和
+         * @param root
+         * @return
+         */
+        public int sumNumbers(TreeNode root) {
+            return dfs(root, 0);
+        }
+
+        private int dfs(TreeNode root, int product){
+            // 主要针对根节点为空的情况
+            if (root == null) return 0;
+            // 从根节点到该层节点的数值
+            product = product * 10 + root.val;
+            // 到达叶子节点直接return到该叶子节点的路径表示数字
+            if (root.left == null && root.right == null) return product;
+            // 累加每个分支的数值
+            return dfs(root.left, product) + dfs(root.right, product);
+        }
+    }
 
 
     public static void main(String[] args) {
@@ -569,12 +588,14 @@ public class TreeNode {
 //                        Arrays.asList(new Node(5),new Node(6))),new Node(3), new Node(4)));
 //        System.out.println(root.levelOrder(root));
 //        System.out.println(postorderTraversal(root));
-        RecoverTree recoverTree = new RecoverTree();
-        TreeNode root = new TreeNode(3, new TreeNode(1), new TreeNode(4, new TreeNode(2), null));
-        printTree(root);
-        recoverTree.recoverTree(root);
-        System.out.println();
-        printTree(root);
+//        RecoverTree recoverTree = new RecoverTree();
+        TreeNode root = new TreeNode(3, new TreeNode(1, new TreeNode(2), new TreeNode(3)), new TreeNode(4, new TreeNode(2), null));
+//        printTree(root);
+//        recoverTree.recoverTree(root);
+//        System.out.println();
+//        printTree(root);
+        SumNumbers sumNumbers = new SumNumbers();
+        System.out.println(sumNumbers.sumNumbers(root));
     }
 
 
