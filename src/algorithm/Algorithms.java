@@ -2589,4 +2589,27 @@ public class Algorithms {
         return b == 0 ? a : getSum(a ^ b, (a & b) << 1);
     }
 
+    /**
+     * 134. 加油站
+     * @param gas
+     * @param cost
+     * @return
+     */
+    public static int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+        // 最小剩余油量，最小剩余油量下标，当前剩余油量
+        int minSpare = Integer.MAX_VALUE, minIndex = -1, spare = 0;
+        // 从下标 0 开始往后跑
+        for (int i = 0; i < n; i++) {
+            spare = spare + gas[i] - cost[i];
+            // 记录最小剩油量
+            if (spare < minSpare) {
+                minSpare = spare;
+                minIndex = i;
+            }
+        }
+        // 剩余油量大于等于0才有可能走完，从最小剩余油量的下一个位置走起就可以走完全程
+        return spare < 0 ? -1 : (minIndex + 1) % n;
+    }
+
 }

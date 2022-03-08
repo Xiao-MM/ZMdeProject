@@ -336,6 +336,73 @@ public class ListNode {
         return p;
     }
 
+    static class ReorderList{
+        /**
+         * 143. 重排链表
+         * @param head
+         */
+        public void reorderList(ListNode head) {
+            ListNode mid = findMid(head);
+            ListNode r = mid.next;
+            mid.next = null;
+            ListNode reverse = reverse(r);
+            merge(head, reverse);
+        }
+
+        /**
+         * 查找mid
+         * @param head
+         * @return
+         */
+        public ListNode findMid(ListNode head){
+            if (head == null) return null;
+            ListNode slow = head, fast = head;
+            while (fast != null && fast.next != null){
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            return slow;
+        }
+
+        /**
+         * 翻转链表
+         * @param head
+         * @return
+         */
+        public ListNode reverse(ListNode head){
+            if (head == null) return null;
+            ListNode dummy = new ListNode();
+            ListNode p = head, q;
+            while (p != null){
+                q = p.next;
+                p.next = dummy.next;
+                dummy.next = p;
+                p = q;
+            }
+            return dummy.next;
+        }
+
+        /**
+         * 合并链表
+         * @param l
+         * @param r
+         * @return
+         */
+        public void merge(ListNode l, ListNode r){
+            ListNode p = l;
+            while (p != null && r != null){
+                ListNode t1 = p.next;
+                ListNode t2 = r.next;
+                p.next = r;
+                r.next = t1;
+                p = t1;
+                r = t2;
+            }
+        }
+
+    }
+
+
     /**
      * 24. 两两交换链表中的节点
      * @param head
@@ -361,6 +428,79 @@ public class ListNode {
         return dummy.next;
     }
 
+    static class Node {
+        int val;
+        Node next;
+        Node random;
+
+        public Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+
+        /**
+         * 138. 复制带随机指针的链表
+         * @param head
+         * @return
+         */
+        public Node copyRandomList(Node head) {
+            if (head == null) return null;
+            // 为每一个节点创建副本并且连起来
+            Node p = head;
+            while (p != null){
+                Node q = new Node(p.val);
+                q.next = p.next;
+                p.next = q;
+                p = q.next;
+            }
+            // 将每个节点随机指针连接起来
+            p = head;
+            while (p != null && p.next != null){
+                if (p.random != null){
+                    p.next.random = p.random.next;
+                }
+                p = p.next.next;
+            }
+            // 复原源链表
+            p = head;
+            Node q = head.next;
+            Node dummy = new Node(-1);
+            dummy.next = q;
+            while (q.next != null){
+                p.next = q.next;
+                p = p.next;
+                q.next = p.next;
+                q = q.next;
+            }
+            p.next = null;//这个要断开，不然原链表结构发生变化
+            return dummy.next;
+        }
+
+        /**
+         * 打印链表
+         * @param head
+         */
+        public static void printNodes(Node head){
+            Node p = head;
+            while (p != null){
+                System.out.print(p.val + " ");
+                p = p.next;
+            }
+            System.out.println();
+            p = head;
+            while (p != null){
+                if (p.random != null){
+                    System.out.print(p.random.val + " ");
+                }else {
+                    System.out.print("  ");
+                }
+                p = p.next;
+            }
+            System.out.println();
+        }
+    }
+
      public static void main(String[] args) {
 //          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
 //          ListNode l2 = new ListNode(1,new ListNode(5,new ListNode(7)));
@@ -374,13 +514,11 @@ public class ListNode {
 //         ListNode listNode = new ListNode(1,new ListNode(2, new ListNode(3,new ListNode(4, new ListNode(5)))));
 //         ListNode listNode = new ListNode(3,new ListNode(5));
 //         printNodes(removeNthFromEnd(listNode, 3));
-         ListNode listNode = new ListNode(8,
-                                 new ListNode(1,
-                                         new ListNode(4,
-                                                 new ListNode(5,
-                                                         new ListNode(3,
-                                                                 new ListNode(2,
-                                                                         new ListNode(3)))))));
+         ListNode listNode = new ListNode(2,
+                                 new ListNode(2,
+                                         new ListNode(2,
+                                                 new ListNode(2,
+                                                         new ListNode(2)))));
 //         listNode.next.next.next.next.next.next = listNode.next;
 //         ListNode listNode = new ListNode(1, new ListNode(2));
 //         printNodes(listNode);
@@ -389,6 +527,32 @@ public class ListNode {
 //         ListNode listNode1 = insertionSortList(listNode);
 //         printNodes(listNode1);
 //         System.out.println(hasCycle(listNode));
-         printNodes(swapPairs(listNode));
+//         printNodes(swapPairs(listNode));
+         ReorderList reorderList = new ReorderList();
+//         ListNode reverse = reorderList.reverse(listNode);
+         ListNode listNode2 = new ListNode(1,
+                                 new ListNode(2,
+                                         new ListNode(3,
+                                                 new ListNode(4,
+                                                         new ListNode(5,
+                                                                 new ListNode(6))))));
+//         reorderList.reorderList(listNode2);
+//         printNodes(listNode2);
+
+         Node node1 = new Node(1);
+         Node node2 = new Node(2);
+         Node node3 = new Node(3);
+         Node node4 = new Node(4);
+         node1.next = node2;
+         node2.next = node3;
+         node3.next = node4;
+         node1.random = node3;
+         node2.random = node2;
+         node4.random = node1;
+         Node.printNodes(node1);
+         Node node = node1.copyRandomList(node1);
+         Node.printNodes(node);
+         Node.printNodes(node1);
+
      }
  }

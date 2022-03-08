@@ -16,6 +16,7 @@ public class Main {
 //        System.out.println(Algorithms.wordBreak("catsandog", Arrays.asList("cats", "dog", "sand", "and", "cat")));
 //        System.out.println(Algorithms.wordBreak("applepenapple", Arrays.asList("apple", "pen")));
 //        System.out.println(Arrays.toString(Algorithms.singleNumber(new int[]{-1,0})));
-        System.out.println(Algorithms.getSum(5, 7));
+//        System.out.println(Algorithms.getSum(5, 7));
+        System.out.println(Algorithms.canCompleteCircuit(new int[]{2, 3, 4}, new int[]{3, 4, 3}));
     }
 }
