@@ -2612,4 +2612,24 @@ public class Algorithms {
         return spare < 0 ? -1 : (minIndex + 1) % n;
     }
 
+    /**
+     * 179. 最大数
+     * @param nums
+     * @return
+     */
+    public static String largestNumber(int[] nums) {
+        String[] strings = new String[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            strings[i] = String.valueOf(nums[i]);
+        }
+        // ab 比上 ba
+        Arrays.sort(strings, (o1, o2) -> (o2 + o1).compareTo(o1 + o2));
+        if (strings[0].equals("0")) return "0";
+        StringBuilder sb = new StringBuilder();
+        for (String string : strings) {
+            sb.append(string);
+        }
+        return sb.toString();
+    }
+
 }
