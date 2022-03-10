@@ -2632,4 +2632,58 @@ public class Algorithms {
         return sb.toString();
     }
 
+//    /**
+//     * 187. 重复的DNA序列
+//     * @param s
+//     * @return
+//     */
+//    public static List<String> findRepeatedDnaSequences(String s) {
+//        List<String> result = new ArrayList<>();
+//        Map<String, Integer> map = new HashMap<>();
+//        for (int i = 0; i <= s.length() - 10; i++) {
+//            String subStr = s.substring(i, i + 10);
+//            Integer count = map.getOrDefault(subStr, 0);
+//            if (count == 1){
+//                result.add(subStr);
+//            }
+//            map.put(subStr, count + 1);
+//        }
+//        return result;
+//    }
+
+    /**
+     * 187. 重复的DNA序列
+     * 垃圾 ！ 比上面的还慢
+     * 位运算，这样的好处不需要每次遍历都要截取字符串做hash映射
+     * @param s
+     * @return
+     */
+    public static List<String> findRepeatedDnaSequences(String s) {
+        final int L = 10;
+        int n = s.length();
+        // 将每个字符编码成数字，10位字符刚好可以编码映射成 20 位的key
+        Map<Character, Integer> codeMap = new HashMap<>();
+        codeMap.put('A', 0);// 00
+        codeMap.put('C', 1);// 01
+        codeMap.put('G', 2);// 10
+        codeMap.put('T', 3);// 11
+        Map<Integer, Integer> map = new HashMap<>();
+        List<String> result = new ArrayList<>();
+        if (n < L) return result;
+        int key = 0;
+        // 初始化前9个字符构成的数字编码
+        for (int i = 0; i < L - 1 ; i++) {
+            key = ((key << 2) | (codeMap.get(s.charAt(i))));
+        }
+        // 每次取当前i数起对应第10位的下标加入key
+        for (int i = 0; i <= n - L; i++) {
+            // & ((1 << 20) - 1) 只保留20位，舍弃前12位
+            key = ((key << 2) | (codeMap.get(s.charAt(i + L - 1)))) & ((1 << 20) - 1);
+            Integer count = map.getOrDefault(key, 0);
+            if (count == 1) result.add(s.substring(i, i + L));
+            map.put(key, count + 1);
+        }
+        return result;
+    }
+
 }
