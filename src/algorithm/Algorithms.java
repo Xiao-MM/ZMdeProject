@@ -2686,4 +2686,121 @@ public class Algorithms {
         return result;
     }
 
+    /**
+     * 204. 计数质数
+     * 埃氏筛
+     * @param n
+     * @return
+     */
+    public static int countPrimes(int n) {
+        // 初始化长度为 n 的数组，将其全部置为质数
+        boolean[] isPrime = new boolean[n];
+        Arrays.fill(isPrime, true);
+        // 埃氏筛将质数的倍数统统置为合数，遍历到 i 的平方即可
+        for (int i = 2; i * i < n; i++) {
+            if (isPrime[i]){
+                // 这里会将范围延展至n
+                for (int j = i * i; j < n; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        int count = 0;
+        // 统计那些被留下来的质数
+        for (int i = 2; i < isPrime.length; i++) {
+            if (isPrime[i]) count++;
+        }
+        return count;
+    }
+
+    /**
+     * 215. 数组中的第K个最大元素
+     * 注意：第k大！！！！！倒着数第N-K个
+     * 利用堆的思想，这里并不是建立一个nums.length的堆再排序k次，这样如果数组长度很大建堆成本很高
+     * 时间复杂度 o(nlogk) 每次对堆进行调整需要执行logk的时间复杂度
+     * @param nums
+     * @param k
+     * @return
+     */
+    public static int findKthLargestWithHeap(int[] nums, int k) {
+        // 构建小顶堆，堆顶都是最小的，长度为k的小顶堆，堆顶放着的就是第k大的元素
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(k);
+        // 前k个元素入堆
+        for (int i = 0; i < k; i++) {
+            minHeap.offer(nums[i]);
+        }
+        for (int i = k; i < nums.length; i++) {
+            Integer top = minHeap.peek();
+            // 如果当前元素比堆顶最小元素大，那么将其加入堆中
+            if (top < nums[i]) {
+                minHeap.poll();
+                minHeap.offer(nums[i]);
+            }
+        }
+        return minHeap.peek();
+    }
+
+    /**
+     * 215. 数组中的第K个最大元素
+     * 快排的思想
+     * @param nums
+     * @param k
+     * @return
+     */
+    public static int findKthLargest(int[] nums, int k) {
+        int n = nums.length;
+        // 最终答案所在排序数组的位置
+        int target = n - k;
+        int left = 0, right = n - 1;
+        while (true){
+            // 进行一次划分
+            int p = partition(nums, left, right);
+            // 此次排序的元素刚好是目标值所在的位置的元素
+            if (p == target){
+                return nums[p];
+                // 此次好序的元素所在位置在目标位置的左边，p 左边的元素都是小于nums[p]的，target 一定在p的右边 更新left继续排
+            }else if (p < target){
+                left = p + 1;
+            }else {
+                // p 右边的元素都是大于nums[p]的，target 一定在p的左边 更新right继续排
+                right = p - 1;
+            }
+        }
+
+    }
+
+    /**
+     * 划分，左右指针法
+     * @param nums
+     * @param left
+     * @param right
+     * @return
+     */
+    public static int partition(int[] nums, int left, int right){
+        // 在区间随机选择一个元素作为标定点
+        Random random = new Random();
+        if (left < right) {
+            int randomIndex = left + random.nextInt(right - left + 1);
+            swap(nums, right, randomIndex);
+        }
+
+        // 以最后一个数字作为参照
+        int pivot = nums[right];
+        int begin = left, end = right;
+        while (begin < end){
+            // 从左向右找大于pivot的数
+            while (begin < end && nums[begin] <= pivot) begin++;
+            // 从右向左找小于pivot的数
+            while (begin < end && nums[end] >= pivot) end--;
+            if (begin < end){
+                // 如果begin 和 end 尚未重复，交换他们，begin和end继续往中间查找符合条件的数据
+                swap(nums, begin, end);
+            }
+        }
+        // 最后一次指向end的值是大于pivot的，只需要让begin走到这个位置即可
+        // begin 和 end 重复的位置也就是 pivot 最终应该落在的位置，交换他们
+        swap(nums, begin, right);
+        return begin;
+    }
+
 }

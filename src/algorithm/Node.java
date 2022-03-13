@@ -71,4 +71,40 @@ public class Node {
         dfs(root.right);
     }
 
+    /**
+     * 117. 填充每个节点的下一个右侧节点指针 II
+     * @param root
+     * @return
+     */
+    public Node connect2(Node root) {
+        if (root == null) return null;
+        // 工作指针
+        Node p = root;
+        // 依次对所有节点进行子节点串联
+        while (p != null){
+            // 定义哑结点
+            Node dummy = new Node();
+            // pre 用于记录待被串联节点的前驱结点
+            Node pre = dummy;
+            // p 在同一层移动，走到底跳出
+            while (p != null){
+                // p 的左节点不为空，串联左节点
+                if (p.left != null){
+                    pre.next = p.left;
+                    pre = pre.next;
+                }
+                // // p 的右节点不为空，串联右节点
+                if (p.right != null){
+                    pre.next = p.right;
+                    pre = pre.next;
+                }
+                // p 移动至同层下一个节点
+                p = p.next;
+            }
+            // 同一层走完，步入下一层开始
+            p = dummy.next;
+        }
+        return root;
+    }
+
 }
