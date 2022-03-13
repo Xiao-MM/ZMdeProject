@@ -2803,4 +2803,82 @@ public class Algorithms {
         return begin;
     }
 
+//    /**
+//     * 220. 存在重复元素 III
+//     * 滑动窗口加红黑树，红黑树插入查找效率稳定
+//     * 找 [max(0, i - k), i - 1] 中最接近 nums[i] 的数
+//     * @param nums
+//     * @param k
+//     * @param t
+//     * @return
+//     */
+//    public static boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+//        // Integer.MAX_VALUE - Integer.MIN_VALUE = 1 发生越界，需要把数字转成long进行运算
+//        // 红黑树这里是大小为k的滑动窗口
+//        TreeSet<Long> redBlackTree = new TreeSet<>();
+//        for (int i = 0; i < nums.length; i++) {
+//            long u = nums[i];
+//            // 比u大的最小元素
+//            Long ceiling = redBlackTree.ceiling(u);
+//            // 比u小的最大元素
+//            Long floor = redBlackTree.floor(u);
+//            if (ceiling != null && Math.abs(ceiling - u) <= t) return true;
+//            if (floor != null && Math.abs(floor - u) <= t) return true;
+//            // 将当前节点加入红黑树
+//            redBlackTree.add(u);
+//            // 移除窗口最后一个元素
+//            if (i - k >= 0){
+//                redBlackTree.remove((long) nums[i - k]);
+//            }
+//        }
+//        return false;
+//    }
+
+    /**
+     * 220. 存在重复元素 III
+     * 桶排序思想
+     * @param nums
+     * @param k
+     * @param t
+     * @return
+     */
+    public static boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        // 两数之差为t的数在数轴上的间隔为t+1，只有将 size 定为 t+1，才能保证数值差为 t 的数可以落在同一个桶子里
+        // 注意这里的size是指一个桶子所能容纳的元素的大小
+        int size = t + 1;
+        // map 存放桶下标和桶元素，不同于桶排序，这里一个桶只会出现一个元素
+        Map<Long, Long> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            // 获取当前元素映射桶子的下标
+            long idx = getIdx(nums[i], size);
+            // 如果该元素的桶子存在且在窗口内直接可以返回，这种是存在同一个窗口刚好两个相同元素映射到同一个桶子的的情况
+            if (map.containsKey(idx)) return true;
+            // 找不到上诉情况下的桶子时 检查左右边桶子里有没有符合条件的数据 每个桶子内的元素值的跨度刚好为t + 1
+            // 因此如果还有满足情况的数据，那么该数据一定在相隔不超过一的桶子里，也就是左右两个桶
+            long left = idx - 1, right = idx + 1;
+            // 检查左桶子有没有
+            if (map.containsKey(left) && nums[i] - map.get(left) <= t ) return true;
+            // 检查右桶子有没有
+            if (map.containsKey(right) && map.get(right) - nums[i] <= t) return true;
+            // 没有符合条件的数据，将当前元素用来创建一个新桶
+            map.put(idx, (long) nums[i]);
+            // 移除掉窗口外的桶子
+            if (i >= k) map.remove(getIdx(nums[i - k], size));
+        }
+        return false;
+    }
+
+    /**
+     * 获取桶下标
+     * @param num
+     * @param size
+     * @return
+     */
+    private static long getIdx(int num, int size){
+        // num >= 0, num / size 表示 num 落在桶的的下标
+        // num < 0, 由于 0 已经被上述条件用上了，故计算结果有误，需要将num + 1 在数轴上右移后再计算，而计算结果存在下标0
+        // 但下标0的桶子已经被用掉了，故负数计算出来的桶子下标位置需要 - 1操作
+        return num >= 0 ? num / size : (num + 1) / size - 1;
+    }
+
 }
