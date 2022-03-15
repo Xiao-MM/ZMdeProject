@@ -3,6 +3,7 @@
 import algorithm.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,7 +11,15 @@ public class Main {
 //        System.out.println(Integer.toBinaryString((1 << 20) - 1).length());
 //        System.out.println(Algorithms.countPrimes(10));
 //        System.out.println(Algorithms.findKthLargest(new int[]{3, 2, 1, 5, 6, 4}, 2));
-        System.out.println(Algorithms.containsNearbyAlmostDuplicate(new int[]{1,5,9,1,5,9}, 2, 3));
+//        System.out.println(Algorithms.containsNearbyAlmostDuplicate(new int[]{1,5,9,1,5,9}, 2, 3));
 //        System.out.println(Math.abs(Integer.MAX_VALUE - Integer.MIN_VALUE));
+//        System.out.println(1 << 7);
+        int[] data = {250,145,145,145,145};
+        for (int i : data) {
+            System.out.print(Integer.toBinaryString(i) + " ");
+        }
+        System.out.println();
+        System.out.println(Algorithms.validUtf8(data));
+
     }
 }

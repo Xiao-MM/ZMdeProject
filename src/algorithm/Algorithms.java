@@ -2778,9 +2778,8 @@ public class Algorithms {
      */
     public static int partition(int[] nums, int left, int right){
         // 在区间随机选择一个元素作为标定点
-        Random random = new Random();
         if (left < right) {
-            int randomIndex = left + random.nextInt(right - left + 1);
+            int randomIndex = left + new Random().nextInt(right - left + 1);
             swap(nums, right, randomIndex);
         }
 
@@ -2857,7 +2856,7 @@ public class Algorithms {
             // 因此如果还有满足情况的数据，那么该数据一定在相隔不超过一的桶子里，也就是左右两个桶
             long left = idx - 1, right = idx + 1;
             // 检查左桶子有没有
-            if (map.containsKey(left) && nums[i] - map.get(left) <= t ) return true;
+            if (map.containsKey(left) && nums[i] - map.get(left) <= t) return true;
             // 检查右桶子有没有
             if (map.containsKey(right) && map.get(right) - nums[i] <= t) return true;
             // 没有符合条件的数据，将当前元素用来创建一个新桶
@@ -2879,6 +2878,40 @@ public class Algorithms {
         // num < 0, 由于 0 已经被上述条件用上了，故计算结果有误，需要将num + 1 在数轴上右移后再计算，而计算结果存在下标0
         // 但下标0的桶子已经被用掉了，故负数计算出来的桶子下标位置需要 - 1操作
         return num >= 0 ? num / size : (num + 1) / size - 1;
+    }
+
+    /**
+     * 393. UTF-8 编码验证
+     * @param data
+     * @return
+     */
+    public static boolean validUtf8(int[] data) {
+        int one = 1 << 7;
+        int two = (1 << 7) | (1 << 6);
+        for (int i = 0; i < data.length;) {
+            // 对于不跟在打头元素后面 且10开头的字符都是非法字符
+            if ((data[i] & two) == one) return false;
+            // 单字节字符
+            if ((data[i] & one) == 0){
+                i++;
+                continue;
+            }
+            // 非单字符的情况记录开头1的个数
+            int count = 0;
+            for (int j = 7; j >= 0; j--) {
+                if (((data[i] >> j) & 1) == 1) count++;
+                else break;
+            }
+            // utf-8最多4字符，超了就返回
+            if (count > 4) return false;
+            // 如果后面的元素个数不够当前多字符的长度
+            if (i + count - 1 >= data.length) return false;
+            for (int j = 1; j < count; j++)
+                // 后续的字符不符合10开头
+                if ((data[i + j] & two) != one) return false;
+            i += count;
+        }
+        return true;
     }
 
 }
