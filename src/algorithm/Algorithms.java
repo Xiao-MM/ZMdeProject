@@ -2914,4 +2914,62 @@ public class Algorithms {
         return true;
     }
 
+    /**
+     * 151. 颠倒字符串中的单词
+     * @param s
+     * @return
+     */
+    public static String reverseWords(String s) {
+        String t = s.trim();
+        String[] splits = t.split("\\s+");// 多个空格的正则表达式
+        Collections.reverse(Arrays.asList(splits));
+        StringBuilder sb = new StringBuilder();
+        for (String split : splits)  sb.append(split).append(" ");
+        return sb.deleteCharAt(sb.length() - 1).toString();
+    }
+
+    /**
+     * 150. 逆波兰表达式求值
+     * @param tokens
+     * @return
+     */
+    public static int evalRPN(String[] tokens) {
+        Deque<Integer> stack = new LinkedList<>();
+        int result;
+        for (String token : tokens) {
+            int element1, element2;
+            switch (token){
+                case "+":
+                    element1 = Objects.requireNonNull(stack.pollLast());
+                    element2 = Objects.requireNonNull(stack.pollLast());
+                    result = element2 + element1;
+                    stack.addLast(result);
+                    break;
+                case "-":
+                    element1 = Objects.requireNonNull(stack.pollLast());
+                    element2 = Objects.requireNonNull(stack.pollLast());
+                    result = element2 - element1;
+                    stack.addLast(result);
+                    break;
+                case "*":
+                    element1 = Objects.requireNonNull(stack.pollLast());
+                    element2 = Objects.requireNonNull(stack.pollLast());
+                    result = element2 * element1;
+                    stack.addLast(result);
+                    break;
+                case "/":
+                    element1 = Objects.requireNonNull(stack.pollLast());
+                    element2 = Objects.requireNonNull(stack.pollLast());
+                    result = element2 / element1;
+                    stack.addLast(result);
+                    break;
+                default:
+                    stack.addLast(Integer.parseInt(token));
+                    break;
+            }
+
+        }
+        return Objects.requireNonNull(stack.pollLast());
+    }
+
 }

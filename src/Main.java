@@ -14,12 +14,13 @@ public class Main {
 //        System.out.println(Algorithms.containsNearbyAlmostDuplicate(new int[]{1,5,9,1,5,9}, 2, 3));
 //        System.out.println(Math.abs(Integer.MAX_VALUE - Integer.MIN_VALUE));
 //        System.out.println(1 << 7);
-        int[] data = {250,145,145,145,145};
-        for (int i : data) {
-            System.out.print(Integer.toBinaryString(i) + " ");
-        }
-        System.out.println();
-        System.out.println(Algorithms.validUtf8(data));
-
+//        int[] data = {250,145,145,145,145};
+//        for (int i : data) {
+//            System.out.print(Integer.toBinaryString(i) + " ");
+//        }
+//        System.out.println();
+//        System.out.println(Algorithms.validUtf8(data));
+//        System.out.println(Algorithms.reverseWords("  hello world  "));
+        System.out.println(Algorithms.evalRPN(new String[]{"4","13","5","/","+"}));
     }
 }
