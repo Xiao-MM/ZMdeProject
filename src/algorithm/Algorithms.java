@@ -2972,4 +2972,61 @@ public class Algorithms {
         return Objects.requireNonNull(stack.pollLast());
     }
 
+    /**
+     * 221. 最大正方形
+     * @param matrix
+     * @return
+     */
+    public static int maximalSquare(char[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] dp = new int[m][n];
+        int maxLen = 0;
+        for (int i = 0; i < m; i++) {
+            if (matrix[i][0] == '1'){
+                dp[i][0] = 1;
+                maxLen = 1;
+            }
+
+        }
+        for (int i = 0; i < n; i++) {
+            if (matrix[0][i] == '1'){
+                dp[0][i] = 1;
+                maxLen = 1;
+            }
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] == '1') {
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i-1][j-1]) + 1;
+                    maxLen = Math.max(dp[i][j], maxLen);
+                }
+            }
+        }
+        return maxLen * maxLen;
+    }
+
+    /**
+     * 238. 除自身以外数组的乘积
+     * @param nums
+     * @return
+     */
+    public static int[] productExceptSelf(int[] nums) {
+        int length = nums.length;
+        int[] result = new int[length];
+        result[0] = 1;
+        // 结果集先暂存元素下标对应左半部分的数据的乘积
+        for (int i = 1; i < length; i++) {
+            result[i] = nums[i - 1] * result[i - 1];
+        }
+        // 声明一个临时变量用于记录元素i对应的右半部分乘积
+        int temp = 1;
+        for (int i = length - 1; i >= 0; i--) {
+            result[i] = result[i] * temp;
+            // i 走完了更新 下标i-1对应右半部分元素乘积为 temp *= nums[i];
+            temp *= nums[i];
+        }
+        return result;
+    }
+
 }

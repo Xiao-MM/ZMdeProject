@@ -21,6 +21,16 @@ public class Main {
 //        System.out.println();
 //        System.out.println(Algorithms.validUtf8(data));
 //        System.out.println(Algorithms.reverseWords("  hello world  "));
-        System.out.println(Algorithms.evalRPN(new String[]{"4","13","5","/","+"}));
+//        System.out.println(Algorithms.evalRPN(new String[]{"4","13","5","/","+"}));
+//        System.out.println("0123456".substring(2));
+//        System.out.println(Algorithms.maximalSquare(new char[][]{
+//                {'1', '0', '1', '1', '0', '0', '1', '1'},
+//                {'1', '0', '1', '1', '0', '1', '0', '1'},
+//                {'1', '0', '0', '1', '1', '1', '0', '0'},
+//                {'0', '0', '1', '1', '1', '1', '1', '0'},
+//                {'0', '1', '0', '1', '1', '1', '0', '1'},
+//
+//        }));
+        System.out.println(Arrays.toString(Algorithms.productExceptSelf(new int[]{-1,1,0,-3,3})));
     }
 }
