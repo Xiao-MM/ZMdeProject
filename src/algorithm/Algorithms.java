@@ -3029,4 +3029,24 @@ public class Algorithms {
         return result;
     }
 
+    /**
+     * 400. 第 N 位数字
+     * @param n
+     * @return
+     */
+    public static int findNthDigit(int n) {
+        // d 位数有 9*(10^d-1)个，d 位数的所有位数有 d*9*(10^d-1)个
+        int d = 1, count = 9;
+        double sumD;
+        // 找到n所在的数字位数d
+        while ((sumD = d * count * Math.pow(10, d - 1)) <= n){
+            n -= sumD;
+            d++;
+        }
+        int num = n / d;// 确定是第几个数
+
+        return 0;
+
+    }
+
 }

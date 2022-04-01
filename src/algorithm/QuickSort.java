@@ -3,7 +3,7 @@ package algorithm;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Sort {
+public class QuickSort {
 
     /**
      * 快速排序

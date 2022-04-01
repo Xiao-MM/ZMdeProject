@@ -1,6 +1,7 @@
 
 
 import algorithm.*;
+import util.DoubleUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,6 +32,8 @@ public class Main {
 //                {'0', '1', '0', '1', '1', '1', '0', '1'},
 //
 //        }));
-        System.out.println(Arrays.toString(Algorithms.productExceptSelf(new int[]{-1,1,0,-3,3})));
+//        System.out.println(Arrays.toString(Algorithms.productExceptSelf(new int[]{-1,1,0,-3,3})));
+//        System.out.println(DoubleUtils.sub(3.312, 2.45));
+        System.out.println(Arrays.toString(args));
     }
 }
