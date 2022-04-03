@@ -501,6 +501,81 @@ public class ListNode {
         }
     }
 
+    /**
+     * 148. 排序链表
+     * @param head
+     * @return
+     */
+    public static ListNode sortList(ListNode head) {
+        return sort(head);
+    }
+
+    /**
+     * 归并排序
+     * @param head
+     * @return
+     */
+    private static ListNode sort(ListNode head){
+        if (head != null){
+            // 单个元素就无须再去找mid，否则会陷入死循环
+            if (head.next == null) return head;
+            // 查找中间节点
+            ListNode mid = findMid(head);
+            // 中间节点的下一个节点部分作为右半部分
+            ListNode rightPart = mid.next;
+            // 从中间断开，中间节点的next置空
+            mid.next = null;
+            // 递归执行左半部分
+            ListNode left = sort(head);
+            // 递归执行右半部分
+            ListNode right = sort(rightPart);
+            // 合并左链表和右链表
+            return merge(left, right);
+        }
+        return null;
+    }
+
+    /**
+     * 返回中值
+     * @param head
+     * @return
+     */
+    private static ListNode findMid(ListNode head){
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    /**
+     * 合并链表
+     * @param left
+     * @param right
+     * @return
+     */
+    private static ListNode merge(ListNode left, ListNode right){
+        ListNode dummy = new ListNode();
+        ListNode p = dummy;
+        while (left != null && right != null){
+            if (left.val < right.val){
+                p.next = left;
+                left = left.next;
+            }else {
+                p.next = right;
+                right = right.next;
+            }
+            p = p.next;
+        }
+        // 左链表有剩余直接加入归并链表尾部
+        if (left != null) p.next = left;
+        // 右链表有剩余直接加入归并链表尾部
+        if (right != null) p.next = right;
+        // 返回归并后的链表
+        return dummy.next;
+    }
+
      public static void main(String[] args) {
 //          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
 //          ListNode l2 = new ListNode(1,new ListNode(5,new ListNode(7)));
@@ -514,11 +589,11 @@ public class ListNode {
 //         ListNode listNode = new ListNode(1,new ListNode(2, new ListNode(3,new ListNode(4, new ListNode(5)))));
 //         ListNode listNode = new ListNode(3,new ListNode(5));
 //         printNodes(removeNthFromEnd(listNode, 3));
-         ListNode listNode = new ListNode(2,
-                                 new ListNode(2,
-                                         new ListNode(2,
-                                                 new ListNode(2,
-                                                         new ListNode(2)))));
+//         ListNode listNode = new ListNode(2,
+//                                 new ListNode(2,
+//                                         new ListNode(2,
+//                                                 new ListNode(2,
+//                                                         new ListNode(2)))));
 //         listNode.next.next.next.next.next.next = listNode.next;
 //         ListNode listNode = new ListNode(1, new ListNode(2));
 //         printNodes(listNode);
@@ -530,29 +605,31 @@ public class ListNode {
 //         printNodes(swapPairs(listNode));
          ReorderList reorderList = new ReorderList();
 //         ListNode reverse = reorderList.reverse(listNode);
-         ListNode listNode2 = new ListNode(1,
+         ListNode listNode2 = new ListNode(3,
                                  new ListNode(2,
-                                         new ListNode(3,
-                                                 new ListNode(4,
-                                                         new ListNode(5,
-                                                                 new ListNode(6))))));
+                                         new ListNode(1,
+                                                 new ListNode(5,
+                                                         new ListNode(6,
+                                                                 new ListNode(4))))));
 //         reorderList.reorderList(listNode2);
 //         printNodes(listNode2);
-
-         Node node1 = new Node(1);
-         Node node2 = new Node(2);
-         Node node3 = new Node(3);
-         Node node4 = new Node(4);
-         node1.next = node2;
-         node2.next = node3;
-         node3.next = node4;
-         node1.random = node3;
-         node2.random = node2;
-         node4.random = node1;
-         Node.printNodes(node1);
-         Node node = node1.copyRandomList(node1);
-         Node.printNodes(node);
-         Node.printNodes(node1);
-
+//
+//         Node node1 = new Node(1);
+//         Node node2 = new Node(2);
+//         Node node3 = new Node(3);
+//         Node node4 = new Node(4);
+//         node1.next = node2;
+//         node2.next = node3;
+//         node3.next = node4;
+//         node1.random = node3;
+//         node2.random = node2;
+//         node4.random = node1;
+//         Node.printNodes(node1);
+//         Node node = node1.copyRandomList(node1);
+//         Node.printNodes(node);
+//         Node.printNodes(node1);
+//         System.out.println(findMid(listNode2).val);
+         ListNode listNode1 = sortList(listNode2);
+         printNodes(listNode1);
      }
  }
