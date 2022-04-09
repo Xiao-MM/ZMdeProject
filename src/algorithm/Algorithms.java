@@ -3031,6 +3031,7 @@ public class Algorithms {
 
     /**
      * 400. 第 N 位数字
+     * todo
      * @param n
      * @return
      */
@@ -3046,7 +3047,26 @@ public class Algorithms {
         int num = n / d;// 确定是第几个数
 
         return 0;
+    }
 
+
+    /**
+     * 279. 完全平方数
+     * 动态规划
+     * @param n
+     * @return
+     */
+    public static int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        for (int i = 0; i < dp.length; i++) {
+            dp[i] = i;
+        }
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j * j <= i; j++) {
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+            }
+        }
+        return dp[n];
     }
 
 }

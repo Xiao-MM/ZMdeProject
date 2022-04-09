@@ -34,6 +34,8 @@ public class Main {
 //        }));
 //        System.out.println(Arrays.toString(Algorithms.productExceptSelf(new int[]{-1,1,0,-3,3})));
 //        System.out.println(DoubleUtils.sub(3.312, 2.45));
-        System.out.println(Arrays.toString(args));
+//        System.out.println(Arrays.toString(args));
+//        System.out.println(Math.sqrt(9));
+        System.out.println(Algorithms.numSquares(13));
     }
 }
