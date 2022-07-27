@@ -554,6 +554,32 @@ public class TreeNode {
         }
     }
 
+    /**
+     * 236. 二叉树的最近公共祖先
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // 节点为空返回空
+        if (root == null) return null;
+        // 节点为p,q直接返回root
+        if (root == p || root == q) return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        // 孩子落在两边root即为祖先
+        if (left != null && right != null) return root;
+        // 左孩子有右孩子没有，直接返回左孩子
+        if (left != null && right == null) return left;
+        // 右孩子有左孩子没有，直接返回右孩子
+        if (left == null && right != null) return right;
+        // 都没有直接返回null
+        return null;
+    }
+
+
+
 
     public static void main(String[] args) {
 //        TreeNode root = new TreeNode(3,
@@ -589,13 +615,17 @@ public class TreeNode {
 //        System.out.println(root.levelOrder(root));
 //        System.out.println(postorderTraversal(root));
 //        RecoverTree recoverTree = new RecoverTree();
-        TreeNode root = new TreeNode(3, new TreeNode(1, new TreeNode(2), new TreeNode(3)), new TreeNode(4, new TreeNode(2), null));
+        TreeNode root = new TreeNode(3,
+                new TreeNode(1, new TreeNode(2), new TreeNode(5)),
+                new TreeNode(4, new TreeNode(2), null));
+        TreeNode treeNode = lowestCommonAncestor(root, root.left.right, root.left);
+        System.out.println(treeNode.val);
 //        printTree(root);
 //        recoverTree.recoverTree(root);
 //        System.out.println();
 //        printTree(root);
-        SumNumbers sumNumbers = new SumNumbers();
-        System.out.println(sumNumbers.sumNumbers(root));
+//        SumNumbers sumNumbers = new SumNumbers();
+//        System.out.println(sumNumbers.sumNumbers(root));
     }
 
 

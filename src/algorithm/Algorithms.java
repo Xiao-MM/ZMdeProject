@@ -3069,4 +3069,41 @@ public class Algorithms {
         return dp[n];
     }
 
+    /**
+     * 241. 为运算表达式设计优先级
+     * @param expression
+     * @return
+     */
+    public static List<Integer> diffWaysToCompute(String expression) {
+        List<Integer> result = new ArrayList<>();
+        int length = expression.length();
+        // 当表达式只剩下数字部分直接加入结果集并返回，这里范围为1-99故Length为1或2
+        if (length == 1 || length == 2){
+            result.add(Integer.parseInt(expression));
+            return result;
+        }
+        // 遍历字符串根据运算符去划分左区域和右区域
+        for (int i = 0; i < length; i++) {
+            char c = expression.charAt(i);
+            if (c == '+' || c == '-' || c == '*'){
+                // 递归计算左区域的结果集
+                List<Integer> lefts = diffWaysToCompute(expression.substring(0, i));
+                // 递归计算右区域的结果集
+                List<Integer> rights = diffWaysToCompute(expression.substring(i + 1));
+                // 计算区域结果的笛卡尔积作为在i处运算符所能得到的所有结果
+                for (Integer left: lefts) {
+                    for (Integer right : rights){
+                        int t;
+                        switch (c){
+                            case '+': t = left + right;break;
+                            case '-': t = left - right;break;
+                            default: t = left * right;
+                        }
+                        result.add(t);
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }
