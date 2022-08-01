@@ -580,6 +580,42 @@ public class TreeNode {
 
 
 
+    static class CountNodes{
+        /**
+         * 222. 完全二叉树的节点个数
+         * @param root
+         * @return
+         */
+        public static int countNodes(TreeNode root) {
+            if (root == null) return 0;
+            int leftHeight = getHeight(root.left);
+            int rightHeight = getHeight(root.right);
+            // 左子树和右子树高度相等，左子树为满二叉树
+            if (leftHeight == rightHeight)
+                // 左子树高度+根节点 = 2^leftHeight - 1 + 1
+                return (1 << leftHeight) + countNodes(root.right);
+            else
+                // 右子树是满的，递归左子树
+                return (1 << rightHeight) + countNodes(root.left);
+        }
+
+        /**
+         * 统计树高
+         * 完全二叉树只需要统计左子树高度
+         * @return
+         */
+        public static int getHeight(TreeNode root){
+            int count = 0;
+            while (root != null){
+                count++;
+                root = root.left;
+            }
+            return count;
+        }
+    }
+
+
+
 
     public static void main(String[] args) {
 //        TreeNode root = new TreeNode(3,
