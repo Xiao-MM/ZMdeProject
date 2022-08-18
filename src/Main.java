@@ -36,6 +36,16 @@ public class Main {
 //        System.out.println(DoubleUtils.sub(3.312, 2.45));
 //        System.out.println(Arrays.toString(args));
 //        System.out.println(Math.sqrt(9));
-        System.out.println(Algorithms.numSquares(13));
+//        System.out.println(Algorithms.numSquares(13));
+//        System.out.println(Algorithms.maxSubArray(new int[]{-2,1,-3,4,-1,2,1,-5,4}));
+        MinStack minStack = new MinStack();
+        minStack.push(-2);
+        minStack.push(0);
+        minStack.push(-3);
+        System.out.println(minStack.getMin());
+        minStack.pop();
+        System.out.println(minStack.top());
+        System.out.println(minStack.getMin());
+
     }
 }

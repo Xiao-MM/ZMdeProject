@@ -3106,4 +3106,42 @@ public class Algorithms {
         }
         return result;
     }
+
+//    /**
+//     * 53. 最大子数组和
+//     * 状态转移方程 dp[i] = max(dp[i-1]+nums[i], nums[i])
+//     * @param nums
+//     * @return
+//     */
+//    public static int maxSubArray(int[] nums) {
+//        // 声明状态数组
+//        int[] dp = new int[nums.length];
+//        // 初始化最大值和dp[0]
+//        int max = dp[0] = nums[0];
+//        // 更新状态数组选择最大值
+//        for (int i = 1; i < nums.length; i++) {
+//            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+//            max = Math.max(dp[i], max);
+//        }
+//        return max;
+//    }
+    /**
+     * 53. 最大子数组和
+     * 空间优化
+     * 状态转移方程 dp[i] = max(dp[i-1]+nums[i], nums[i])
+     * @param nums
+     * @return
+     */
+    public static int maxSubArray(int[] nums) {
+        // 声明状态数组
+        int dp;
+        // 初始化最大值和dp[0]
+        int max = dp = nums[0];
+        // 更新状态数组选择最大值
+        for (int i = 1; i < nums.length; i++) {
+            dp = Math.max(dp + nums[i], nums[i]);
+            max = Math.max(dp, max);
+        }
+        return max;
+    }
 }
