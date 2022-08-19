@@ -3144,4 +3144,28 @@ public class Algorithms {
         }
         return max;
     }
+
+    /**
+     * 14. 最长公共前缀
+     * @param strs
+     * @return
+     */
+    public static String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0) return "";
+        StringBuilder sb = new StringBuilder();
+        char cur;
+        int index = 0;
+        OK:
+        while (true){
+            // 越界则中断
+            if (strs[0].length() <= index) break;
+            cur = strs[0].charAt(index);
+            for (int i = 1; i < strs.length; i++) {
+                if (strs[i].length() <= index || strs[i].charAt(index) != cur) break OK;
+            }
+            index++;
+            sb.append(cur);
+        }
+        return sb.toString();
+    }
 }
