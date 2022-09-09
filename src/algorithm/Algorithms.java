@@ -3168,4 +3168,107 @@ public class Algorithms {
         }
         return sb.toString();
     }
+
+//    /**
+//     * 287. 寻找重复数
+//     * @param nums
+//     * @return
+//     */
+//    public static int findDuplicate(int[] nums) {
+//        int length = nums.length;
+//        // 数组元素的范围是1->n，nums.length = n + 1
+//        int left = 1, right = length - 1;
+//        int count, mid;
+//        while (left < right){
+//            // count用来计算mid左边小于等于mid的元素的个数
+//            count = 0;
+//            mid = left + (right - left) / 2;
+//            // 统计nums中小于等于mid的元素
+//            for (int num : nums) {
+//                if (num <= mid) count++;
+//            }
+//            // 如果数量大于mid，意味着小于等于mid的元素多于mid个，抽屉原理，小于等于Mid的区间一定存在重复元素
+//            if (count > mid)
+//                right = mid;
+//            else
+//                left = mid + 1;
+//        }
+//        return left;
+//    }
+
+//    /**
+//     * 287. 寻找重复数
+//     * @param nums
+//     * @return
+//     */
+//    public static int findDuplicate(int[] nums) {
+//        // 有重复数链表有环
+//        // 找出重复数=找出唤醒链表入口
+//        int slow = 0, fast = 0;
+//        slow = nums[slow];
+//        fast = nums[nums[fast]];
+//        while (slow != fast){
+//            slow = nums[slow];
+//            fast = nums[nums[fast]];
+//        }
+//        slow = 0;
+//        while (slow != fast){
+//            slow = nums[slow];
+//            fast = nums[fast];
+//        }
+//        // slow就是出现重复的那个元素，一定是
+//        return slow;
+//    }
+    /**
+     * 287. 寻找重复数
+     * 位运算
+     * @param nums
+     * @return
+     */
+    public static int findDuplicate(int[] nums) {
+        int len = nums.length, result = 0;
+        int max_bit = 31;
+        // 取不大于0的最高位
+        while (((len - 1) >> max_bit) == 0) max_bit --;
+        // 获取每一位对应的1的和
+        for (int i = max_bit; i >= 0; i--) {
+            int x = 0, y = 0;
+            for (int j = 0; j < len; j++) {
+                // 统计每个元素对应为1的位的和
+                if(((nums[j] >> i) & 1) == 1) x++;
+                // 统计不重复时应该有的和
+                if(j >= 1 && ((j >> i) & 1) == 1) y++;
+            }
+            // 当出现重复元素时1会比较多
+            if (x > y) result |= 1 << i;
+        }
+        return result;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
