@@ -614,6 +614,42 @@ public class TreeNode {
         }
     }
 
+    static class FindDuplicateSubtrees{
+
+        Map<String, TreeNode> map = new HashMap<>();
+        Set<TreeNode> result = new HashSet<>();
+
+        /**
+         * 652. 寻找重复的子树
+         * @param root
+         * @return
+         */
+        public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+            dfs(root);
+            return new ArrayList<>(result);
+        }
+
+        /**
+         * 序列化一棵树
+         * root.val(root.left)(root.right)
+         * @param root
+         */
+        String dfs(TreeNode root){
+            if (root == null) return "";
+            StringBuilder sb = new StringBuilder();
+            sb.append(root.val).append("(").append(dfs(root.left)).append(")(").append(dfs(root.right)).append(")");
+            String serial = sb.toString();
+            // 包含了直接取加入set，这里map存放的是第一次出现的元素
+            if (map.containsKey(serial))
+                result.add(map.get(serial));
+            else
+                map.put(serial,root);
+            return serial;
+        }
+
+
+    }
+
 
 
 
@@ -651,11 +687,21 @@ public class TreeNode {
 //        System.out.println(root.levelOrder(root));
 //        System.out.println(postorderTraversal(root));
 //        RecoverTree recoverTree = new RecoverTree();
-        TreeNode root = new TreeNode(3,
-                new TreeNode(1, new TreeNode(2), new TreeNode(5)),
-                new TreeNode(4, new TreeNode(2), null));
-        TreeNode treeNode = lowestCommonAncestor(root, root.left.right, root.left);
-        System.out.println(treeNode.val);
+        TreeNode root = new TreeNode(1,
+                new TreeNode(2, new TreeNode(4),null),
+                new TreeNode(3, new TreeNode(2, new TreeNode(4), null), new TreeNode(4)));
+//        TreeNode treeNode = lowestCommonAncestor(root, root.left.right, root.left);
+//        List<TreeNode> duplicateSubtrees = new FindDuplicateSubtrees().findDuplicateSubtrees(root);
+//        for (TreeNode duplicateSubtree : duplicateSubtrees) {
+//            System.out.println();
+//            printTree(duplicateSubtree);
+//        }
+
+        SerializeTree serializeTree = new SerializeTree();
+        String data = serializeTree.serialize(root);
+        System.out.println(data);
+        TreeNode deserialize = serializeTree.deserialize(data);
+        printTree(deserialize);
 //        printTree(root);
 //        recoverTree.recoverTree(root);
 //        System.out.println();

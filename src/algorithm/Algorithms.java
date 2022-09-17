@@ -8,14 +8,15 @@ import java.util.stream.Collectors;
 public class Algorithms {
     /**
      * 获取整数的位数
+     *
      * @param x
      * @return
      */
-    public static int getNumLength(int x){
+    public static int getNumLength(int x) {
         int n;
         if (x < 0) x = -x;
-        for (n = 0; x > 0; n++){
-            x = x/10;
+        for (n = 0; x > 0; n++) {
+            x = x / 10;
         }
         return n;
     }
@@ -24,59 +25,62 @@ public class Algorithms {
      * 7. 整数反转
      * digit = x%10
      * result = result*10 + digit;
+     *
      * @param x 带翻转数
      * @return
      */
-    public static int reverse(int x){
+    public static int reverse(int x) {
         int digit = 0;// 取模得到的尾数
         int result = 0;// 需要累乘的结果
-        while (x != 0){
+        while (x != 0) {
             //因为x本身会被int限制，当x为正数并且位数和Integer.MAX_VALUE的位数相等时首位最大只能为2，
             // 所以逆转后不会出现res = Integer.MAX_VALUE / 10 && tmp > 2的情况，
             // 自然也不需要判断res==214748364 && tmp>7了，反之负数情况也一样
-            if (result < Integer.MIN_VALUE/10 || result > Integer.MAX_VALUE/10){
+            if (result < Integer.MIN_VALUE / 10 || result > Integer.MAX_VALUE / 10) {
                 return 0;
             }
-            digit = x%10;
-            x/=10;
-            result = result*10 + digit;
+            digit = x % 10;
+            x /= 10;
+            result = result * 10 + digit;
         }
         return result;
     }
 
     /**
      * 1. 两数之和
-     * @param nums 列表
+     *
+     * @param nums   列表
      * @param target 目标数字
      * @return
      */
     public static int[] twoSum(int[] nums, int target) {
-        Map<Integer,Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])){
-                return new int[]{map.get(target - nums[i]),i};
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{map.get(target - nums[i]), i};
             }
-            map.put(nums[i],i);
+            map.put(nums[i], i);
         }
         return new int[]{0};
     }
 
     /**
      * 300. 最长递增子序列
+     *
      * @param nums
      * @return
      */
-    public static int lengthOfLIS(int[] nums){
+    public static int lengthOfLIS(int[] nums) {
         int[] d = new int[nums.length];
         int max = d[0] = 1;
         for (int i = 1; i < nums.length; i++) {
             d[i] = 1;
             for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i] && d[i] <= d[j]){
+                if (nums[j] < nums[i] && d[i] <= d[j]) {
                     d[i] = d[j] + 1;
                 }
             }
-            if (max < d[i]){
+            if (max < d[i]) {
                 max = d[i];
             }
         }
@@ -86,6 +90,7 @@ public class Algorithms {
     /**
      * 300. 最长递增子序列
      * 官方答案
+     *
      * @param nums
      * @return
      */
@@ -110,11 +115,12 @@ public class Algorithms {
 
     /**
      * 动态规划求解斐波那契
+     *
      * @param n
      * @return
      */
     public static int fib(int n) {
-        if (n < 2){
+        if (n < 2) {
             return n;
         }
         int p = 0, q = 1, k = 0;
@@ -128,13 +134,14 @@ public class Algorithms {
 
     /**
      * 矩阵法求斐波那契
+     *
      * @param n
      * @return
      */
     public static int fib_matrix(int n) {
-       int[][] base = new int[][]{{1,1},{1,0}};
-       int[][] baseN = matrixFastMulti(base,n);
-       return baseN[1][0];// 该元素即为所求
+        int[][] base = new int[][]{{1, 1}, {1, 0}};
+        int[][] baseN = matrixFastMulti(base, n);
+        return baseN[1][0];// 该元素即为所求
     }
 
     /**
@@ -142,14 +149,15 @@ public class Algorithms {
      * 7^10 = 7^5*7^5
      * 适用于数和矩阵，满足结合律的类型
      * 其时间复杂度为 o(log n)
+     *
      * @param data 待乘数据
-     * @param n 幂
+     * @param n    幂
      * @return
      */
-    public static int fastMulti(int data, int n){
+    public static int fastMulti(int data, int n) {
         int result = 1;
-        while (n > 0){
-            if ((n & 1) == 1){ //判断二进制最后一位是否为1
+        while (n > 0) {
+            if ((n & 1) == 1) { //判断二进制最后一位是否为1
                 result *= data;
             }
             data *= data;
@@ -160,23 +168,24 @@ public class Algorithms {
 
     /**
      * 50. Pow(x, n)
+     *
      * @param x
      * @param n
      * @return
      */
     public static double myPow(double x, int n) {
-        if (x == 0.0){
+        if (x == 0.0) {
             return 0;
         }
         long b = n;// -2^32 转 2^32会发生越界
         // 将负数幂转成正数幂
-        if (n < 0){
-            x = 1/x; // 将
+        if (n < 0) {
+            x = 1 / x; // 将
             b = -b;
         }
         double result = 1;
-        while (b > 0){
-            if ((b & 1) == 1){
+        while (b > 0) {
+            if ((b & 1) == 1) {
                 result *= x;
             }
             x *= x;
@@ -187,28 +196,31 @@ public class Algorithms {
 
     /**
      * 矩阵快速幂（二阶）
+     *
      * @param data
      * @param n
      * @return
      */
-    public static int[][] matrixFastMulti(int[][] data, int n){
-        int[][] result = new int[][]{{1,0},{0,1}};// 初始化单位矩阵
-        while (n > 0){
-            if ((n & 1) == 1){
-                result = matrixMulti(result,data);
+    public static int[][] matrixFastMulti(int[][] data, int n) {
+        int[][] result = new int[][]{{1, 0}, {0, 1}};// 初始化单位矩阵
+        while (n > 0) {
+            if ((n & 1) == 1) {
+                result = matrixMulti(result, data);
             }
-            data = matrixMulti(data,data);
+            data = matrixMulti(data, data);
             n >>= 1;
         }
         return result;
     }
+
     /**
      * 二阶矩阵乘法
+     *
      * @param a
      * @param b
      * @return
      */
-    public static int[][] matrixMulti(int[][] a, int[][] b){
+    public static int[][] matrixMulti(int[][] a, int[][] b) {
         int[][] result = new int[2][2];
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -224,18 +236,19 @@ public class Algorithms {
      * 2. 2221/10=222>10,div=10*10=100
      * 3. 2221/100=22>10,div=100*10=1000
      * 4. 2221/1000=2<10,break div = 1000
+     *
      * @param x
      * @return
      */
     public static boolean isPalindrome(int x) {
         if (x < 0) return false;
         int div = 1;// 初始化除数
-        while (x/div >= 10) div *= 10;// 获取最大除数
-        while (x > 0){
-            int left = x/div;// 获取最高位的值 2221->2
-            int right = x%10;// 获取最低位的值 2221->1
+        while (x / div >= 10) div *= 10;// 获取最大除数
+        while (x > 0) {
+            int left = x / div;// 获取最高位的值 2221->2
+            int right = x % 10;// 获取最低位的值 2221->1
             if (left != right) return false;// 2 != 1
-            x = (x % div)/10;// 1221 -> 22
+            x = (x % div) / 10;// 1221 -> 22
             div /= 100;// 1000->10
         }
         return true;
@@ -243,11 +256,12 @@ public class Algorithms {
 
     /**
      * 5. 最长回文子串 暴力解法, 严重超时o(n^3)
+     *
      * @param s
      * @return
      */
     public static String longestPalindromeViolate(String s) {
-        if (s.length() <= 1){
+        if (s.length() <= 1) {
             return s;
         }
         int maxLength = 0;
@@ -255,7 +269,7 @@ public class Algorithms {
         for (int i = 1; i <= s.length(); i++) {
             for (int j = 0; j < i; j++) {
                 String substring = s.substring(j, i);
-                if (isPalindrome(substring) && substring.length() > maxLength){
+                if (isPalindrome(substring) && substring.length() > maxLength) {
                     maxLength = substring.length();
                     maxSubStr = substring;
                 }
@@ -268,12 +282,13 @@ public class Algorithms {
      * 5. 最长回文子串
      * 动态规划思想 p(i,j) 表示下标从i到j的字符串时是否为回文串
      * 状态转移方程 p(i,j) = p(i+1,j-1)&&(s[i]==s[j])
+     *
      * @param s j-1 - (i+1) + 1 = j-i-1
      * @return
      */
     public static String longestPalindrome(String s) {
         // 长度小于2直接就是回文串
-        if (s == null || s.length() < 2){
+        if (s == null || s.length() < 2) {
             return s;
         }
         char[] chars = s.toCharArray();
@@ -293,46 +308,47 @@ public class Algorithms {
                 // 根据左边界和串长确定右边界
                 int r = len + l - 1;
                 // 右边界越界直接跳出循环
-                if (r > chars.length - 1){
+                if (r > chars.length - 1) {
                     break;
                 }
                 // 如果l和r处的字符不相等则该范围串非回文串
-                if (chars[l] != chars[r]){
+                if (chars[l] != chars[r]) {
                     dp[l][r] = false;
-                }else {
+                } else {
                     // 如果串长为2和3且char[l]==char[r]该串为回文串
-                    if (len <= 3){// len <= 3
+                    if (len <= 3) {// len <= 3
                         dp[l][r] = true;
-                    }else {
+                    } else {
                         // len > 3 时由 dp[l+1][r-1]值决定
-                        dp[l][r] = dp[l+1][r-1];
+                        dp[l][r] = dp[l + 1][r - 1];
                     }
                 }
                 // 如果l->r为回文串更新最大串长
-                if (dp[l][r] && len > maxLen){
+                if (dp[l][r] && len > maxLen) {
                     maxLen = len;
                     begin = l;
                 }
             }
         }
-        return s.substring(begin, begin+maxLen);
+        return s.substring(begin, begin + maxLen);
     }
 
     /**
      * 3.无重复字符的最长子串
+     *
      * @param s
      * @return
      */
     public static int lengthOfLongestSubstring(String s) {
-        if (s.length() == 0){
+        if (s.length() == 0) {
             return 0;
         }
-        HashMap<Character,Integer> map = new HashMap<>();
+        HashMap<Character, Integer> map = new HashMap<>();
         int maxLen = 0;
         int left = 0;
 
         for (int right = 0; right < s.length(); right++) {
-            if (map.containsKey(s.charAt(right))){
+            if (map.containsKey(s.charAt(right))) {
                 left = Math.max(left, map.get(s.charAt(right)));// 如果map中存在已知元素，更新左边界下标
             }
             map.put(s.charAt(right), right + 1);// map中存放滑动窗口left下一个移动的位置
@@ -344,12 +360,13 @@ public class Algorithms {
 
     /**
      * 15. 三数之和
+     *
      * @param nums
      * @return
      */
     public static List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
-        if (nums == null || nums.length < 3){//小于3的数组直接返空
+        if (nums == null || nums.length < 3) {//小于3的数组直接返空
             return result;
         }
         Arrays.sort(nums);
@@ -357,17 +374,17 @@ public class Algorithms {
 //            if(nums[i] > 0) break; // 如果当前数字大于0，则三数之和一定大于0，所以结束循环
             if (nums[i] > 0) return result;
             int l = i + 1, r = nums.length - 1;
-            if (i > 0 && nums[i] == nums[i-1]) continue; // 去重
-            while (l < r){
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
+            while (l < r) {
                 int sum = nums[i] + nums[l] + nums[r];
-                if (sum > 0){ //和大于0，正确答案一定在右边界左边
+                if (sum > 0) { //和大于0，正确答案一定在右边界左边
                     r--;
-                }else if (sum < 0){ //和小于0，正确答案一定在左边界右边
+                } else if (sum < 0) { //和小于0，正确答案一定在左边界右边
                     l++;
-                }else {
-                    result.add(Arrays.asList(nums[i],nums[l],nums[r]));
-                    while (l < r && nums[l] == nums[l+1]) l++; // 去重
-                    while (l < r && nums[r] == nums[r-1]) r--; // 去重
+                } else {
+                    result.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    while (l < r && nums[l] == nums[l + 1]) l++; // 去重
+                    while (l < r && nums[r] == nums[r - 1]) r--; // 去重
                     l++;
                     r--;
                 }
@@ -400,6 +417,7 @@ public class Algorithms {
      * 120. 三角形最小路径和
      * 动态规划解法 dp[i,j] = min(dp[i+1,j],dp[i+1,j+1] + triangle[i,j])
      * 优化空间
+     *
      * @param triangle
      * @return
      */
@@ -439,9 +457,11 @@ public class Algorithms {
 //        }
 //        return dp[m-1][n-1];
 //    }
+
     /**
      * 62. 不同路径
      * 空间优化
+     *
      * @param m
      * @param n
      * @return
@@ -453,10 +473,10 @@ public class Algorithms {
         }
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
-                dp[j] += dp[j-1];
+                dp[j] += dp[j - 1];
             }
         }
-        return dp[n-1];
+        return dp[n - 1];
     }
 //        int eatAppleNum = 0; // 吃掉苹果的数量
 //        int canEetAppleNum = 0; // 可以吃的苹果的数量
@@ -483,9 +503,11 @@ public class Algorithms {
 //                map.put(invalidDay, map.get(invalidDay)-1);// 置那天的苹果数量少一个
 //            }
 //        }
+
     /**
      * 1705. 吃苹果的最大数目
      * 贪心 + 小顶堆
+     *
      * @param apples
      * @param days
      * @return
@@ -499,20 +521,20 @@ public class Algorithms {
         int day;
         for (day = 0; day < length; day++) {
             // 如果当前日期有苹果产生，将其连同过期日期和数量加入小顶堆
-            if (apples[day] > 0){
+            if (apples[day] > 0) {
                 pq.offer(new int[]{days[day] + day, apples[day]});
             }
             // 如果队列有苹果，并且当前苹果过期了则移除该元素，否则该天苹果数量-1，如果减到0则移除
-            while (pq.size() > 0){
+            while (pq.size() > 0) {
                 // 贪心策略，每次都吃最快过期的苹果
                 int[] top = pq.peek();
                 // 过期了移除
-                if (top[0] <= day){
+                if (top[0] <= day) {
                     pq.remove();
-                }else {
+                } else {
                     top[1]--;// 苹果数量-1
-                    eatAppleNum ++;
-                    if (top[1] == 0){ // 苹果吃完了移除该天的苹果
+                    eatAppleNum++;
+                    if (top[1] == 0) { // 苹果吃完了移除该天的苹果
                         pq.remove();
                     }
                     break;
@@ -520,10 +542,10 @@ public class Algorithms {
             }
         }
         // 数组长度结束期间的吃法，当堆不空时，选堆顶元素，可以吃的数量 = min(过期日期-当前天数，苹果数)
-        while (pq.size() > 0){
+        while (pq.size() > 0) {
             int[] top = pq.peek();
             // 过期了移除
-            if (top[0] <= day){
+            if (top[0] <= day) {
                 pq.remove();
             }
             top = pq.peek(); //更新top
@@ -569,7 +591,8 @@ public class Algorithms {
 //    }
 
     /**
-     *  121. 买卖股票的最佳时机
+     * 121. 买卖股票的最佳时机
+     *
      * @param prices
      * @return
      */
@@ -588,6 +611,7 @@ public class Algorithms {
 
     /**
      * 122. 买卖股票的最佳时机 II
+     *
      * @param prices
      * @return
      */
@@ -596,7 +620,7 @@ public class Algorithms {
         int profit = 0;
         // 购买策略为只要任意两天呈上涨趋势就买入和卖出，否则就不买，（跳过）
         for (int i = 1; i < prices.length; i++) {
-            if (prices[i] > prices[i - 1]){
+            if (prices[i] > prices[i - 1]) {
                 profit += prices[i] - prices[i - 1];
             }
         }
@@ -607,13 +631,14 @@ public class Algorithms {
      * 240. 搜索二维矩阵 II
      * 剑指 Offer 04. 二维数组中的查找
      * 时间 o(m+n) 空间 o(1)
+     *
      * @param matrix
      * @param target
      * @return
      */
     public static boolean findNumberIn2DArray(int[][] matrix, int target) {
         int i = matrix.length - 1, j = 0;
-        while (i >= 0 && j < matrix[0].length){
+        while (i >= 0 && j < matrix[0].length) {
             if (matrix[i][j] > target) i--;
             else if (matrix[i][j] < target) j++;
             else return true;
@@ -624,6 +649,7 @@ public class Algorithms {
     /**
      * 240. 搜索二维矩阵 II
      * o(m*log n)
+     *
      * @param matrix
      * @param target
      * @return
@@ -633,13 +659,13 @@ public class Algorithms {
         for (int i = 0; i < m; i++) {
             int l = 0, r = n - 1;
             int mid;
-            while (l <= r){ // 注意二分的条件是 l <= r
+            while (l <= r) { // 注意二分的条件是 l <= r
                 mid = (l + r) >> 1;
-                if (matrix[i][mid] > target){
+                if (matrix[i][mid] > target) {
                     r = mid - 1;
-                }else if (matrix[i][mid] < target){
+                } else if (matrix[i][mid] < target) {
                     l = mid + 1;
-                }else {
+                } else {
                     return true;
                 }
             }
@@ -652,17 +678,18 @@ public class Algorithms {
      * f(n,x) = ∑(1->6) f(n-1,x-i)*(1/6)
      * dp[n,x] = dp[n,x] + dp[n-1,x-i]*(1/6)
      * 时间 o(n^2),空间 o(n)
+     *
      * @param n 骰子的个数
      * @return
      */
     public static double[] dicesProbability(int n) {
         double[] dp = new double[6];// 表示当前筛子个数下所有数量和的概率，数组下标 (0, n - 1) 表示（n, 2n）
-        Arrays.fill(dp, 1.0/6.0);
+        Arrays.fill(dp, 1.0 / 6.0);
         for (int i = 2; i <= n; i++) { //从2一次地推到n
             double[] temp = new double[5 * i + 1];// 所有的骰子的和种类数，n个筛子有6n - n + 1 种筛子和
             for (int j = 0; j < dp.length; j++) {// 依次遍历dp，用 筛子个数 i 的每个种类和 j 去递推 筛子i+1的种类和为 j+k 的概率值dp[j+k]
                 for (int k = 0; k < 6; k++) {// 新筛子的数只可能是1-6，循环6次即可
-                    temp[j + k] += dp[j]/6.0; // 对dp[j]/6求和
+                    temp[j + k] += dp[j] / 6.0; // 对dp[j]/6求和
                 }
             }
             dp = temp;// 用新的结果替换上一层的结果
@@ -708,14 +735,16 @@ public class Algorithms {
 //        }
 //        return result.toString();
 //    }
+
     /**
      * 6. Z 字形变换
-     * @param s 给定字符串 s
+     *
+     * @param s       给定字符串 s
      * @param numRows 根据给定的行数 numRows
      * @return 输出需要从左往右逐行读取，产生出一个新的字符串
      */
     public static String convert(String s, int numRows) {
-        if (numRows < 2){
+        if (numRows < 2) {
             return s;
         }
         List<StringBuilder> temps = new ArrayList<>();// 注意这里不能使用数组，StringBuilder[i]会将所有的数组元素视为同一个对象
@@ -728,8 +757,8 @@ public class Algorithms {
         for (char c : s.toCharArray()) {
             temps.get(count).append(c);// 写入第count行
             count += flag;
-            if (count == 0 || count == numRows - 1){// 满足该条件就要掉头反向写数据了
-                flag = - flag;
+            if (count == 0 || count == numRows - 1) {// 满足该条件就要掉头反向写数据了
+                flag = -flag;
             }
         }
         for (StringBuilder temp : temps) {
@@ -740,12 +769,13 @@ public class Algorithms {
 
     /**
      * 8. 字符串转换整数 (atoi)
+     *
      * @param s
      * @return
      */
     public static int myAtoi(String s) {
         if (s == null || s.length() == 0) return 0;
-        List<Character> baseNumber = Arrays.asList('0','1','2','3','4','5','6','7','8','9');
+        List<Character> baseNumber = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
         char[] chars = s.trim().toCharArray();
         boolean isFirstSearch = false;
         long result = 0L;
@@ -756,18 +786,18 @@ public class Algorithms {
 //                continue;
 //            }
             // 2. 取第一个符号，如果+，-则+，-，否则按+处理
-            if (!isFirstSearch){// 只做一个扫描
+            if (!isFirstSearch) {// 只做一个扫描
                 isFirstSearch = true;
                 // 整数不变继续扫描下一个元素
-                if (c == '-'){// 只要没有出现'-'就按整数处理
-                    sign = - sign;
+                if (c == '-') {// 只要没有出现'-'就按整数处理
+                    sign = -sign;
                     continue;// 确认完符号继续扫描下一个元素
                 }
                 if (c == '+') continue;// 确认完符号继续扫描下一个元素
 
             }
             // 3. 依次向后取数字，
-            if (!baseNumber.contains(c)){
+            if (!baseNumber.contains(c)) {
                 // 如果取的不是数字则返回已经转化过的数字
                 return (int) result;
             }
@@ -826,6 +856,7 @@ public class Algorithms {
      * 1765. 地图中的最高点
      * 牛逼
      * 题目可以转化为到0（海域）的最近距离矩阵
+     *
      * @param isWater
      * @return
      */
@@ -834,42 +865,42 @@ public class Algorithms {
         int n = isWater[0].length;
 
         int[][] dp = new int[m][n];
-        for(int[] arr : dp){
+        for (int[] arr : dp) {
             Arrays.fill(arr, 2001); // 因为最远距离 = m + n <= 2000
         }
 
         // base case
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(isWater[i][j] == 1){
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (isWater[i][j] == 1) {
                     dp[i][j] = 0; // 水域为0
                 }
             }
         }
 
         // 从左上到右下
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(dp[i][j] !=0){
-                    if(i > 0){
-                        dp[i][j] = Math.min(dp[i-1][j]+1, dp[i][j]); // 上方
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dp[i][j] != 0) {
+                    if (i > 0) {
+                        dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j]); // 上方
                     }
-                    if(j > 0){
-                        dp[i][j] = Math.min(dp[i][j-1]+1, dp[i][j]); // 左方
+                    if (j > 0) {
+                        dp[i][j] = Math.min(dp[i][j - 1] + 1, dp[i][j]); // 左方
                     }
                 }
             }
         }
 
         // 从右下到左上
-        for(int i=m-1; i>=0; i--){
-            for(int j=n-1; j>=0; j--){
-                if(dp[i][j] !=0){
-                    if(i < m-1){
-                        dp[i][j] = Math.min(dp[i+1][j]+1, dp[i][j]); // 右方
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                if (dp[i][j] != 0) {
+                    if (i < m - 1) {
+                        dp[i][j] = Math.min(dp[i + 1][j] + 1, dp[i][j]); // 右方
                     }
-                    if(j < n-1){
-                        dp[i][j] = Math.min(dp[i][j+1]+1, dp[i][j]); // 下方
+                    if (j < n - 1) {
+                        dp[i][j] = Math.min(dp[i][j + 1] + 1, dp[i][j]); // 下方
                     }
                 }
             }
@@ -881,47 +912,49 @@ public class Algorithms {
     /**
      * 1342. 将数字变成 0 的操作次数
      * 给你一个非负整数 num ，请你返回将它变成 0 所需要的步数。 如果当前数字是偶数，你需要把它除以 2 ；否则，减去 1 。
+     *
      * @param num
      * @return
      */
     public static int numberOfSteps(int num) {
         int count = 0;
         if (num == 0) return 0;
-        while (num > 0){
-            if (num % 2 == 0){
+        while (num > 0) {
+            if (num % 2 == 0) {
                 num /= 2;
-            }else {
-                num --;
+            } else {
+                num--;
             }
-            count ++;
+            count++;
         }
         return count;
     }
 
     /**
      * 16. 最接近的三数之和
+     *
      * @param nums
      * @param target
      * @return
      */
     public static int threeSumClosest(int[] nums, int target) {
-        if (nums.length < 3){
+        if (nums.length < 3) {
             return 0;
         }
         Arrays.sort(nums);
         int minSum = nums[0] + nums[1] + nums[2];
         for (int i = 0; i < nums.length - 2; i++) {
             int l = i + 1, r = nums.length - 1;
-            while (l < r){
+            while (l < r) {
                 int sum = nums[i] + nums[l] + nums[r];
                 if (Math.abs(target - sum) < Math.abs(target - minSum)) {
                     minSum = sum;// 取距离最近的三数和
                 }
-                if (sum < target){
+                if (sum < target) {
                     l++;
-                }else if (sum > target){
+                } else if (sum > target) {
                     r--;
-                }else {
+                } else {
                     return minSum;
                 }
             }
@@ -931,6 +964,7 @@ public class Algorithms {
 
     /**
      * 22. 括号生成 动态规划
+     *
      * @param n 生成括号的对数
      * @return 所有可能的并且 有效的 括号组合。
      */
@@ -939,15 +973,15 @@ public class Algorithms {
         List<String> dp1 = Collections.singletonList("()");
         // 状态集，所有的括号组合情况
         List<List<String>> dp = new ArrayList<>(Arrays.asList(dp0, dp1));
-        if (n <= 0){
+        if (n <= 0) {
             return dp0;
         }
-        if (n == 1){
+        if (n == 1) {
             return dp1;
         }
         // 从2开始枚举
         for (int i = 2; i <= n; i++) {
-             // dp[n] = "("+dp[p]+")"+dp[q], p + q = n-1
+            // dp[n] = "("+dp[p]+")"+dp[q], p + q = n-1
             List<String> t = new ArrayList<>();
             for (int j = 0; j < i; j++) {
                 for (String p : dp.get(j)) {
@@ -964,16 +998,17 @@ public class Algorithms {
 
     /**
      * 判断串是否是回文串
+     *
      * @return
      */
-    public static boolean isPalindrome(String s){
+    public static boolean isPalindrome(String s) {
         char[] chars = new char[s.length()];
         for (int i = 0; i < chars.length; i++) {
             chars[i] = s.charAt(i);
         }
 //        char[] chars = s.toCharArray();
-        for (int l = 0,r = s.length() - 1; l < r; l++,r--) {
-            if (chars[l] != chars[r]){
+        for (int l = 0, r = s.length() - 1; l < r; l++, r--) {
+            if (chars[l] != chars[r]) {
                 return false;
             }
         }
@@ -982,6 +1017,7 @@ public class Algorithms {
 
     /**
      * 33. 搜索旋转排序数组
+     *
      * @param nums
      * @param target
      * @return
@@ -990,29 +1026,29 @@ public class Algorithms {
         if (nums == null || nums.length == 0) {
             return -1;
         }
-        int left = 0, right = nums.length-1;
+        int left = 0, right = nums.length - 1;
         int mid;
-        while (left <= right){
+        while (left <= right) {
             mid = left + (right - left) / 2;
             // 数组左半部分有序且target属于左半部分，直接在左半部分寻找
-            if (target == nums[mid]){
+            if (target == nums[mid]) {
                 return mid;
             }
             // 现根据mid确定两边哪边有序
             // 左边有序
-            if (nums[left] <= nums[mid]){
+            if (nums[left] <= nums[mid]) {
                 // 属于左边有序区间就在左边找
-                if (target < nums[mid] && nums[left] <= target){
+                if (target < nums[mid] && nums[left] <= target) {
                     right = mid - 1;
-                }else {
+                } else {
                     left = mid + 1;
                 }
-            // 右半部分有序
-            }else {
+                // 右半部分有序
+            } else {
                 // 属于右边有序区间就在右边找
-                if (target > nums[mid] && target <= nums[right]){
+                if (target > nums[mid] && target <= nums[right]) {
                     left = mid + 1;
-                }else {
+                } else {
                     right = mid - 1;
                 }
             }
@@ -1023,48 +1059,49 @@ public class Algorithms {
 
     /**
      * 34. 在排序数组中查找元素的第一个和最后一个位置
+     *
      * @param nums
      * @param target
      * @return
      */
     public static int[] searchRange(int[] nums, int target) {
         int[] result = new int[]{-1, -1};
-        if (nums == null || nums.length == 0){
+        if (nums == null || nums.length == 0) {
             return result;
         }
-        int left = 0,right = nums.length - 1;
+        int left = 0, right = nums.length - 1;
         int mid;
         // 查找左边界
-        while (left <= right){
-            mid = left + (right - left)/2;
-            if (nums[mid] == target){
-                if (mid > 0 && nums[mid - 1] == nums[mid]){
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                if (mid > 0 && nums[mid - 1] == nums[mid]) {
                     right = mid - 1;
-                }else {
+                } else {
                     result[0] = mid;
                     break;
                 }
-            }else if (nums[mid] > target){
+            } else if (nums[mid] > target) {
                 right = mid - 1;
-            }else {
+            } else {
                 left = mid + 1;
             }
         }
         left = 0;
         right = nums.length - 1;
         // 查找右边界
-        while (left <= right){
-            mid = left + (right - left)/2;
-            if (nums[mid] == target){
-                if (mid < nums.length-1 && nums[mid + 1] == nums[mid]){
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                if (mid < nums.length - 1 && nums[mid + 1] == nums[mid]) {
                     left = mid + 1;
-                }else {
+                } else {
                     result[1] = mid;
                     break;
                 }
-            }else if (nums[mid] > target){
+            } else if (nums[mid] > target) {
                 right = mid - 1;
-            }else {
+            } else {
                 left = mid + 1;
             }
         }
@@ -1073,25 +1110,26 @@ public class Algorithms {
 
     /**
      * 153. 寻找旋转排序数组中的最小值
+     *
      * @param nums
      * @return
      */
     public static int findMin(int[] nums) {
-        if (nums == null || nums.length == 0){
+        if (nums == null || nums.length == 0) {
             return -1;
         }
         int numRight = nums[nums.length - 1];
         int left = 0, right = nums.length - 1;
         int mid;
-        while (left <= right){
+        while (left <= right) {
             mid = left + (right - left) / 2;
             // 说明最小值在mid左边
-            if (nums[mid] < numRight){
+            if (nums[mid] < numRight) {
                 right = mid - 1;
-            // 说明最小值在mid右边
-            }else if (nums[mid] > numRight){
+                // 说明最小值在mid右边
+            } else if (nums[mid] > numRight) {
                 left = mid + 1;
-            }else {
+            } else {
                 return nums[mid];
             }
         }
@@ -1104,6 +1142,7 @@ public class Algorithms {
      * 这个快因为不用再在结果集里循环找结果，找第一个大的稍微慢点，但是找下一个小的就会快很多， while (b <= k)次数并不多，
      * 且空间是o(1)
      * 递归方式
+     *
      * @param k
      * @return
      */
@@ -1111,8 +1150,8 @@ public class Algorithms {
         // 递归出口，k=0结束
         if (k == 0) return 0;
         // 求小于
-        int a = 1,b = 1;
-        while (b <= k){
+        int a = 1, b = 1;
+        while (b <= k) {
             int c = a + b;
             a = b;
             b = c;
@@ -1123,6 +1162,7 @@ public class Algorithms {
 
     /**
      * 48. 旋转图像
+     *
      * @param matrix
      */
     public static void rotate(int[][] matrix) {
@@ -1137,7 +1177,7 @@ public class Algorithms {
         }
         // 左右翻转
         int l = 0, r = length - 1;
-        while (l < r){
+        while (l < r) {
             int temp;
             for (int i = 0; i < length; i++) {
                 temp = matrix[i][l];
@@ -1151,6 +1191,7 @@ public class Algorithms {
 
     /**
      * 45. 跳跃游戏 II
+     *
      * @param nums
      * @return
      */
@@ -1160,11 +1201,11 @@ public class Algorithms {
         int end = 0;// 一次跳跃可以到达的最大距离
         for (int i = 0; i < nums.length - 1; i++) {
             maxPos = Math.max(maxPos, i + nums[i]);
-            if (i == end){
+            if (i == end) {
                 end = maxPos;
-                step ++;
+                step++;
                 // 如果下一条已经可以到达终点直接返回即可
-                if (maxPos >= nums.length - 1){
+                if (maxPos >= nums.length - 1) {
                     return step;
                 }
             }
@@ -1174,12 +1215,13 @@ public class Algorithms {
 
     /**
      * 55. 跳跃游戏
+     *
      * @param nums
      * @return
      */
     public static boolean canJump(int[] nums) {
         // 如果就一个数就已经起跳成功了
-        if (nums.length == 1){
+        if (nums.length == 1) {
             return true;
         }
         int maxPos = 0;
@@ -1188,16 +1230,16 @@ public class Algorithms {
             // 每次循环更新最大跳跃位置
             maxPos = Math.max(maxPos, i + nums[i]);
             // i == end 时开始下一次起跳
-            if (i == end){
+            if (i == end) {
                 // 更新下一条的end位置
                 end = maxPos;
                 // 如果要起跳的位置超过或等于最终位置则断定可以到达
-                if (maxPos >= nums.length - 1){
+                if (maxPos >= nums.length - 1) {
                     return true;
                 }
             }
             // end 更新失败意味着后面的都无法继续进行下去了
-            if (i > end){
+            if (i > end) {
                 return false;
             }
         }
@@ -1209,37 +1251,38 @@ public class Algorithms {
      * 81. 搜索旋转排序数组 II
      * 类比于 I 数组中包含着重复元素
      * 如果所有元素都重复且无法匹配target则时间复杂度增至o(n)
-     * @param nums 旋转数组
+     *
+     * @param nums   旋转数组
      * @param target 目标值
      * @return
      */
     public static boolean search2(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
         int mid;
-        while (left <= right){
+        while (left <= right) {
             mid = left + (right - left) / 2;
             // 找到了直接返回
-            if (nums[mid] == target){
+            if (nums[mid] == target) {
                 return true;
             }
-            if (nums[left] == nums[mid]){
+            if (nums[left] == nums[mid]) {
                 // 该情况下出现了数组元素重复，让left+1规避重复元素
                 left++;
                 // 左边有序
-            }else if (nums[left] < nums[mid]){
-                if (target >= nums[left] && target < nums[mid]){
+            } else if (nums[left] < nums[mid]) {
+                if (target >= nums[left] && target < nums[mid]) {
                     // nums[left]<= target < nums[mid]在左边找
                     right = mid - 1;
-                }else {
+                } else {
                     // 否则在右边找
                     left = mid + 1;
                 }
                 // 右边有序
-            }else {
-                if (target <= nums[right] && target > nums[mid]){
+            } else {
+                if (target <= nums[right] && target > nums[mid]) {
                     // nums[mid] < target <= nums[right]在右边找
                     left = mid + 1;
-                }else {
+                } else {
                     // 否则在左边找
                     right = mid - 1;
                 }
@@ -1252,12 +1295,13 @@ public class Algorithms {
      * 96. 不同的二叉搜索树
      * 动态规划
      * dp[n] = dp[0]*dp[n-1] + dp[1]*dp[n-2] + ... + dp[i]*dp[n-i] + ... + dp[n-1]*dp[0]
+     *
      * @param n
      * @return
      */
     public static int numTrees(int n) {
         // dp[n]表示n个结点的树种类有多少个
-        int[] dp = new int[n+1];
+        int[] dp = new int[n + 1];
         dp[0] = 1;// 空数种类只有一
         dp[1] = 1;// 只有一个根节点的树种类只有一
         for (int i = 2; i <= n; i++) {
@@ -1270,27 +1314,29 @@ public class Algorithms {
 
     /**
      * 80. 删除有序数组中的重复项 II
+     *
      * @param nums
      * @return
      */
     public static int removeDuplicates(int[] nums) {
-        return removeDuplicatesKeepK(nums,2);
+        return removeDuplicatesKeepK(nums, 2);
     }
 
     /**
      * 删除排序数组的重复元素，保留K个
+     *
      * @param nums 排序数组
-     * @param k 保留K个
+     * @param k    保留K个
      * @return
      */
-    public static int removeDuplicatesKeepK(int[] nums, int k){
+    public static int removeDuplicatesKeepK(int[] nums, int k) {
         // 待放元素位置
         int i = 0;
         // 遍历数组，每次判断当前元素是否加入放置位置
         for (int num : nums) {
             // i < k 初始K个位置可以直接放
             // 如果num和待放置的元素的倒数第二个位置元素相等则无法加入
-            if (i < k || nums[i-k] != num)
+            if (i < k || nums[i - k] != num)
                 // 放置元素，下标后移
                 nums[i++] = num;
         }
@@ -1301,6 +1347,7 @@ public class Algorithms {
     /**
      * 1405. 最长快乐字符串
      * 贪心 + 大顶堆
+     *
      * @param a
      * @param b
      * @param c
@@ -1308,7 +1355,7 @@ public class Algorithms {
      */
     public static String longestDiverseString(int a, int b, int c) {
         // int[0] 存放a,b,c对应的0，1，2，注意 0+'a' = 'a', 1 + 'a' = 'b', 2 + 'a' = 'c'
-        PriorityQueue<int[]> q = new PriorityQueue<>((o1, o2) -> o2[1]-o1[1]);// o2[1]-o1[1]表示大顶堆
+        PriorityQueue<int[]> q = new PriorityQueue<>((o1, o2) -> o2[1] - o1[1]);// o2[1]-o1[1]表示大顶堆
         if (a > 0) q.add(new int[]{0, a});
         if (b > 0) q.add(new int[]{1, b});
         if (c > 0) q.add(new int[]{2, c});
@@ -1316,23 +1363,23 @@ public class Algorithms {
         StringBuilder sb = new StringBuilder();
 
         // 贪心策略，每次选个最大的用来构建
-        while (!q.isEmpty()){
+        while (!q.isEmpty()) {
             int[] cur = q.poll();
             int length = sb.length();
             // 如果已拼接字符串后两位和出队元素属于同一种则出下一个堆元素进行比较
-            if (length >= 2 && cur[0] == sb.charAt(length - 1) - 'a' && cur[0] == sb.charAt(length - 2) - 'a'){
+            if (length >= 2 && cur[0] == sb.charAt(length - 1) - 'a' && cur[0] == sb.charAt(length - 2) - 'a') {
                 // 如果cur已经是最后一个且不满足最后拼接条件了循环就结束了
                 if (q.isEmpty()) break;
                 int[] next = q.poll();
                 sb.append((char) (next[0] + 'a'));
-                if (--next[1] > 0){
+                if (--next[1] > 0) {
                     // 还有剩的再放回去
                     q.add(next);
                 }
                 q.add(cur);// 把cur再放回去
-            }else {
+            } else {
 
-                if (--cur[1] > 0){
+                if (--cur[1] > 0) {
                     // 还有剩的再放回去
                     q.add(cur);
                 }
@@ -1343,34 +1390,35 @@ public class Algorithms {
 
     /**
      * 31. 下一个排列
+     *
      * @param nums
      */
     public static void nextPermutation(int[] nums) {
         if (nums.length == 1) return;
         int i = nums.length - 1;
         // 倒数找第一组(i-1,i),(i-1,i)满足nums[i-1] < nums[i]
-        while (i > 0 && nums[i] <= nums[i-1]) i--;
+        while (i > 0 && nums[i] <= nums[i - 1]) i--;
         // i - 1 >= 0时意味着存在 nums[i] > nums[i-1] 的数对
-        if (i > 0){
-            int j = nums.length-1;
+        if (i > 0) {
+            int j = nums.length - 1;
             // 倒数找第一个大于 nums[i-1] 的元素与他做交换
-            while (j >= 0 && nums[j] <= nums[i-1]) j--;
-            swap(nums, j, i-1);
+            while (j >= 0 && nums[j] <= nums[i - 1]) j--;
+            swap(nums, j, i - 1);
         }
         // [i, end] 此时一定逆序，将其翻转
         reverse(nums, i);
     }
 
-    public static void swap(int[] nums, int i, int j){
+    public static void swap(int[] nums, int i, int j) {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
     }
 
-    public static void reverse(int[] nums, int start){
+    public static void reverse(int[] nums, int start) {
         int l = start, r = nums.length - 1;
-        while (l < r){
-            swap(nums, l , r);
+        while (l < r) {
+            swap(nums, l, r);
             l++;
             r--;
         }
@@ -1379,28 +1427,29 @@ public class Algorithms {
     /**
      * 540. 有序数组中的单一元素
      * 不用 r = mid -1, l = mid 是因为这样走会丢失掉单一元素位于mid的情况，r的最终位置就是目标值
+     *
      * @param nums
      * @return
      */
     public static int singleNonDuplicate(int[] nums) {
         int l = 0, r = nums.length - 1;
         int mid;
-        while (l < r){
+        while (l < r) {
             mid = l + (r - l) / 2;
             // 中点位于偶数位，偶数位与它所在后一位比较，如果相同，左半部分元素未发生失序，在右半部分找
-            if (mid % 2 == 0){
+            if (mid % 2 == 0) {
                 // 右半部分完好在左边找
-                if (mid < nums.length - 1 && nums[mid] == nums[mid+1]){
+                if (mid < nums.length - 1 && nums[mid] == nums[mid + 1]) {
                     l = mid + 1;
-                }else {
+                } else {
                     r = mid;
                 }
                 // 中点位于奇数位，奇数位位与它所在前一位比较，如果相同，左半部分元素未发生失序，在右半部分找
-            }else {
+            } else {
                 //
-                if (mid > 0 && nums[mid] == nums[mid-1]){
+                if (mid > 0 && nums[mid] == nums[mid - 1]) {
                     l = mid + 1;
-                }else {
+                } else {
                     r = mid;
                 }
             }
@@ -1428,6 +1477,7 @@ public class Algorithms {
 
     /**
      * 74. 搜索二维矩阵
+     *
      * @param matrix
      * @param target
      * @return
@@ -1436,14 +1486,14 @@ public class Algorithms {
         int m = matrix.length, n = matrix[0].length;
         int l = 0, r = m * n - 1;
         int mid;
-        while (l <= r){
+        while (l <= r) {
             mid = l + (r - l) / 2;
             int val = matrix[mid / n][mid % n];
-            if (val == target){
+            if (val == target) {
                 return true;
-            }else if (val > target){
+            } else if (val > target) {
                 r = mid - 1;
-            }else {
+            } else {
                 l = mid + 1;
             }
         }
@@ -1452,21 +1502,22 @@ public class Algorithms {
 
     /**
      * 378. 有序矩阵中第 K 小的元素
+     *
      * @param matrix
-     * @param k 总的第k小
+     * @param k      总的第k小
      * @return
      */
     public static int kthSmallest(int[][] matrix, int k) {
-        int left = matrix[0][0], right = matrix[matrix.length-1][matrix.length-1];
+        int left = matrix[0][0], right = matrix[matrix.length - 1][matrix.length - 1];
         // mid 是用来猜的数，猜的mid不一定真的是矩阵元素
         int mid;
         // 当到达边界条件时，left = right 即为最终答案，并非是mid准确无误的成为了第k大的元素
-        while (left < right){
+        while (left < right) {
             mid = left + (right - left) / 2;
-            if (check(matrix, mid, k)){
+            if (check(matrix, mid, k)) {
                 // right 用来收缩边界，当比mid小的元素多于k时表明mid猜大了，将right收缩一下继续猜
                 right = mid;
-            }else {
+            } else {
                 // left 用来确认最终答案 当比mid小的元素少于k时表明mid猜小了，mid + 1 不停地进行试探
                 left = mid + 1;
             }
@@ -1476,20 +1527,21 @@ public class Algorithms {
 
     /**
      * 检验小于等于mid的元素数量是否比k大
+     *
      * @param matrix
      * @param mid
      * @param k
      * @return
      */
-    private static boolean check(int[][] matrix, int mid, int k){
+    private static boolean check(int[][] matrix, int mid, int k) {
         // 初始化比mid值小的元素数量和
         int sum = 0;
         int i = matrix.length - 1, j = 0;
-        while (i >= 0 && j < matrix[0].length){
-            if (matrix[i][j] <= mid){
+        while (i >= 0 && j < matrix[0].length) {
+            if (matrix[i][j] <= mid) {
                 sum += i + 1;
                 j++;
-            }else {
+            } else {
                 i--;
             }
         }
@@ -1498,6 +1550,7 @@ public class Algorithms {
 
     /**
      * 63. 不同路径 II
+     *
      * @param obstacleGrid
      * @return
      */
@@ -1506,20 +1559,20 @@ public class Algorithms {
         int n = obstacleGrid[0].length;
         int[][] dp = new int[m][n];
         for (int i = 0; i < m; i++) {
-           if (obstacleGrid[i][0] == 0)
-               dp[i][0] = 1;
-           else {
-              while (i < m){
-                  dp[i][0] = 0;
-                  i++;
-              }
-           }
+            if (obstacleGrid[i][0] == 0)
+                dp[i][0] = 1;
+            else {
+                while (i < m) {
+                    dp[i][0] = 0;
+                    i++;
+                }
+            }
         }
         for (int i = 0; i < n; i++) {
             if (obstacleGrid[0][i] == 0)
                 dp[0][i] = 1;
             else {
-                while (i < n){
+                while (i < n) {
                     dp[0][i] = 0;
                     i++;
                 }
@@ -1527,12 +1580,12 @@ public class Algorithms {
         }
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
-                if (obstacleGrid[i][j] == 0){
-                    dp[i][j] = dp[i-1][j] + dp[i][j-1];
+                if (obstacleGrid[i][j] == 0) {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
                 }
             }
         }
-        return dp[m-1][n-1];
+        return dp[m - 1][n - 1];
     }
 
 //    /**
@@ -1559,10 +1612,12 @@ public class Algorithms {
 //        }
 //        return dp[n];
 //    }
+
     /**
      * 91. 解码方法
      * 动态规划思想 空间优化
      * c = a + if true : b
+     *
      * @param s
      * @return
      */
@@ -1575,10 +1630,10 @@ public class Algorithms {
         // 由第一个字符到第n个字符依次推演，不能将第一个字符当作dp起始条件做推演，这样结果是不对的
         for (int i = 1; i <= n; i++) {
             c = 0;
-            if (chars[i-1] != '0'){
+            if (chars[i - 1] != '0') {
                 c += b;
             }
-            if (i > 1 && chars[i-2] != '0' && (chars[i-2] - '0') * 10 + (chars[i-1] - '0') <= 26){
+            if (i > 1 && chars[i - 2] != '0' && (chars[i - 2] - '0') * 10 + (chars[i - 1] - '0') <= 26) {
                 c += a;
             }
             a = b;
@@ -1589,6 +1644,7 @@ public class Algorithms {
 
     /**
      * 64. 最小路径和
+     *
      * @param grid
      * @return
      */
@@ -1598,18 +1654,18 @@ public class Algorithms {
         dp[0][0] = grid[0][0];
         // 初始化列
         for (int i = 1; i < n; i++) {
-            dp[0][i] = dp[0][i-1] + grid[0][i];
+            dp[0][i] = dp[0][i - 1] + grid[0][i];
         }
         // 初始化行
         for (int j = 1; j < m; j++) {
-            dp[j][0] = dp[j-1][0] + grid[j][0];
+            dp[j][0] = dp[j - 1][0] + grid[j][0];
         }
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
-                dp[i][j] = grid[i][j] + Math.min(dp[i-1][j],dp[i][j-1]);
+                dp[i][j] = grid[i][j] + Math.min(dp[i - 1][j], dp[i][j - 1]);
             }
         }
-        return dp[m-1][n-1];
+        return dp[m - 1][n - 1];
     }
 
 //    /**
@@ -1634,6 +1690,7 @@ public class Algorithms {
 
     /**
      * 213. 打家劫舍 II
+     *
      * @param nums
      * @return
      */
@@ -1646,14 +1703,14 @@ public class Algorithms {
         dp[0] = nums[0];
         dp[1] = Math.max(nums[0], nums[1]);
         for (int i = 2; i < n - 1; i++) {
-            dp[i] = Math.max(dp[i-2] + nums[i], dp[i-1]);
+            dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
         }
         int t = dp[n - 2];
-        Arrays.fill(dp,0);
+        Arrays.fill(dp, 0);
         dp[1] = nums[1];
         dp[2] = Math.max(nums[1], nums[2]);
         for (int i = 3; i < n; i++) {
-            dp[i] = Math.max(dp[i-2] + nums[i], dp[i-1]);
+            dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
         }
         return Math.max(dp[n - 1], t);
     }
@@ -1661,6 +1718,7 @@ public class Algorithms {
     /**
      * 198. 打家劫舍
      * 空间优化
+     *
      * @param nums
      * @return
      */
@@ -1680,6 +1738,7 @@ public class Algorithms {
 
     /**
      * 29. 两数相除
+     *
      * @param dividend
      * @param divisor
      * @return
@@ -1695,10 +1754,10 @@ public class Algorithms {
         if (dividend > 0) dividend = -dividend;
         if (divisor > 0) divisor = -divisor;
         int result = 0;
-        while (dividend <= divisor){
+        while (dividend <= divisor) {
             int t = divisor, count = 1;
             // divisor 每次呈指数倍翻倍逼近 dividend，翻倍的数据记在t中，翻倍的次数记在count中
-            while (t >= limit && count >= limit && t > dividend - t){
+            while (t >= limit && count >= limit && t > dividend - t) {
                 t += t;
                 count += count;
             }
@@ -1710,13 +1769,14 @@ public class Algorithms {
 
     /**
      * 54. 螺旋矩阵
+     *
      * @param matrix
      * @return
      */
     public static List<Integer> spiralOrder(int[][] matrix) {
         int top = 0, left = 0, bottom = matrix.length - 1, right = matrix[0].length - 1;
         List<Integer> result = new ArrayList<>();
-        while (true){
+        while (true) {
             // 沿着上界从左向右走
             for (int i = left; i <= right; i++) result.add(matrix[top][i]);
             if (++top > bottom) break;// 走完上界减一 上界减完越界退出
@@ -1789,23 +1849,25 @@ public class Algorithms {
 //        }
 //
 //    }
+
     /**
      * 75. 颜色分类
      * 双指针法 排0，2
+     *
      * @param nums
      */
     public static void sortColors(int[] nums) {
         // p0 归纳 0，p1 归纳 1
         int p0 = 0, p2 = nums.length - 1;
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == 0){
+            if (nums[i] == 0) {
                 int temp = nums[p0];
                 nums[p0] = nums[i];
                 nums[i] = temp;
                 p0++;
             }
             // i 到达 p2 就停止
-            if (i <= p2 && nums[i] == 2){
+            if (i <= p2 && nums[i] == 2) {
                 int temp = nums[p2];
                 nums[p2] = nums[i];
                 nums[i] = temp;
@@ -1817,6 +1879,7 @@ public class Algorithms {
     /**
      * 89. 格雷编码
      * n 位格雷编码 为n-1位取反+2^n
+     *
      * @param n
      * @return
      */
@@ -1825,7 +1888,7 @@ public class Algorithms {
         result.add(0);
         int head = 1;
         for (int i = 0; i < n; i++) {
-            for (int j = result.size() - 1; j >= 0 ; j--) {
+            for (int j = result.size() - 1; j >= 0; j--) {
                 result.add(result.get(j) + head);
             }
             head <<= 1;
@@ -1835,6 +1898,7 @@ public class Algorithms {
 
     /**
      * 128. 最长连续序列
+     *
      * @param nums
      * @return
      */
@@ -1846,10 +1910,10 @@ public class Algorithms {
         int maxCount = 0;
         for (Integer num : set) {
             // 确保不重复选取某些数字，当 num - 1 存在时直接跳过
-            if (!set.contains(num - 1)){
+            if (!set.contains(num - 1)) {
                 int count = 1;
                 int n = num + 1;
-                while (set.contains(n)){
+                while (set.contains(n)) {
                     count++;
                     n++;
                 }
@@ -1882,6 +1946,7 @@ public class Algorithms {
 
     /**
      * 59. 螺旋矩阵 II
+     *
      * @param n
      * @return
      */
@@ -1889,7 +1954,7 @@ public class Algorithms {
         int[][] matrix = new int[n][n];
         int left = 0, top = 0, right = n - 1, bottom = n - 1;
         int count = 0;
-        while (true){
+        while (true) {
             for (int i = left; i <= right; i++) matrix[top][i] = ++count;
             if (++top > bottom) break;
             for (int i = top; i <= bottom; i++) matrix[i][right] = ++count;
@@ -1918,6 +1983,7 @@ public class Algorithms {
 
     /**
      * 137. 只出现一次的数字 II
+     *
      * @param nums
      * @return
      */
@@ -1943,6 +2009,7 @@ public class Algorithms {
 
     /**
      * 209. 长度最小的子数组
+     *
      * @param target
      * @param nums
      * @return
@@ -1950,9 +2017,9 @@ public class Algorithms {
     public static int minSubArrayLen(int target, int[] nums) {
         // high++ 入队， low++ 出队
         int low = 0, high = 0, sum = 0, min = Integer.MAX_VALUE;
-        while (high < nums.length){
+        while (high < nums.length) {
             sum += nums[high++];
-            while (sum >= target){
+            while (sum >= target) {
                 min = Math.min(high - low, min);
                 sum -= nums[low++];
             }
@@ -1965,12 +2032,13 @@ public class Algorithms {
      * 5 * 2 = 10, 2 的数量远大于 5 的数量
      * 有多少个5出现结尾就有多少个0出现
      * 每5个数相乘结果便会出现一个5，每25个数之间会出来2个5，每125个数之间会出来3个5......
+     *
      * @param n
      * @return
      */
     public static int trailingZeroes(int n) {
         int count = 0;
-        while (n > 0){
+        while (n > 0) {
             // 除去一轮计算下一轮
             n /= 5;
             // 相隔5的5的数量
@@ -1981,19 +2049,20 @@ public class Algorithms {
 
     /**
      * 167. 两数之和 II - 输入有序数组
+     *
      * @param numbers
      * @param target
      * @return
      */
     public int[] twoSum2(int[] numbers, int target) {
         int i = 0, j = numbers.length - 1;
-        while (i < j){
+        while (i < j) {
             int sum = numbers[i] + numbers[j];
-            if (sum < target){
+            if (sum < target) {
                 i++;
-            }else if (sum > target){
+            } else if (sum > target) {
                 j--;
-            }else {
+            } else {
                 return new int[]{i + 1, j + 1};
             }
         }
@@ -2002,6 +2071,7 @@ public class Algorithms {
 
     /**
      * 56. 合并区间
+     *
      * @param intervals
      * @return
      */
@@ -2017,9 +2087,9 @@ public class Algorithms {
                 result.removeLast();
                 result.addLast(new int[]{last[0], Math.max(intervals[i][1], last[1])});
             } else if (last[0] < intervals[i][0]) {
-                if (last[1] >= intervals[i][0] ) {
+                if (last[1] >= intervals[i][0]) {
                     // [0,3] [1,9] || [0,3] [3,9]
-                    if (last[1] < intervals[i][1]){
+                    if (last[1] < intervals[i][1]) {
                         result.removeLast();
                         // [0, 9]
                         result.addLast(new int[]{last[0], intervals[i][1]});
@@ -2067,6 +2137,7 @@ public class Algorithms {
 
     /**
      * 415. 字符串相加
+     *
      * @param num1
      * @param num2
      * @return
@@ -2089,6 +2160,7 @@ public class Algorithms {
     /**
      * 43. 字符串相乘
      * 竖式优化
+     *
      * @param num1
      * @param num2
      * @return
@@ -2119,6 +2191,7 @@ public class Algorithms {
     /**
      * 152. 乘积最大子数组
      * 动态规划
+     *
      * @param nums
      * @return
      */
@@ -2144,6 +2217,7 @@ public class Algorithms {
 
     /**
      * 189. 轮转数组
+     *
      * @param nums
      * @param k
      */
@@ -2160,6 +2234,7 @@ public class Algorithms {
 
     /**
      * 189. 轮转数组
+     *
      * @param nums
      * @param k
      */
@@ -2177,22 +2252,24 @@ public class Algorithms {
 
     /**
      * 旋转数组
+     *
      * @param nums
      * @param left
      * @param right
      */
-    public static void reverse(int[] nums, int left, int right){
-        while (left < right){
+    public static void reverse(int[] nums, int left, int right) {
+        while (left < right) {
             int temp = nums[left];
             nums[left] = nums[right];
             nums[right] = temp;
-            left ++;
+            left++;
             right--;
         }
     }
 
     /**
      * 166. 分数到小数
+     *
      * @param numerator
      * @param denominator
      * @return
@@ -2211,7 +2288,7 @@ public class Algorithms {
         // 拿到余数
         a %= b;
         Map<Long, Integer> map = new HashMap<>();
-        while (a != 0){
+        while (a != 0) {
             // 将余数所在位置加入map
             map.put(a, sb.length());
             a *= 10;
@@ -2220,7 +2297,7 @@ public class Algorithms {
             // 再次获取余数
             a %= b;
             // 如果出现了余数则不必再进行计算了
-            if (map.containsKey(a)){
+            if (map.containsKey(a)) {
                 Integer pos = map.get(a);
                 return String.format("%s(%s)", sb.substring(0, pos), sb.substring(pos));
             }
@@ -2230,6 +2307,7 @@ public class Algorithms {
 
     /**
      * 162. 寻找峰值
+     *
      * @param nums
      * @return
      */
@@ -2237,7 +2315,7 @@ public class Algorithms {
         int l = 0, r = nums.length - 1;
         int mid;
         // 长度为1时 while (l < r) 直接不走了
-        while (l < r){
+        while (l < r) {
             mid = l + r >> 1;
             // mid 元素 > mid + 1 元素，在左边存在峰值，
             if (nums[mid] > nums[mid + 1])
@@ -2253,13 +2331,14 @@ public class Algorithms {
 
     /**
      * 11. 盛最多水的容器
+     *
      * @param height
      * @return
      */
     public static int maxArea(int[] height) {
         int l = 0, r = height.length - 1;
         int max = 0, water;
-        while (l < r){
+        while (l < r) {
             water = Math.min(height[l], height[r]) * (r - l);
             max = Math.max(max, water);
             if (height[l] <= height[r])
@@ -2272,6 +2351,7 @@ public class Algorithms {
 
     /**
      * 12. 整数转罗马数字
+     *
      * @param num
      * @return
      */
@@ -2290,7 +2370,7 @@ public class Algorithms {
         map.put(500, "D");
         map.put(900, "CM");
         map.put(1000, "M");
-        int[] keys = new int[]{1,4,5,9,10,40,50,90,100,400,500,900,1000};
+        int[] keys = new int[]{1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
         StringBuilder sb = new StringBuilder();
         for (int i = keys.length - 1; i >= 0; i--) {
             if (num < keys[i]) continue;
@@ -2322,6 +2402,7 @@ public class Algorithms {
 
     /**
      * 71. 简化路径
+     *
      * @param path
      * @return
      */
@@ -2329,7 +2410,7 @@ public class Algorithms {
         Deque<String> stack = new ArrayDeque<>();
         int length = path.length();
         // i 不默认递增，根据逻辑递增
-        for (int i = 1; i < length;) {
+        for (int i = 1; i < length; ) {
             // 找到一个不为 / 的字符，i 指向该位置
             if (path.charAt(i) == '/' && ++i >= 0) continue;
             // j 从 i + 1 向后找
@@ -2339,10 +2420,10 @@ public class Algorithms {
             // 截取 / part /
             String part = path.substring(i, j);
             // part 为 .. 出栈
-            if (part.equals("..")){
+            if (part.equals("..")) {
                 if (!stack.isEmpty()) stack.pollLast();
                 // part 为 . 跳过，除此以外的字符送入栈内
-            }else if (!part.equals(".")){
+            } else if (!part.equals(".")) {
                 stack.addLast(part);
             }
             // i 沿着 j 继续进行
@@ -2355,6 +2436,7 @@ public class Algorithms {
 
     /**
      * 97. 交错字符串
+     *
      * @param s1
      * @param s2
      * @param s3
@@ -2367,11 +2449,11 @@ public class Algorithms {
         boolean[][] dp = new boolean[len1 + 1][len2 + 1];
         dp[0][0] = true;
         // 初始化第一列
-        for (int i = 1; i <= len1; i++){
+        for (int i = 1; i <= len1; i++) {
             if (dp[i - 1][0] && s1.charAt(i - 1) == s3.charAt(i - 1)) dp[i][0] = true;
         }
         // 初始化第一行
-        for (int i = 1; i <= len2; i++){
+        for (int i = 1; i <= len2; i++) {
             if (dp[0][i - 1] && s2.charAt(i - 1) == s3.charAt(i - 1)) dp[0][i] = true;
         }
         // 更新所有状态数组
@@ -2399,6 +2481,7 @@ public class Algorithms {
 
     /**
      * 49. 字母异位词分组
+     *
      * @param strs
      * @return
      */
@@ -2415,10 +2498,11 @@ public class Algorithms {
 
     /**
      * 计数编码
+     *
      * @param s
      * @return
      */
-    private static String encode(String s){
+    private static String encode(String s) {
         char[] chars = new char[26];
         // 统计每个字母出现的次数，并将其作为字母异位词的判别依据
         for (int i = 0; i < s.length(); i++) chars[s.charAt(i) - 'a']++;
@@ -2429,6 +2513,7 @@ public class Algorithms {
         /**
          * 139. 单词拆分
          * 递归回溯+记忆化数组
+         *
          * @param s
          * @param wordDict
          * @return
@@ -2439,7 +2524,7 @@ public class Algorithms {
             return dfs(s, 0, isHappened, wordDict);
         }
 
-        private static boolean dfs(String s, int begin, Boolean[] isHappened, List<String> wordDict){
+        private static boolean dfs(String s, int begin, Boolean[] isHappened, List<String> wordDict) {
             // 前面成功判定返回
             if (begin == s.length()) return true;
             // 算过了
@@ -2448,7 +2533,7 @@ public class Algorithms {
                 String partStr = s.substring(begin, i);
                 // 左边匹配且剩余部分也匹配返回
                 // dfs(s, i, wordDict) 只有 wordDict.contains(partStr) 满足才会继续进行下去，当剩下部分不足以匹配 begin == s.length()就不会执行
-                if (wordDict.contains(partStr) && dfs(s, i, isHappened, wordDict)){
+                if (wordDict.contains(partStr) && dfs(s, i, isHappened, wordDict)) {
                     isHappened[begin] = true;// begin开始的串判定已经计算过了，而且判定成功
                     return true;
                 }
@@ -2490,6 +2575,7 @@ public class Algorithms {
     /**
      * 139. 单词拆分
      * 动态规划优化
+     *
      * @param s
      * @param wordDict
      * @return
@@ -2497,28 +2583,29 @@ public class Algorithms {
     public static boolean wordBreak(String s, List<String> wordDict) {
         int maxWordLength = 0;
         int minWordLength = Integer.MAX_VALUE;
-        for(String word : wordDict){
+        for (String word : wordDict) {
             maxWordLength = Math.max(maxWordLength, word.length());
             minWordLength = Math.min(minWordLength, word.length());
         }
         boolean[] dp = new boolean[s.length()];
-        dp[0] = wordDict.contains(s.substring(0,1));
-        for(int i=Math.max(1, minWordLength-1);i<s.length();i++){
-            for(int j=minWordLength-1;j<=i && j<=maxWordLength;j++){
-                if(dp[i-j] && wordDict.contains(s.substring(i-j+1, i+1))){
+        dp[0] = wordDict.contains(s.substring(0, 1));
+        for (int i = Math.max(1, minWordLength - 1); i < s.length(); i++) {
+            for (int j = minWordLength - 1; j <= i && j <= maxWordLength; j++) {
+                if (dp[i - j] && wordDict.contains(s.substring(i - j + 1, i + 1))) {
                     dp[i] = true;
                     break;
                 }
-                if(i<maxWordLength && wordDict.contains(s.substring(0, i+1))){
+                if (i < maxWordLength && wordDict.contains(s.substring(0, i + 1))) {
                     dp[i] = true;
                 }
             }
         }
-        return dp[s.length()-1];
+        return dp[s.length() - 1];
     }
 
     /**
      * 260. 只出现一次的数字 III
+     *
      * @param nums
      * @return
      */
@@ -2531,7 +2618,7 @@ public class Algorithms {
         for (int i = 31; i >= 0; i--) {
             // 找到sum中两目标值不同的位 k
             // 第k位为1表示result[0]和result[1]的第K位必定不相同
-            if((sum >> i & 1) == 1) k = i;
+            if ((sum >> i & 1) == 1) k = i;
         }
         for (int num : nums) {
             // 通过逐个比对num的第k位将其划分到不同的桶子里
@@ -2580,6 +2667,7 @@ public class Algorithms {
      * 因此，递归调用 getSum(a ^ b, (a & b) << 1) 我们可以得到最终答案。
      * 最后还要考虑，该拆分过程何时结束。
      * 由于在进位结果 (a & b) << 1 中存在左移操作，因此最多执行 3232 次的递归操作之后，该值会变为 00，而 00 与任何值 xx 相加结果均为 xx。
+     *
      * @param a
      * @param b
      * @return
@@ -2591,6 +2679,7 @@ public class Algorithms {
 
     /**
      * 134. 加油站
+     *
      * @param gas
      * @param cost
      * @return
@@ -2614,6 +2703,7 @@ public class Algorithms {
 
     /**
      * 179. 最大数
+     *
      * @param nums
      * @return
      */
@@ -2655,6 +2745,7 @@ public class Algorithms {
      * 187. 重复的DNA序列
      * 垃圾 ！ 比上面的还慢
      * 位运算，这样的好处不需要每次遍历都要截取字符串做hash映射
+     *
      * @param s
      * @return
      */
@@ -2672,7 +2763,7 @@ public class Algorithms {
         if (n < L) return result;
         int key = 0;
         // 初始化前9个字符构成的数字编码
-        for (int i = 0; i < L - 1 ; i++) {
+        for (int i = 0; i < L - 1; i++) {
             key = ((key << 2) | (codeMap.get(s.charAt(i))));
         }
         // 每次取当前i数起对应第10位的下标加入key
@@ -2689,6 +2780,7 @@ public class Algorithms {
     /**
      * 204. 计数质数
      * 埃氏筛
+     *
      * @param n
      * @return
      */
@@ -2698,7 +2790,7 @@ public class Algorithms {
         Arrays.fill(isPrime, true);
         // 埃氏筛将质数的倍数统统置为合数，遍历到 i 的平方即可
         for (int i = 2; i * i < n; i++) {
-            if (isPrime[i]){
+            if (isPrime[i]) {
                 // 这里会将范围延展至n
                 for (int j = i * i; j < n; j += i) {
                     isPrime[j] = false;
@@ -2718,6 +2810,7 @@ public class Algorithms {
      * 注意：第k大！！！！！倒着数第N-K个
      * 利用堆的思想，这里并不是建立一个nums.length的堆再排序k次，这样如果数组长度很大建堆成本很高
      * 时间复杂度 o(nlogk) 每次对堆进行调整需要执行logk的时间复杂度
+     *
      * @param nums
      * @param k
      * @return
@@ -2743,6 +2836,7 @@ public class Algorithms {
     /**
      * 215. 数组中的第K个最大元素
      * 快排的思想
+     *
      * @param nums
      * @param k
      * @return
@@ -2752,16 +2846,16 @@ public class Algorithms {
         // 最终答案所在排序数组的位置
         int target = n - k;
         int left = 0, right = n - 1;
-        while (true){
+        while (true) {
             // 进行一次划分
             int p = partition(nums, left, right);
             // 此次排序的元素刚好是目标值所在的位置的元素
-            if (p == target){
+            if (p == target) {
                 return nums[p];
                 // 此次好序的元素所在位置在目标位置的左边，p 左边的元素都是小于nums[p]的，target 一定在p的右边 更新left继续排
-            }else if (p < target){
+            } else if (p < target) {
                 left = p + 1;
-            }else {
+            } else {
                 // p 右边的元素都是大于nums[p]的，target 一定在p的左边 更新right继续排
                 right = p - 1;
             }
@@ -2771,12 +2865,13 @@ public class Algorithms {
 
     /**
      * 划分，左右指针法
+     *
      * @param nums
      * @param left
      * @param right
      * @return
      */
-    public static int partition(int[] nums, int left, int right){
+    public static int partition(int[] nums, int left, int right) {
         // 在区间随机选择一个元素作为标定点
         if (left < right) {
             int randomIndex = left + new Random().nextInt(right - left + 1);
@@ -2786,12 +2881,12 @@ public class Algorithms {
         // 以最后一个数字作为参照
         int pivot = nums[right];
         int begin = left, end = right;
-        while (begin < end){
+        while (begin < end) {
             // 从左向右找大于pivot的数
             while (begin < end && nums[begin] <= pivot) begin++;
             // 从右向左找小于pivot的数
             while (begin < end && nums[end] >= pivot) end--;
-            if (begin < end){
+            if (begin < end) {
                 // 如果begin 和 end 尚未重复，交换他们，begin和end继续往中间查找符合条件的数据
                 swap(nums, begin, end);
             }
@@ -2836,6 +2931,7 @@ public class Algorithms {
     /**
      * 220. 存在重复元素 III
      * 桶排序思想
+     *
      * @param nums
      * @param k
      * @param t
@@ -2869,11 +2965,12 @@ public class Algorithms {
 
     /**
      * 获取桶下标
+     *
      * @param num
      * @param size
      * @return
      */
-    private static long getIdx(int num, int size){
+    private static long getIdx(int num, int size) {
         // num >= 0, num / size 表示 num 落在桶的的下标
         // num < 0, 由于 0 已经被上述条件用上了，故计算结果有误，需要将num + 1 在数轴上右移后再计算，而计算结果存在下标0
         // 但下标0的桶子已经被用掉了，故负数计算出来的桶子下标位置需要 - 1操作
@@ -2882,17 +2979,18 @@ public class Algorithms {
 
     /**
      * 393. UTF-8 编码验证
+     *
      * @param data
      * @return
      */
     public static boolean validUtf8(int[] data) {
         int one = 1 << 7;
         int two = (1 << 7) | (1 << 6);
-        for (int i = 0; i < data.length;) {
+        for (int i = 0; i < data.length; ) {
             // 对于不跟在打头元素后面 且10开头的字符都是非法字符
             if ((data[i] & two) == one) return false;
             // 单字节字符
-            if ((data[i] & one) == 0){
+            if ((data[i] & one) == 0) {
                 i++;
                 continue;
             }
@@ -2916,6 +3014,7 @@ public class Algorithms {
 
     /**
      * 151. 颠倒字符串中的单词
+     *
      * @param s
      * @return
      */
@@ -2924,12 +3023,13 @@ public class Algorithms {
         String[] splits = t.split("\\s+");// 多个空格的正则表达式
         Collections.reverse(Arrays.asList(splits));
         StringBuilder sb = new StringBuilder();
-        for (String split : splits)  sb.append(split).append(" ");
+        for (String split : splits) sb.append(split).append(" ");
         return sb.deleteCharAt(sb.length() - 1).toString();
     }
 
     /**
      * 150. 逆波兰表达式求值
+     *
      * @param tokens
      * @return
      */
@@ -2938,7 +3038,7 @@ public class Algorithms {
         int result;
         for (String token : tokens) {
             int element1, element2;
-            switch (token){
+            switch (token) {
                 case "+":
                     element1 = Objects.requireNonNull(stack.pollLast());
                     element2 = Objects.requireNonNull(stack.pollLast());
@@ -2974,6 +3074,7 @@ public class Algorithms {
 
     /**
      * 221. 最大正方形
+     *
      * @param matrix
      * @return
      */
@@ -2983,14 +3084,14 @@ public class Algorithms {
         int[][] dp = new int[m][n];
         int maxLen = 0;
         for (int i = 0; i < m; i++) {
-            if (matrix[i][0] == '1'){
+            if (matrix[i][0] == '1') {
                 dp[i][0] = 1;
                 maxLen = 1;
             }
 
         }
         for (int i = 0; i < n; i++) {
-            if (matrix[0][i] == '1'){
+            if (matrix[0][i] == '1') {
                 dp[0][i] = 1;
                 maxLen = 1;
             }
@@ -2998,7 +3099,7 @@ public class Algorithms {
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
                 if (matrix[i][j] == '1') {
-                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i-1][j-1]) + 1;
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
                     maxLen = Math.max(dp[i][j], maxLen);
                 }
             }
@@ -3008,6 +3109,7 @@ public class Algorithms {
 
     /**
      * 238. 除自身以外数组的乘积
+     *
      * @param nums
      * @return
      */
@@ -3032,6 +3134,7 @@ public class Algorithms {
     /**
      * 400. 第 N 位数字
      * todo
+     *
      * @param n
      * @return
      */
@@ -3040,7 +3143,7 @@ public class Algorithms {
         int d = 1, count = 9;
         double sumD;
         // 找到n所在的数字位数d
-        while ((sumD = d * count * Math.pow(10, d - 1)) <= n){
+        while ((sumD = d * count * Math.pow(10, d - 1)) <= n) {
             n -= sumD;
             d++;
         }
@@ -3053,6 +3156,7 @@ public class Algorithms {
     /**
      * 279. 完全平方数
      * 动态规划
+     *
      * @param n
      * @return
      */
@@ -3071,6 +3175,7 @@ public class Algorithms {
 
     /**
      * 241. 为运算表达式设计优先级
+     *
      * @param expression
      * @return
      */
@@ -3078,26 +3183,31 @@ public class Algorithms {
         List<Integer> result = new ArrayList<>();
         int length = expression.length();
         // 当表达式只剩下数字部分直接加入结果集并返回，这里范围为1-99故Length为1或2
-        if (length == 1 || length == 2){
+        if (length == 1 || length == 2) {
             result.add(Integer.parseInt(expression));
             return result;
         }
         // 遍历字符串根据运算符去划分左区域和右区域
         for (int i = 0; i < length; i++) {
             char c = expression.charAt(i);
-            if (c == '+' || c == '-' || c == '*'){
+            if (c == '+' || c == '-' || c == '*') {
                 // 递归计算左区域的结果集
                 List<Integer> lefts = diffWaysToCompute(expression.substring(0, i));
                 // 递归计算右区域的结果集
                 List<Integer> rights = diffWaysToCompute(expression.substring(i + 1));
                 // 计算区域结果的笛卡尔积作为在i处运算符所能得到的所有结果
-                for (Integer left: lefts) {
-                    for (Integer right : rights){
+                for (Integer left : lefts) {
+                    for (Integer right : rights) {
                         int t;
-                        switch (c){
-                            case '+': t = left + right;break;
-                            case '-': t = left - right;break;
-                            default: t = left * right;
+                        switch (c) {
+                            case '+':
+                                t = left + right;
+                                break;
+                            case '-':
+                                t = left - right;
+                                break;
+                            default:
+                                t = left * right;
                         }
                         result.add(t);
                     }
@@ -3125,10 +3235,12 @@ public class Algorithms {
 //        }
 //        return max;
 //    }
+
     /**
      * 53. 最大子数组和
      * 空间优化
      * 状态转移方程 dp[i] = max(dp[i-1]+nums[i], nums[i])
+     *
      * @param nums
      * @return
      */
@@ -3147,6 +3259,7 @@ public class Algorithms {
 
     /**
      * 14. 最长公共前缀
+     *
      * @param strs
      * @return
      */
@@ -3156,7 +3269,7 @@ public class Algorithms {
         char cur;
         int index = 0;
         OK:
-        while (true){
+        while (true) {
             // 越界则中断
             if (strs[0].length() <= index) break;
             cur = strs[0].charAt(index);
@@ -3219,9 +3332,11 @@ public class Algorithms {
 //        // slow就是出现重复的那个元素，一定是
 //        return slow;
 //    }
+
     /**
      * 287. 寻找重复数
      * 位运算
+     *
      * @param nums
      * @return
      */
@@ -3229,23 +3344,42 @@ public class Algorithms {
         int len = nums.length, result = 0;
         int max_bit = 31;
         // 取不大于0的最高位
-        while (((len - 1) >> max_bit) == 0) max_bit --;
+        while (((len - 1) >> max_bit) == 0) max_bit--;
         // 获取每一位对应的1的和
         for (int i = max_bit; i >= 0; i--) {
             int x = 0, y = 0;
             for (int j = 0; j < len; j++) {
                 // 统计每个元素对应为1的位的和
-                if(((nums[j] >> i) & 1) == 1) x++;
+                if (((nums[j] >> i) & 1) == 1) x++;
                 // 统计不重复时应该有的和
-                if(j >= 1 && ((j >> i) & 1) == 1) y++;
+                if (j >= 1 && ((j >> i) & 1) == 1) y++;
             }
             // 当出现重复元素时1会比较多
             if (x > y) result |= 1 << i;
         }
         return result;
     }
-}
 
+    /**
+     * 223. 矩形面积
+     * 两矩形面积和-两矩形的重叠部分
+     * @param ax1
+     * @param ay1
+     * @param ax2
+     * @param ay2
+     * @param bx1
+     * @param by1
+     * @param bx2
+     * @param by2
+     * @return
+     */
+    public int computeArea(int ax1, int ay1, int ax2, int ay2, int bx1, int by1, int bx2, int by2) {
+        int x = Math.max(0, Math.min(ax2, bx2) - Math.max(ax1, bx1));
+        int y = Math.max(0, Math.min(ay2, by2) - Math.max(ay1, by1));
+        return (ax2 - ax1) * (ay2 - ay1) + (bx2 - bx1) * (by2 - by1) - x * y;
+    }
+
+}
 
 
 
