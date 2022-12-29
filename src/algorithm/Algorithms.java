@@ -3379,6 +3379,29 @@ public class Algorithms {
         return (ax2 - ax1) * (ay2 - ay1) + (bx2 - bx1) * (by2 - by1) - x * y;
     }
 
+    /**
+     * 1750. 删除字符串两端相同字符后的最短长度
+     * @param s
+     * @return
+     */
+    public static int minimumLength(String s) {
+        int len = s.length();
+        if (len == 1) return len;
+        int l = 0, r = len - 1;
+        while (l < r){
+            if (s.charAt(l) != s.charAt(r)) return r - l + 1;
+            while (s.charAt(l) == s.charAt(l + 1) && l + 1 < r) l++;
+            while (s.charAt(r) == s.charAt(r - 1) && r - 1 > l) r--;
+            l++;
+            r--;
+        }
+        return r - l + 1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(minimumLength("aabccabba"));
+    }
+
 }
 
 
