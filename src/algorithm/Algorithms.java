@@ -3398,8 +3398,58 @@ public class Algorithms {
         return r - l + 1;
     }
 
+    /**
+     * 2032. 至少在两个数组中出现的值
+     * @param nums1
+     * @param nums2
+     * @param nums3
+     * @return
+     */
+    public static List<Integer> twoOutOfThree(int[] nums1, int[] nums2, int[] nums3) {
+        List<Integer> result = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map1 = new HashMap<>();
+        Map<Integer, Integer> map2 = new HashMap<>();
+        Map<Integer, Integer> map3 = new HashMap<>();
+        for (int i : nums1) map1.put(i, 1);
+        for (int i : nums2) map2.put(i, 1);
+        for (int i : nums3) map3.put(i, 1);
+        for (Integer i : map1.keySet()) map.put(i, map.getOrDefault(i, 0) + 1);
+        for (Integer i : map2.keySet()) map.put(i, map.getOrDefault(i, 0) + 1);
+        for (Integer i : map3.keySet()) map.put(i, map.getOrDefault(i, 0) + 1);
+        for (Integer i : map.keySet()) {
+            if (map.get(i) > 1) result.add(i);
+        }
+        return result;
+    }
+
+    /**
+     * 2042. 检查句子中的数字是否递增
+     * @param s
+     * @return
+     */
+    public static boolean areNumbersAscending(String s) {
+        List<Character> nums = new ArrayList<>(Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
+        int a = 0, b = 0, i = 0, len = s.length();
+        char[] chars = s.toCharArray();
+        while (i < len){
+            while (i < len && !nums.contains(chars[i])) i++;
+            while (i < len && nums.contains(chars[i])) {
+                b = b * 10 + (chars[i] - '0');
+                i++;
+            }
+            if (a >= b) return false;
+            a = b;
+            b = 0;
+            while (i < len && !nums.contains(chars[i])) i++;
+            // 已达最后一个数直接结束循环
+            if (i == len) break;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        System.out.println(minimumLength("aabccabba"));
+        System.out.println(areNumbersAscending("a puppy has 2 eyes and 4 legs"));
     }
 
 }
