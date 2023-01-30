@@ -3590,11 +3590,13 @@ public class Algorithms {
     }
 
     public static void main(String[] args) {
-        String evaluate = evaluate("(name)is(age)yearsold", new ArrayList<>(Arrays.asList(
-                Arrays.asList("name", "bob"),
-                Arrays.asList("age", "two")
-        )));
-        System.out.println(evaluate);
+//        String evaluate = evaluate("(name)is(age)yearsold", new ArrayList<>(Arrays.asList(
+//                Arrays.asList("name", "bob"),
+//                Arrays.asList("age", "two")
+//        )));
+//        System.out.println(evaluate);
+        System.out.println("test_flow_feature");
+        System.out.println("test flow release");
     }
 
 }
