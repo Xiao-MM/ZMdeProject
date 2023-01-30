@@ -3448,8 +3448,153 @@ public class Algorithms {
         return true;
     }
 
+    /**
+     * 1802. 有界数组中指定下标处的最大值
+     * 1,1,1,1,1,1
+     * @param n
+     * @param index
+     * @param maxSum
+     * @return
+     */
+    public static int maxValue1(int n, int index, int maxSum) {
+        int[] nums = new int[n];
+        Arrays.fill(nums, 1);
+        int left = maxSum - n;
+        if (left == 0) return 1;
+        while (left > 0){
+            int count = 1;
+            nums[index] += 1;
+            for (int i = index; i > 0; i--) {
+                if (nums[i] - nums[i - 1] > 1){
+                    nums[i - 1] += 1;
+                    count++;
+                }else {
+                    break;
+                }
+            }
+            for (int i = index + 1; i < nums.length; i++) {
+                if (nums[i - 1] - nums[i] > 1){
+                    nums[i] += 1;
+                    count++;
+                }else {
+                    break;
+                }
+            }
+            left -= count;
+            // 如果减超了则恢复
+            if (left < 0) nums[index] -= 1;
+        }
+        return nums[index];
+    }
+
+    /**
+     * 1802. 有界数组中指定下标处的最大值
+     * 1,1,1,1,1,1
+     * @param n
+     * @param index
+     * @param maxSum
+     * @return
+     */
+    public static int maxValue2(int n, int index, int maxSum) {
+        int[] nums = new int[n];
+        Arrays.fill(nums, 1);
+        int left = maxSum - n;
+        if (left == 0) return 1;
+        int minSum = n;
+        int minIndex = index <= n/2 ? n - 1 : 0;
+        while (nums[minIndex] == 1){
+            int count = 1;
+            nums[index] += 1;
+            for (int i = index; i > 0; i--) {
+                if (nums[i] - nums[i - 1] > 1){
+                    nums[i - 1] += 1;
+                    count++;
+                }else {
+                    break;
+                }
+            }
+            for (int i = index + 1; i < nums.length; i++) {
+                if (nums[i - 1] - nums[i] > 1){
+                    nums[i] += 1;
+                    count++;
+                }else {
+                    break;
+                }
+            }
+            minSum += count;
+            if (minSum == maxSum) return nums[index];
+            if (minSum > maxSum) return nums[index] - 1;
+         }
+        nums[index] -= 1;
+        minSum -= n;
+        return nums[index] + (maxSum - minSum) / n;
+    }
+
+//    /**
+//     * 1802. 有界数组中指定下标处的最大值
+//     * 二分查找 1->maxSum 二分找一个nums[index]，nums[index]确定了则知道符合条件的最小minSum <= maxSum
+//     *
+//     * @param n
+//     * @param index
+//     * @param maxSum
+//     * @return
+//     */
+//    public static int maxValue(int n, int index, int maxSum) {
+//        int l = 1, r = maxSum;
+//        int mid;
+//        while (l < r) {
+//            mid = (l + r) >> 1;
+//            if (check(mid, n, index, maxSum)) {
+//                l = mid;
+//            }else {
+//                r = mid - 1;
+//            }
+//        }
+//        return l;
+//    }
+//
+//    public static boolean check(int mid, int n, int index, int maxSum){
+//        return cal(mid, index) + cal(mid, n - index - 1) + mid <= maxSum;
+//    }
+//
+//    // todo
+//    public static long cal(int max, int len){
+//        return max > len ? (long)(2 * max - 1 - len) * len / 2 : (long) len + 1 + (max - 3) * max / 2;
+//    }
+
+
+    /**
+     * 1807. 替换字符串中的括号内容
+     * @param s
+     * @param knowledge
+     * @return
+     */
+    public static String evaluate(String s, List<List<String>> knowledge) {
+        Map<String, String> map = new HashMap<>();
+        for (List<String> list : knowledge) {
+            map.put(list.get(0), list.get(1));
+        }
+        int i = 0;
+        char[] chars = s.toCharArray();
+        int len = chars.length;
+        StringBuilder result = new StringBuilder();
+        while (i < len) {
+            while (i < len && chars[i] != '(') result.append(chars[i++]);
+            i++;
+            StringBuilder sb = new StringBuilder();
+            while (i < len && chars[i] != ')') sb.append(chars[i++]);
+            i++;
+            if (i <= len) result.append(map.getOrDefault(sb.toString(), "?"));
+        }
+        return result.toString();
+    }
+
     public static void main(String[] args) {
-        System.out.println(areNumbersAscending("a puppy has 2 eyes and 4 legs"));
+        String evaluate = evaluate("(name)is(age)yearsold", new ArrayList<>(Arrays.asList(
+                Arrays.asList("name", "bob"),
+                Arrays.asList("age", "two")
+        )));
+        System.out.println(evaluate);
     }
 
 }
