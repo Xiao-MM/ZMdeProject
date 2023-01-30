@@ -576,9 +576,40 @@ public class ListNode {
         return dummy.next;
     }
 
+    /**
+     * 1669. 合并两个链表
+     * @param list1
+     * @param a
+     * @param b
+     * @param list2
+     * @return
+     */
+    public static ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
+        int count = 0;
+        ListNode p = list1, q = list2, v;
+        while (p.next != null && count != a - 1){
+            p = p.next;
+            count++;
+        }
+        v = p.next;
+        count++;
+        p.next = q;
+        while (q.next != null) q = q.next;
+        while (v != null && count != b + 1){
+            v = v.next;
+            count++;
+        }
+        q.next = v;
+        return list1;
+    }
+
      public static void main(String[] args) {
-//          ListNode l1 = new ListNode(9,new ListNode(0,new ListNode(3)));
-//          ListNode l2 = new ListNode(1,new ListNode(5,new ListNode(7)));
+//          ListNode l1 = new ListNode(0,new ListNode(1,new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5))))));
+//          ListNode l2 = new ListNode(100000,new ListNode(100001,new ListNode(100002)));
+         ListNode l1 = new ListNode(0,new ListNode(1,new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5, new ListNode(6)))))));
+         ListNode l2 = new ListNode(100000,new ListNode(100001,new ListNode(100002, new ListNode(100003, new ListNode(100004, new ListNode(100005))))));
+         ListNode listNode = mergeInBetween(l1, 2, 5, l2);
+         printNodes(listNode);
 //          System.out.println("l1 :");
 //          printNodes(l1);
 //          System.out.println("l2 :");
@@ -603,14 +634,14 @@ public class ListNode {
 //         printNodes(listNode1);
 //         System.out.println(hasCycle(listNode));
 //         printNodes(swapPairs(listNode));
-         ReorderList reorderList = new ReorderList();
+//         ReorderList reorderList = new ReorderList();
 //         ListNode reverse = reorderList.reverse(listNode);
-         ListNode listNode2 = new ListNode(3,
-                                 new ListNode(2,
-                                         new ListNode(1,
-                                                 new ListNode(5,
-                                                         new ListNode(6,
-                                                                 new ListNode(4))))));
+//         ListNode listNode2 = new ListNode(3,
+//                                 new ListNode(2,
+//                                         new ListNode(1,
+//                                                 new ListNode(5,
+//                                                         new ListNode(6,
+//                                                                 new ListNode(4))))));
 //         reorderList.reorderList(listNode2);
 //         printNodes(listNode2);
 //
@@ -629,7 +660,7 @@ public class ListNode {
 //         Node.printNodes(node);
 //         Node.printNodes(node1);
 //         System.out.println(findMid(listNode2).val);
-         ListNode listNode1 = sortList(listNode2);
-         printNodes(listNode1);
+//         ListNode listNode1 = sortList(listNode2);
+//         printNodes(listNode1);
      }
  }
