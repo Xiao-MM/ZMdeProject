@@ -3596,6 +3596,7 @@ public class Algorithms {
 //        )));
 //        System.out.println(evaluate);
         System.out.println("test_flow_feature");
+        System.out.println("test flow release");
     }
 
 }
