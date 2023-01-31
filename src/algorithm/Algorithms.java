@@ -3589,15 +3589,38 @@ public class Algorithms {
         return result.toString();
     }
 
+    /**
+     * 2319. 判断矩阵是否是一个 X 矩阵
+     * @param grid
+     * @return
+     */
+    public static boolean checkXMatrix(int[][] grid) {
+        int n = grid.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if ((i == j || (n - 1 - i) == j) && grid[i][j] == 0) return false;
+                if ((i != j && (n - 1 - i) != j) && grid[i][j] != 0) return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 //        String evaluate = evaluate("(name)is(age)yearsold", new ArrayList<>(Arrays.asList(
 //                Arrays.asList("name", "bob"),
 //                Arrays.asList("age", "two")
 //        )));
 //        System.out.println(evaluate);
-        System.out.println("test_flow_feature");
-        System.out.println("test flow release");
-        System.out.println("test flow hotfix");
+//        System.out.println("test_flow_feature");
+//        System.out.println("test flow release");
+//        System.out.println("test flow hotfix");
+
+        boolean b = checkXMatrix(new int[][]{
+                {5, 7, 0},
+                {0, 3, 1},
+                {0, 5, 9}
+        });
+        System.out.println(b);
     }
 
 }
